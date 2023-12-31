@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Punkteverwaltung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            overflow: hidden;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        #header {
+            text-align: center;
+            padding-top: 10%;
+            background: url('logo.png') no-repeat center center;
+            background-size: 20%;
+            height: 80px;
+        }
+
+        #teamContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-top: 5%;
+        }
+
+        #teamNameInput {
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        #pointsInput {
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        #addPointsBtn,
+        #subtractPointsBtn {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        #pointsDisplay {
+            text-align: center;
+            color: white;
+        }
+
+        #pointsContainer {
+            text-align: center;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #A82100;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        @media only screen and (max-width: 1000px) {
+            #header {
+                text-align: center;
+                padding-top: 30%;
+                background: url('logo.png') no-repeat center center;
+                background-size: 50%;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="header">
+    </div>
+
+    <div id="teamContainer">
+        <label for="teamNameInput">Team Name: </label>
+        <input type="text" id="teamNameInput">
+        <button onclick="setTeamName()">Set Team Name</button>
+    </div>
+
+    <div id="pointsDisplay">
+        <h2 id="teamNameDisplay"></h2>
+        <p id="teamPoints">0</p>
+    </div>
+
+    <div id="pointsContainer">
+        <label for="pointsInput"></label>
+        <button class="button" onclick="addPoints(100)">+100</button>
+        <button class="button" onclick="subtractPoints(100)">-100</button>
+    </div>
+
+    <script>
+        var teamPoints = 0;
+        var teamNameSet = false;
+
+        function setTeamName() {
+            var teamContainer = document.getElementById('teamContainer');
+            var teamNameInput = document.getElementById('teamNameInput');
+            var teamNameDisplay = document.getElementById('teamNameDisplay');
+            teamNameDisplay.textContent = "Team: " + teamNameInput.value;
+            teamNameInput.disabled = true;
+            teamNameSet = true;
+            enablePointsInput();
+            // Verstecke das Teamcontainer-Element nach dem Setzen des Teamnamens
+            teamContainer.style.display = 'none';
+        }
+
+        function enablePointsInput() {
+            var pointsInput = document.getElementById('pointsInput');
+            var addPointsBtn = document.getElementById('addPointsBtn');
+            var subtractPointsBtn = document.getElementById('subtractPointsBtn');
+
+            pointsInput.disabled = false;
+            addPointsBtn.disabled = false;
+            subtractPointsBtn.disabled = false;
+        }
+
+        function addPoints(points) {
+            if (teamNameSet) {
+                teamPoints += points;
+                updatePointsDisplay();
+            }
+        }
+
+        function subtractPoints(points) {
+            if (teamNameSet) {
+                teamPoints -= points;
+                updatePointsDisplay();
+            }
+        }
+
+        function updatePointsDisplay() {
+            var teamPointsDisplay = document.getElementById('teamPoints');
+            teamPointsDisplay.textContent = "Punktestand: " + teamPoints;
+        }
+    </script>
+
+</body>
+
+</html>

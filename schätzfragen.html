@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="javascript.js"></script>
+  <title>Schätzfrage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+  </style>
+</head>
+
+    <!-- Menü -->
+
+<body onclick="resetPointsDisplay()">
+
+    <div id="menu">
+        <ul>
+            <li onclick="showHomePage()">Startseite</li>
+            <li onclick="showQuizPage(1)">Quiz 1</li>
+            <li onclick="showQuizPage(2)">Quiz 2</li>
+            <li onclick="showSchätzfragen()">Schätzfrage</li>
+            <li onclick="showImpressum()">Impressum</li>
+        </ul>
+    </div>
+
+    <div id="menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <!-- Menü -->
+
+    <div id="header" class="quiz">
+        <div id="schätzfragen">
+            <h1>Schätzfragen</h1>
+            <h1 id="question"></h1>
+
+            <form id="estimationForm">
+                <label for="teamName">Teams/Spieler:</label>
+                <input class= "nameinput" type="text" id="teamName" placeholder="Team/Spieler Name">
+                <br>
+
+                <div id="teamsContainer">
+                </div>
+
+                
+                <button class= "add" type="button" onclick="addTeam()">Team hinzufügen</button>
+                <button class= "add" type="button" onclick="showResult()">Antwort anzeigen</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

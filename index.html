@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="javascript.js"></script>
+    <title>Quiz</title>
+</head>
+
+<body onclick="resetPointsDisplay()">
+
+    <div id="menu">
+        <ul>
+            <li onclick="showHomePage()">Startseite</li>
+            <li onclick="showQuizPage(1)">Quiz 1</li>
+            <li onclick="showQuizPage(2)">Quiz 2</li>
+            <li onclick="showSchätzfragen()">Schätzfrage</li>
+            <li onclick="showImpressum()">Impressum</li>
+        </ul>
+    </div>
+
+    <div id="menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <div id="header" class="index">
+    </div>
+
+    <div id="unterschrift" class="index">
+        <h1>Herzlich Willkommen zu meinem Quiz</h1>
+    </div>
+</body>
+</html>

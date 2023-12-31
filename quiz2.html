@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="javascript.js"></script>
+    <title>Quiz</title>
+</head>
+
+<!-- Menü -->
+
+<body onclick="resetPointsDisplay()">
+
+    <div id="menu">
+        <ul>
+            <li onclick="showHomePage()">Startseite</li>
+            <li onclick="showQuizPage(1)">Quiz 1</li>
+            <li onclick="showQuizPage(2)">Quiz 2</li>
+            <li onclick="showSchätzfragen()">Schätzfrage</li>
+            <li onclick="showImpressum()">Impressum</li>
+        </ul>
+    </div>
+
+    <div id="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<!-- Menü -->
+
+    <div id="header" class="quiz">
+
+    </div>
+
+    <div id="question26" class="question" onclick="toggleQuestion(26)">
+        <div class="question-container">
+            <h2>Frage 1</h2>
+            <p>Wer hat die Fußballweltmeisterschaft 1974 gewonnen?</p>
+            <button class="solution-button" onclick="showSolution(26)" id="solutionButton26">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question27" class="question" onclick="toggleQuestion(27)">
+        <div class="question-container">
+            <h2>Frage 2</h2>
+            <p>In welchem Jahr fand die Fußballweltmeisterschaft in Deutschland statt?</p>
+            <button class="solution-button" onclick="showSolution(27)" id="solutionButton27">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question28" class="question" onclick="toggleQuestion(28)">
+        <div class="question-container">
+            <h2>Frage 3</h2>
+            <p>Welche Sportart übt Dennis Schröder aus?</p>
+            <button class="solution-button" onclick="showSolution(28)" id="solutionButton28">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question29" class="question" onclick="toggleQuestion(29)">
+        <div class="question-container">
+            <h2>Frage 4</h2>
+            <p>Wo fanden die Olympischenspiele 2008 statt?</p>
+            <button class="solution-button" onclick="showSolution(29)" id="solutionButton29">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question30" class="question" onclick="toggleQuestion(30)">
+        <div class="question-container">
+            <h2>Frage 5</h2>
+            <p>Wie heißen 3 Stikes hintereinander beim Bowling?</p>
+            <button class="solution-button" onclick="showSolution(30)" id="solutionButton30">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question31" class="question" onclick="toggleQuestion(31)">
+        <div class="question-container">
+            <h2>Frage 1</h2>
+            <p>Was bedeutet FAQ?</p>
+            <button class="solution-button" onclick="showSolution(31)" id="solutionButton31">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question32" class="question" onclick="toggleQuestion(32)">
+        <div class="question-container">
+            <h2>Frage 2</h2>
+            <p>Wofür steht die beleibte abkürzung CC ausgeschrieben?</p>
+            <button class="solution-button" onclick="showSolution(32)" id="solutionButton32">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question33" class="question" onclick="toggleQuestion(33)">
+        <div class="question-container">
+            <h2>Frage 3</h2>
+            <p>Was bedeutet die abkürung IT?</p>
+            <button class="solution-button" onclick="showSolution(33)" id="solutionButton33">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question34" class="question" onclick="toggleQuestion(34)">
+        <div class="question-container">
+            <h2>Frage 4</h2>
+            <p>Nenne das ausgeschriebene Wort für USB?</p>
+            <button class="solution-button" onclick="showSolution(34)" id="solutionButton34">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question35" class="question" onclick="toggleQuestion(35)">
+        <div class="question-container">
+            <h2>Frage 5</h2>
+            <p>Welches Land besitzt die .tv Domain?</p>
+            <button class="solution-button" onclick="showSolution(35)" id="solutionButton35">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question36" class="question" onclick="toggleQuestion(36)">
+        <div class="question-container">
+            <h2>Frage 1</h2>
+            <p>Grün ist eine Farbe bei dem Kartenspiel UNO. Nenne die anderen 4 "Farben, die es in der klassischen Variante des Spiel gibt.d</p>
+            <button class="solution-button" onclick="showSolution(36)" id="solutionButton36">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question37" class="question" onclick="toggleQuestion(37)">
+        <div class="question-container">
+            <h2>Frage 2</h2>
+            <p>In welchem Jahr wurde die Partei "Bündnis 90/Grünen" gegründet?</p>
+            <button class="solution-button" onclick="showSolution(37)" id="solutionButton37">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question38" class="question" onclick="toggleQuestion(38)">
+        <div class="question-container">
+            <h2>Frage 3</h2>
+            <p>Wenn jemand jung und unerfahren ist, dann ist er grün...?</p>
+            <button class="solution-button" onclick="showSolution(38)" id="solutionButton38">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question39" class="question" onclick="toggleQuestion(39)">
+        <div class="question-container">
+            <h2>Frage 4</h2>
+            <p>Welches bekannte, reine Metall oxidiert Grün?</p>
+            <button class="solution-button" onclick="showSolution(39)" id="solutionButton39">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question40" class="question" onclick="toggleQuestion(40)">
+        <div class="question-container">
+            <h2>Frage 5</h2>
+            <p>Seit wann gibt es Spotify?</p>
+            <button class="solution-button" onclick="showSolution(40)" id="solutionButton40">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question41" class="question" onclick="toggleQuestion(41)">
+        <div class="question-container">
+            <h2>Frage 1</h2>
+            <p>Was ist der 5 Planet in unserem Sonnensystem?</p>
+            <button class="solution-button" onclick="showSolution(40)" id="solutionButton40">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question42" class="question" onclick="toggleQuestion(42)">
+        <div class="question-container">
+            <h2>Frage 2</h2>
+            <p>Wann war die Mondlandung? (10 Jahre +/-)</p>
+            <button class="solution-button" onclick="showSolution(42)" id="solutionButton42">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question43" class="question" onclick="toggleQuestion(43)">
+        <div class="question-container">
+            <h2>Frage 3</h2>
+            <p>Welcher Planet unseres Sonnensystems hat die meisten Monde?</p>
+            <button class="solution-button" onclick="showSolution(43)" id="solutionButton43">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question44" class="question" onclick="toggleQuestion(44)">
+        <div class="question-container">
+            <h2>Frage 4</h2>
+            <p>Wie nennt man die Explosion eines Sternes?</p>
+            <button class="solution-button" onclick="showSolution(44)" id="solutionButton44">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question45" class="question" onclick="toggleQuestion(45)">
+        <div class="question-container">
+            <h2>Frage 5</h2>
+            <p>Welche Galaxie ist unserer am nächsten?</p>
+            <button class="solution-button" onclick="showSolution(45)" id="solutionButton45">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question46" class="question" onclick="toggleQuestion(46)">
+        <div class="question-container">
+            <h2>Frage 1</h2>
+            <p>In welchem Jahr ist das erste IPhone erschienen?</p>
+            <button class="solution-button" onclick="showSolution(46)" id="solutionButton46">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question47" class="question" onclick="toggleQuestion(47)">
+        <div class="question-container">
+            <h2>Frage 2</h2>
+            <p>Was ist ein Byte?</p>
+            <button class="solution-button" onclick="showSolution(47)" id="solutionButton47">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question48" class="question" onclick="toggleQuestion(48)">
+        <div class="question-container">
+            <h2>Frage 3</h2>
+            <p>Wie viele Megabyte sind ein Terabyte?</p>
+            <button class="solution-button" onclick="showSolution(48)" id="solutionButton48">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question49" class="question" onclick="toggleQuestion(49)">
+        <div class="question-container">
+            <h2>Frage 4</h2>
+            <p>Wer war laut gerüchten der Erfinder der Glühbirne?</p>
+            <button class="solution-button" onclick="showSolution(49)" id="solutionButton49">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question50" class="question" onclick="toggleQuestion(50)">
+        <div class="question-container">
+            <h2>Frage 5</h2>
+            <p>Welches ist eine im deutschen Sprachraum gebräuchliche Bezeichnung für Weibliche Hacker?</p>
+            <button class="solution-button" onclick="showSolution(50)" id="solutionButton50">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="pointsDisplay" class="points-container">
+        <div class="category">
+            <div class="category-title">Sportlich</div>
+            <div class="points" onclick="toggleQuestion(26)" id="pointsButton26">200 Punkte</div>
+            <div class="points" onclick="toggleQuestion(27)" id="pointsButton27">400 Punkte</div>
+            <div class="points" onclick="toggleQuestion(28)" id="pointsButton28">600 Punkte</div>
+            <div class="points" onclick="toggleQuestion(29)" id="pointsButton29">800 Punkte</div>
+            <div class="points" onclick="toggleQuestion(30)" id="pointsButton30">1000 Punkte</div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">Abkürzungen</div>
+            <div class="points" onclick="toggleQuestion(31)" id="pointsButton31">200 Punkte</div>
+            <div class="points" onclick="toggleQuestion(32)" id="pointsButton32">400 Punkte</div>
+            <div class="points" onclick="toggleQuestion(33)" id="pointsButton33">600 Punkte</div>
+            <div class="points" onclick="toggleQuestion(34)" id="pointsButton34">800 Punkte</div>
+            <div class="points" onclick="toggleQuestion(35)" id="pointsButton35">1000 Punkte</div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">Grün</div>
+            <div class="points" onclick="toggleQuestion(36)" id="pointsButton36">200 Punkte</div>
+            <div class="points" onclick="toggleQuestion(37)" id="pointsButton37">400 Punkte</div>
+            <div class="points" onclick="toggleQuestion(38)" id="pointsButton38">600 Punkte</div>
+            <div class="points" onclick="toggleQuestion(39)" id="pointsButton39">800 Punkte</div>
+            <div class="points" onclick="toggleQuestion(40)" id="pointsButton40">1000 Punkte</div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">Sterne</div>
+            <div class="points" onclick="toggleQuestion(41)" id="pointsButton41">200 Punkte</div>
+            <div class="points" onclick="toggleQuestion(42)" id="pointsButton42">400 Punkte</div>
+            <div class="points" onclick="toggleQuestion(43)" id="pointsButton43">600 Punkte</div>
+            <div class="points" onclick="toggleQuestion(44)" id="pointsButton44">800 Punkte</div>
+            <div class="points" onclick="toggleQuestion(45)" id="pointsButton45">1000 Punkte</div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">Technik</div>
+            <div class="points" onclick="toggleQuestion(46)" id="pointsButton46">200 Punkte</div>
+            <div class="points" onclick="toggleQuestion(47)" id="pointsButton47">400 Punkte</div>
+            <div class="points" onclick="toggleQuestion(48)" id="pointsButton48">600 Punkte</div>
+            <div class="points" onclick="toggleQuestion(49)" id="pointsButton49">800 Punkte</div>
+            <div class="points" onclick="toggleQuestion(50)" id="pointsButton50">1000 Punkte</div>
+        </div>
+    </div>
+
+</body>
+
+</html>
