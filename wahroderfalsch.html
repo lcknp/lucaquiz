@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="javascript.js"></script>
+    <title>Quiz</title>
+</head>
+<body>
+
+    <body onclick="resetPointsDisplay()">
+
+        <div id="menu">
+            <ul>
+                <li onclick="showHomePage()">Startseite</li>
+                <li onclick="showQuizPage(1)">Quiz 1</li>
+                <li onclick="showQuizPage(2)">Quiz 2</li>
+                <li onclick="showQuizPage(3)">Quiz 3</li>
+                <li onclick="showQuizPage(4)">Quiz 4</li>
+                <li onclick="showwahroderfalsch()">Wahr oder Falsch</li>
+                <li onclick="showSchätzfragen()">Schätzfrage</li>
+                <li onclick="showImpressum()">Impressum</li>
+            </ul>
+        </div>
+    
+        <div id="menu-toggle" onclick="toggleMenu()">☰</div>
+    
+        <div id="header" class="quiz">
+        </div>
+
+
+        <div class="quiz-container">
+            <h1>Wahr oder Falsch Quiz</h1>
+            <div id="quiz-content">
+                <!-- JavaScript will dynamically load questions here -->
+            </div>
+            <div id="quiz-feedback" class="quiz-feedback"></div>
+        </div>
+
+    <script>
+        const quizQuestions = [
+        { text: "Der Eiffelturm steht in London.", answer: false },
+            { text: "Die Sonne ist ein Stern.", answer: true },
+            { text: "Ein Jahr auf dem Mars ist länger als ein Jahr auf der Erde.", answer: true },
+            { text: "Wasser besteht aus den Elementen Sauerstoff und Stickstoff.", answer: false },
+            { text: "Der Mensch hat mehr Knochen als ein Elefant.", answer: false },
+            { text: "Australien ist der kleinste Kontinent der Welt.", answer: true },
+            { text: "Der Nil fließt durch Südamerika.", answer: false },
+            { text: "Tokio ist die bevölkerungsreichste Stadt der Welt.", answer: true },
+            { text: "Der Kilimandscharo ist ein aktiver Vulkan.", answer: false },
+            { text: "Der höchste Berg Europas ist der Mont Blanc.", answer: true },
+            { text: "Delfine schlafen mit einem geschlossenen Auge.", answer: true },
+            { text: "Bienen sind die einzigen Insekten, die Honig produzieren.", answer: true },
+            { text: "Strauße können fliegen.", answer: false },
+            { text: "Pinguine kommen nur in der Arktis vor.", answer: false },
+            { text: "Schnecken haben Zähne.", answer: true },
+            { text: "Licht braucht etwa 8 Minuten, um von der Sonne zur Erde zu gelangen.", answer: true },
+            { text: "Das Internet wurde in den 1970er-Jahren entwickelt.", answer: true },
+            { text: "Ein Blitz ist heißer als die Sonnenoberfläche.", answer: true },
+            { text: "Menschen können nur 5 Farben sehen.", answer: false },
+            { text: "Der erste Computer war so groß wie ein ganzer Raum.", answer: true },
+            { text: "Shakespeare hat das Stück \"Hamlet\" geschrieben.", answer: true },
+            { text: "Die Mona Lisa wurde von Pablo Picasso gemalt.", answer: false },
+            { text: "Ägyptische Pyramiden wurden als Paläste gebaut.", answer: false },
+            { text: "Die Chinesische Mauer ist vom Weltall aus sichtbar.", answer: false },
+            { text: "Die Berliner Mauer fiel im Jahr 1989.", answer: true },
+            { text: "Der Mount Everest ist der höchste Berg der Welt.", answer: true },
+            { text: "Die Farbe des Inneren einer Kiwi ist rot.", answer: false },
+            { text: "Napoleon Bonaparte war Franzose.", answer: false },
+            { text: "Ein Jahr hat 365 Tage, außer in Schaltjahren.", answer: true },
+            { text: "Der Amazonas ist der längste Fluss der Welt.", answer: false },
+            { text: "Der Mensch hat 32 Zähne, wenn er alle Weisheitszähne hat.", answer: true },
+            { text: "Delfine sind Säugetiere.", answer: true },
+            { text: "Gold ist schwerer als Blei.", answer: true },
+            { text: "Die Hauptstadt von Australien ist Sydney.", answer: false },
+            { text: "Der Erdumfang beträgt ungefähr 40.000 Kilometer.", answer: true },
+            { text: "Der Mount Everest ist der höchste Berg der Welt.", answer: true },
+            { text: "Die Farbe des Inneren einer Kiwi ist rot.", answer: false },
+            { text: "Napoleon Bonaparte war Franzose.", answer: false },
+            { text: "Ein Jahr hat 365 Tage, außer in Schaltjahren.", answer: true },
+            { text: "Der Amazonas ist der längste Fluss der Welt.", answer: false },
+            { text: "Der Mensch hat 32 Zähne, wenn er alle Weisheitszähne hat.", answer: true },
+            { text: "Delfine sind Säugetiere.", answer: true },
+            { text: "Gold ist schwerer als Blei.", answer: true },
+            { text: "Die Hauptstadt von Australien ist Sydney.", answer: false },
+            { text: "Der Erdumfang beträgt ungefähr 40.000 Kilometer.", answer: true }
+        ];
+
+        const quizContent = document.getElementById("quiz-content");
+        const quizFeedback = document.getElementById("quiz-feedback");
+        let currentQuizIndex = 0;
+
+        function loadQuizQuestion() {
+            const question = quizQuestions[currentQuizIndex];
+            quizContent.innerHTML = `
+                <div class="quiz-question">${question.text}</div>
+                <button class="quiz-true-button" onclick="checkQuizAnswer(true)">Wahr</button>
+                <button class="quiz-false-button" onclick="checkQuizAnswer(false)">Falsch</button>
+            `;
+        }
+
+        function checkQuizAnswer(userAnswer) {
+            const correct = quizQuestions[currentQuizIndex].answer;
+            if (userAnswer === correct) {
+                quizFeedback.textContent = "Richtig!";
+                quizFeedback.style.color = "green";
+            } else {
+                quizFeedback.textContent = "Falsch!";
+                quizFeedback.style.color = "red";
+            }
+            
+            setTimeout(() => {
+                currentQuizIndex++;
+                if (currentQuizIndex < quizQuestions.length) {
+                    quizFeedback.textContent = "";
+                    loadQuizQuestion();
+                } else {
+                    quizContent.innerHTML = `<h2>Quiz beendet!</h2>`;
+                    quizFeedback.textContent = "";
+                }
+            }, 5000);
+        }
+
+        // Load the first question when the page loads
+        loadQuizQuestion();
+    </script>
+</body>
+</html>

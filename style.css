@@ -218,6 +218,42 @@ input.pointsinput {
     color: black;
 }
 
+
+/*-- True or False --*/
+
+
+.quiz-container {
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    padding: 3%;
+}
+.quiz-question {
+    margin-bottom: 30px;
+}
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+.quiz-true-button {
+    background-color: #4caf50;
+    color: white;
+}
+.quiz-false-button {
+    background-color: #f44336;
+    color: white;
+}
+.quiz-feedback {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
 /*-- HANDY SCREEN --*/
 @media only screen and (max-width: 768px) {
     

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="javascript.js"></script>
+    <title>Quiz</title>
+</head>
+
+<!-- Menü -->
+
+<body onclick="resetPointsDisplay()">
+
+    <div id="menu">
+        <ul>
+            <li onclick="showHomePage()">Startseite</li>
+            <li onclick="showQuizPage(1)">Quiz 1</li>
+            <li onclick="showQuizPage(2)">Quiz 2</li>
+            <li onclick="showQuizPage(3)">Quiz 3</li>
+            <li onclick="showQuizPage(4)">Quiz 4</li>
+            <li onclick="showwahroderfalsch()">Wahr oder Falsch</li>
+            <li onclick="showSchätzfragen()">Schätzfrage</li>
+            <li onclick="showImpressum()">Impressum</li>
+        </ul>
+    </div>
+
+    <div id="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<!-- Menü -->
+
+    <div id="header" class="quiz">
+
+    </div>
+
+    <div id="question76" class="question" onclick="toggleQuestion(76)">
+        <div class="question-container">
+            <h2>Frage 1</h2>
+            <p>Wie heißt das Hauptgetreide, das für die Herstellung von Bier verwendet wird?</p>
+            <button class="solution-button" onclick="showSolution(76)" id="solutionButton76">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question77" class="question" onclick="toggleQuestion(77)">
+        <div class="question-container">
+            <h2>Frage 2</h2>
+            <p>Welches Land ist für die Herstellung von Tequila bekannt?</p>
+            <button class="solution-button" onclick="showSolution(77)" id="solutionButton77">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question78" class="question" onclick="toggleQuestion(78)">
+        <div class="question-container">
+            <h2>Frage 3</h2>
+            <p>Wie lautet die Mindestprozentsatz an Alkohol, den ein Getränk enthalten muss, um als „Spirituose“ bezeichnet zu werden?</p>
+            <button class="solution-button" onclick="showSolution(78)" id="solutionButton78">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question79" class="question" onclick="toggleQuestion(79)">
+        <div class="question-container">
+            <h2>Frage 4</h2>
+            <p>Welcher bekannte Cocktail besteht aus Gin, Vermouth und einer Olive?</p>
+            <button class="solution-button" onclick="showSolution(79)" id="solutionButton79">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question80" class="question" onclick="toggleQuestion(80)">
+        <div class="question-container">
+            <h2>Frage 5</h2>
+            <p>Aus welchem Jahr stammt das deutsche Reinheitsgebot, das die Zutaten von Bier regelt? (+/-50 Jahre)</p>
+            <button class="solution-button" onclick="showSolution(80)" id="solutionButton80">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question81" class="question" onclick="toggleQuestion(81)">
+        <div class="question-container">
+            <h2>Frage 1</h2>
+            <p>Wie heißt die spanische Reispfanne, die oft mit Meeresfrüchten und Safran zubereitet wird?</p>
+            <button class="solution-button" onclick="showSolution(81)" id="solutionButton81">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question82" class="question" onclick="toggleQuestion(82)">
+        <div class="question-container">
+            <h2>Frage 2</h2>
+            <p>Welches Gemüse ist die Hauptzutat in einer traditionellen französischen Ratatouille?</p>
+            <button class="solution-button" onclick="showSolution(82)" id="solutionButton82">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question83" class="question" onclick="toggleQuestion(83)">
+        <div class="question-container">
+            <h2>Frage 3</h2>
+            <p>Welches Gewürz wird aus getrockneten Blütenstempeln gewonnen und ist eines der teuersten der Welt?</p>
+            <button class="solution-button" onclick="showSolution(83)" id="solutionButton83">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question84" class="question" onclick="toggleQuestion(84)">
+        <div class="question-container">
+            <h2>Frage 4</h2>
+            <p>Welcher Begriff beschreibt den Geschmack, der oft mit herzhaften Speisen wie Pilzen oder Sojasauce assoziiert wird?</p>
+            <button class="solution-button" onclick="showSolution(84)" id="solutionButton84">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question85" class="question" onclick="toggleQuestion(85)">
+        <div class="question-container">
+            <h2>Frage 5</h2>
+            <p>Wie nennt man den Prozess des Konservierens von Lebensmitteln durch Salz oder Räuchern?</p>
+            <button class="solution-button" onclick="showSolution(85)" id="solutionButton85">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question86" class="question" onclick="toggleQuestion(86)">
+        <div class="question-container">
+            <h2>Frage 1</h2>
+            <p>Wie viele Einwohner hat Villingen-Schwenningen ungefähr (Stand: 2024 / +/- 5.000)?</p>
+            <button class="solution-button" onclick="showSolution(86)" id="solutionButton86">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question87" class="question" onclick="toggleQuestion(87)">
+        <div class="question-container">
+            <h2>Frage 2</h2>
+            <p>Wann wurde Villingen-Schwenningen offiziell zur Doppelstadt erklärt? (+/- 5 Jahre)</p>
+            <button class="solution-button" onclick="showSolution(87)" id="solutionButton87">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question88" class="question" onclick="toggleQuestion(88)">
+        <div class="question-container">
+            <h2>Frage 3</h2>
+            <p>Wie hoch liegt Villingen-Schwenningen durchschnittlich über dem Meeresspiegel?</p>
+            <button class="solution-button" onclick="showSolution(88)" id="solutionButton88">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="question89" class="question" onclick="toggleQuestion(89)">
+        <div class="question-container">
+            <h2>Frage 4</h2>
+            <p>Wie viele Ortschaften gehören zu Villingen-Schwenningen? (Mit Villingen und Schwenningen)</p>
+            <button class="solution-button" onclick="showSolution(89)" id="solutionButton89">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question90" class="question" onclick="toggleQuestion(90)">
+        <div class="question-container">
+            <h2>Frage 5</h2>
+            <p>Villingen-Schwenningen ist nach Einwohnerzahl die wievieltgrößte Stadt in Baden-Württemberg? (+/- 1 Platz)</p>
+            <button class="solution-button" onclick="showSolution(90)" id="solutionButton90">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question91" class="question" onclick="toggleQuestion(91)">
+        <div class="question-container">
+            <h2>Frage 1</h2>
+            <p>Wer sagte: „Ich bin ein Berliner“?</p>
+            <button class="solution-button" onclick="showSolution(91)" id="solutionButton91">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question92" class="question" onclick="toggleQuestion(92)">
+        <div class="question-container">
+            <h2>Frage 2</h2>
+            <p>Wer sagte: „Sein oder Nichtsein, das ist hier die Frage“?</p>
+            <button class="solution-button" onclick="showSolution(92)" id="solutionButton92">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question93" class="question" onclick="toggleQuestion(93)">
+        <div class="question-container">
+            <h2>Frage 3</h2>
+            <p>Welcher Wissenschaftler sagte: „E = mc²“?</p>
+            <button class="solution-button" onclick="showSolution(93)" id="solutionButton93">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question94" class="question" onclick="toggleQuestion(94)">
+        <div class="question-container">
+            <h2>Frage 4</h2>
+            <p>Welcher römische Kaiser sagte: „Ich kam, ich sah, ich siegte“?</p>
+            <button class="solution-button" onclick="showSolution(94)" id="solutionButton94">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question95" class="question" onclick="toggleQuestion(95)">
+        <div class="question-container">
+            <h2>Frage 5</h2>
+            <p>Von wem stammt das Zitat: „Das Leben ist wie eine Schachtel Pralinen – man weiß nie, was man bekommt“?</p>
+            <button class="solution-button" onclick="showSolution(95)" id="solutionButton95">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question96" class="question" onclick="toggleQuestion(96)">
+        <div class="question-container">
+            <h2>Frage 1</h2>
+            <p>Welches Tier hat den längsten Hals unter den Landtieren?</p>
+            <button class="solution-button" onclick="showSolution(96)" id="solutionButton96">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question97" class="question" onclick="toggleQuestion(97)">
+        <div class="question-container">
+            <h2>Frage 2</h2>
+            <p>Welcher Vogel ist bekannt dafür, nach Nahrung zu tauchen?</p>
+            <button class="solution-button" onclick="showSolution(97)" id="solutionButton97">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question98" class="question" onclick="toggleQuestion(98)">
+        <div class="question-container">
+            <h2>Frage 3</h2>
+            <p>Welches Säugetier kann als einziges fliegen?</p>
+            <button class="solution-button" onclick="showSolution(98)" id="solutionButton98">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question99" class="question" onclick="toggleQuestion(99)">
+        <div class="question-container">
+            <h2>Frage 4</h2>
+            <p>Wie viele Beine hat ein Hummer? (+/-1)</p>
+            <button class="solution-button" onclick="showSolution(99)" id="solutionButton99">Lösung anzeigen</button>
+        </div>
+    </div>
+    
+    <div id="question100" class="question" onclick="toggleQuestion(100)">
+        <div class="question-container">
+            <h2>Frage 5</h2>
+            <p>Welcher Vogel kann rückwärts fliegen?</p>
+            <button class="solution-button" onclick="showSolution(100)" id="solutionButton100">Lösung anzeigen</button>
+        </div>
+    </div>
+
+    <div id="pointsDisplay" class="points-container">
+        <div class="category">
+            <div class="category-title">Alkohol</div>
+            <div class="points" onclick="toggleQuestion(76)" id="pointsButton76">200 Punkte</div>
+            <div class="points" onclick="toggleQuestion(77)" id="pointsButton77">400 Punkte</div>
+            <div class="points" onclick="toggleQuestion(78)" id="pointsButton78">600 Punkte</div>
+            <div class="points" onclick="toggleQuestion(79)" id="pointsButton79">800 Punkte</div>
+            <div class="points" onclick="toggleQuestion(80)" id="pointsButton80">1000 Punkte</div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">Essen</div>
+            <div class="points" onclick="toggleQuestion(81)" id="pointsButton81">200 Punkte</div>
+            <div class="points" onclick="toggleQuestion(82)" id="pointsButton82">400 Punkte</div>
+            <div class="points" onclick="toggleQuestion(83)" id="pointsButton83">600 Punkte</div>
+            <div class="points" onclick="toggleQuestion(84)" id="pointsButton84">800 Punkte</div>
+            <div class="points" onclick="toggleQuestion(85)" id="pointsButton85">1000 Punkte</div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">Villingen</div>
+            <div class="points" onclick="toggleQuestion(86)" id="pointsButton86">200 Punkte</div>
+            <div class="points" onclick="toggleQuestion(87)" id="pointsButton87">400 Punkte</div>
+            <div class="points" onclick="toggleQuestion(88)" id="pointsButton88">600 Punkte</div>
+            <div class="points" onclick="toggleQuestion(89)" id="pointsButton89">800 Punkte</div>
+            <div class="points" onclick="toggleQuestion(90)" id="pointsButton90">1000 Punkte</div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">Ziate</div>
+            <div class="points" onclick="toggleQuestion(91)" id="pointsButton91">200 Punkte</div>
+            <div class="points" onclick="toggleQuestion(92)" id="pointsButton92">400 Punkte</div>
+            <div class="points" onclick="toggleQuestion(93)" id="pointsButton93">600 Punkte</div>
+            <div class="points" onclick="toggleQuestion(94)" id="pointsButton94">800 Punkte</div>
+            <div class="points" onclick="toggleQuestion(95)" id="pointsButton95">1000 Punkte</div>
+        </div>
+
+        <div class="category">
+            <div class="category-title">Tiere</div>
+            <div class="points" onclick="toggleQuestion(96)" id="pointsButton96">200 Punkte</div>
+            <div class="points" onclick="toggleQuestion(97)" id="pointsButton97">400 Punkte</div>
+            <div class="points" onclick="toggleQuestion(98)" id="pointsButton98">600 Punkte</div>
+            <div class="points" onclick="toggleQuestion(99)" id="pointsButton99">800 Punkte</div>
+            <div class="points" onclick="toggleQuestion(100)" id="pointsButton100">1000 Punkte</div>
+        </div>
+    </div>
+
+</body>
+
+</html>
