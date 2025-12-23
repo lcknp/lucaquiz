@@ -7,40 +7,43 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="header">
-    <a class="back" href="index.html">← Zur Startseite</a>
-    <h1>Quiz 2</h1>
-    <p>Jeopardy-Board (200–1000)</p>
+  <header class="topbar">
+    <a class="backLink" href="index.html">← START</a>
+    <div>
+      <h1 class="brand">QUIZ 2</h1>
+      <p class="sub">Jeopardy Board (200–1000)</p>
+    </div>
   </header>
 
-  <main class="container">
+  <main class="wrap">
     <section class="game" data-quiz="2">
-      <div class="topline">
-        <div id="score" class="pill">Score: 0</div>
-        <button id="resetBtn" class="btn btn-ghost" type="button">Spiel zurücksetzen</button>
+      <div class="hud">
+        <div id="score" class="scoreBox">SCORE: 0</div>
+        <button id="resetBtn" class="hudBtn" type="button">RESET</button>
       </div>
 
       <div id="board" class="board" aria-label="Jeopardy Board"></div>
+
       <div id="status" class="status" aria-live="polite"></div>
     </section>
   </main>
 
   <dialog id="qModal" class="modal">
-    <form method="dialog" class="modalCard">
+    <div class="modalInner">
       <div class="modalTop">
-        <div id="modalMeta" class="modalMeta"></div>
-        <button id="closeModalBtn" class="iconBtn" value="cancel" aria-label="Schließen">✕</button>
+        <div id="modalMeta" class="modalMeta">KATEGORIE • 200</div>
+        <button id="closeModalBtn" class="xBtn" type="button" aria-label="Schließen">✕</button>
       </div>
 
-      <h2 id="modalQuestion" class="modalQ">Frage</h2>
+      <div id="modalQuestion" class="modalQ">Frage…</div>
       <div id="modalAnswers" class="modalAnswers"></div>
 
-      <div class="modalActions">
-        <button id="submitBtn" class="btn" value="default" type="button" disabled>Antwort bestätigen</button>
+      <div class="modalBottom">
+        <button id="submitBtn" class="bigBtn" type="button" disabled>ANTWORT BESTÄTIGEN</button>
       </div>
 
       <div id="modalFeedback" class="modalFeedback" aria-live="polite"></div>
-    </form>
+    </div>
   </dialog>
 
   <script src="javascript.js"></script>
