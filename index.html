@@ -7,33 +7,24 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="header">
-    <h1>LucaQuiz – Jeopardy Board</h1>
-    <p>Wähle ein Quiz. Ungerade Quizzes starten bei 100 Punkten, gerade bei 200.</p>
+  <header class="topbar">
+    <h1 class="brand">LUCAQUIZ</h1>
+    <p class="sub">Jeopardy-Style Board • ungerade Quiz: 100–500 • gerade Quiz: 200–1000</p>
   </header>
 
-  <main class="container">
-    <div class="grid">
-      <a class="card" href="quiz1.html"><h2>Quiz 1</h2><p>100–500</p></a>
-      <a class="card" href="quiz2.html"><h2>Quiz 2</h2><p>200–1000</p></a>
-      <a class="card" href="quiz3.html"><h2>Quiz 3</h2><p>100–500</p></a>
-      <a class="card" href="quiz4.html"><h2>Quiz 4</h2><p>200–1000</p></a>
-      <a class="card" href="quiz5.html"><h2>Quiz 5</h2><p>100–500</p></a>
-      <a class="card" href="quiz6.html"><h2>Quiz 6</h2><p>200–1000</p></a>
+  <main class="wrap">
+    <div class="homeGrid">
+      <a class="homeCard" href="quiz1.html"><div class="hcTitle">QUIZ 1</div><div class="hcMeta">100–500</div></a>
+      <a class="homeCard" href="quiz2.html"><div class="hcTitle">QUIZ 2</div><div class="hcMeta">200–1000</div></a>
+      <a class="homeCard" href="quiz3.html"><div class="hcTitle">QUIZ 3</div><div class="hcMeta">100–500</div></a>
+      <a class="homeCard" href="quiz4.html"><div class="hcTitle">QUIZ 4</div><div class="hcMeta">200–1000</div></a>
+      <a class="homeCard" href="quiz5.html"><div class="hcTitle">QUIZ 5</div><div class="hcMeta">100–500</div></a>
+      <a class="homeCard" href="quiz6.html"><div class="hcTitle">QUIZ 6</div><div class="hcMeta">200–1000</div></a>
     </div>
 
-    <section class="hint">
-      <h3>Spielregeln</h3>
-      <ul>
-        <li>Klicke ein Feld → Frage erscheint.</li>
-        <li>Richtig: Punkte werden addiert. Falsch: Punkte werden abgezogen.</li>
-        <li>Ein Feld kann nur einmal gewählt werden.</li>
-      </ul>
-    </section>
+    <div class="note">
+      <strong>Regel:</strong> Richtig = +Punkte, falsch = −Punkte. Jedes Feld nur 1×.
+    </div>
   </main>
-
-  <footer class="footer">
-    <small>© LucaQuiz</small>
-  </footer>
 </body>
 </html>
