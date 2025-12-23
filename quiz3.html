@@ -1,286 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="javascript.js"></script>
-    <title>Quiz</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz 3</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
+  <header class="header">
+    <a class="back" href="index.html">← Zur Startseite</a>
+    <h1>Quiz 3</h1>
+    <p>Geografie</p>
+  </header>
 
-<!-- Menü -->
+  <main class="container">
+    <section class="quiz" data-quiz="3">
+      <div class="topline">
+        <div id="progress" class="pill">Frage 1/10</div>
+        <div id="score" class="pill">Score: 0</div>
+      </div>
 
-<body onclick="resetPointsDisplay()">
+      <h2 id="question" class="question">Lade Frage…</h2>
+      <div id="answers" class="answers"></div>
 
-    <div id="menu">
-        <ul>
-            <li onclick="showHomePage()">Startseite</li>
-            <li onclick="showQuizPage(1)">Quiz 1</li>
-            <li onclick="showQuizPage(2)">Quiz 2</li>
-            <li onclick="showQuizPage(3)">Quiz 3</li>
-            <li onclick="showQuizPage(4)">Quiz 4</li>
-            <li onclick="showwahroderfalsch()">Wahr oder Falsch</li>
-            <li onclick="showSchätzfragen()">Schätzfrage</li>
-            <li onclick="showImpressum()">Impressum</li>
-        </ul>
-    </div>
+      <div class="actions">
+        <button id="nextBtn" class="btn" type="button" disabled>Nächste</button>
+        <button id="resetBtn" class="btn btn-ghost" type="button">Zurücksetzen</button>
+      </div>
 
-    <div id="menu-toggle" onclick="toggleMenu()">☰</div>
+      <div id="result" class="result" aria-live="polite"></div>
+    </section>
+  </main>
 
-<!-- Menü -->
-
-    <div id="header" class="quiz">
-
-    </div>
-
-    <div id="question51" class="question" onclick="toggleQuestion(51)">
-        <div class="question-container">
-            <h2>Frage 1</h2>
-            <p>Wer schrieb „Harry Potter“?</p>
-            <button class="solution-button" onclick="showSolution(51)" id="solutionButton51">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question52" class="question" onclick="toggleQuestion(52)">
-        <div class="question-container">
-            <h2>Frage 2</h2>
-            <p>Welcher berühmte deutsche Dichter schrieb „Faust“?</p>
-            <button class="solution-button" onclick="showSolution(52)" id="solutionButton52">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question53" class="question" onclick="toggleQuestion(53)">
-        <div class="question-container">
-            <h2>Frage 3</h2>
-            <p>Wie heißt das Buch von George Orwell, das eine dystopische Zukunft beschreibt?</p>
-            <button class="solution-button" onclick="showSolution(53)" id="solutionButton53">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question54" class="question" onclick="toggleQuestion(54)">
-        <div class="question-container">
-            <h2>Frage 4</h2>
-            <p>Welche Schriftstellerin schuf die Figuren Elizabeth Bennet und Mr. Darcy?</p>
-            <button class="solution-button" onclick="showSolution(54)" id="solutionButton54">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question55" class="question" onclick="toggleQuestion(55)">
-        <div class="question-container">
-            <h2>Frage 5</h2>
-            <p>Wie heißt der Autor des epischen Gedichts „Die Göttliche Komödie“?</p>
-            <button class="solution-button" onclick="showSolution(55)" id="solutionButton55">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question56" class="question" onclick="toggleQuestion(56)">
-        <div class="question-container">
-            <h2>Frage 1</h2>
-            <p>Welches Land hat die Hauptstadt Paris?</p>
-            <button class="solution-button" onclick="showSolution(56)" id="solutionButton56">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question57" class="question" onclick="toggleQuestion(57)">
-        <div class="question-container">
-            <h2>Frage 2</h2>
-            <p>Wie heißt der längste Fluss der Welt?</p>
-            <button class="solution-button" onclick="showSolution(57)" id="solutionButton57">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question58" class="question" onclick="toggleQuestion(58)">
-        <div class="question-container">
-            <h2>Frage 3</h2>
-            <p>In welchem Land befindet sich der Mount Everest?</p>
-            <button class="solution-button" onclick="showSolution(58)" id="solutionButton58">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question59" class="question" onclick="toggleQuestion(59)">
-        <div class="question-container">
-            <h2>Frage 4</h2>
-            <p>Welcher Kontinent hat die meisten Länder?</p>
-            <button class="solution-button" onclick="showSolution(59)" id="solutionButton59">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question60" class="question" onclick="toggleQuestion(60)">
-        <div class="question-container">
-            <h2>Frage 5</h2>
-            <p>Wie heißt die größte Sandwüste der Welt?</p>
-            <button class="solution-button" onclick="showSolution(60)" id="solutionButton60">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question61" class="question" onclick="toggleQuestion(61)">
-        <div class="question-container">
-            <h2>Frage 1</h2>
-            <p>Welche britische Band veröffentlichte das Album „Abbey Road“?</p>
-            <button class="solution-button" onclick="showSolution(61)" id="solutionButton61">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question62" class="question" onclick="toggleQuestion(62)">
-        <div class="question-container">
-            <h2>Frage 2</h2>
-            <p>Welche Künstlerin wurde durch Hits wie „bad guy“ und „everything i wanted“ zur jüngsten Gewinnerin des „Album of the Year“-Grammys?</p>
-            <button class="solution-button" onclick="showSolution(62)" id="solutionButton62">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question63" class="question" onclick="toggleQuestion(63)">
-        <div class="question-container">
-            <h2>Frage 3</h2>
-            <p>Wie lautet der Fachbegriff für eine Gruppe von acht zusammenhängenden Tönen in einer Tonleiter?</p>
-            <button class="solution-button" onclick="showSolution(63)" id="solutionButton63">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question64" class="question" onclick="toggleQuestion(64)">
-        <div class="question-container">
-            <h2>Frage 4</h2>
-            <p>Welche Künstlerin landete mit „Flowers“ einen weltweiten Nummer-1-Hit im Jahr 2023</p>
-            <button class="solution-button" onclick="showSolution(64)" id="solutionButton64">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question65" class="question" onclick="toggleQuestion(65)">
-        <div class="question-container">
-            <h2>Frage 5</h2>
-            <p>Wie heißt die international bekannte Popsängerin, deren echter Name Stefani Germanotta ist?</p>
-            <button class="solution-button" onclick="showSolution(65)" id="solutionButton65">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question66" class="question" onclick="toggleQuestion(66)">
-        <div class="question-container">
-            <h2>Frage 1</h2>
-            <p>Welche italienische Luxusmarke wird oft mit dem Logo „GG“ assoziiert?</p>
-            <button class="solution-button" onclick="showSolution(66)" id="solutionButton66">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question67" class="question" onclick="toggleQuestion(67)">
-        <div class="question-container">
-            <h2>Frage 2</h2>
-            <p>Welche Schuhmarke ist bekannt für ihre Zusammenarbeit mit Kanye West unter dem Namen „Yeezy“?</p>
-            <button class="solution-button" onclick="showSolution(67)" id="solutionButton67">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question68" class="question" onclick="toggleQuestion(68)">
-        <div class="question-container">
-            <h2>Frage 3</h2>
-            <p>Wie heißt das britische Modehaus, das für den karierten Trenchcoat bekannt ist?</p>
-            <button class="solution-button" onclick="showSolution(68)" id="solutionButton68">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question69" class="question" onclick="toggleQuestion(69)">
-        <div class="question-container">
-            <h2>Frage 4</h2>
-            <p>Wie heißt die japanische Modemarke, die für minimalistische Designs und funktionale Kleidung bekannt ist?</p>
-            <button class="solution-button" onclick="showSolution(69)" id="solutionButton69">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question70" class="question" onclick="toggleQuestion(70)">
-        <div class="question-container">
-            <h2>Frage 5</h2>
-            <p>Welche Kosmetikmarke wurde von Rihanna gegründet?</p>
-            <button class="solution-button" onclick="showSolution(70)" id="solutionButton70">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question71" class="question" onclick="toggleQuestion(71)">
-        <div class="question-container">
-            <h2>Frage 1</h2>
-            <p>Wie viele Grade hat die Summe der Innenwinkel eines Vierecks?</p>
-            <button class="solution-button" onclick="showSolution(71)" id="solutionButton71">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question72" class="question" onclick="toggleQuestion(72)">
-        <div class="question-container">
-            <h2>Frage 2</h2>
-            <p>Wie nennt man eine Zahl, die nur durch 1 und sich selbst teilbar ist?</p>
-            <button class="solution-button" onclick="showSolution(72)" id="solutionButton72">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question73" class="question" onclick="toggleQuestion(73)">
-        <div class="question-container">
-            <h2>Frage 3</h2>
-            <p>Wie viele Zahlen gibt es zwischen 1 und 100, die durch 5 teilbar sind?</p>
-            <button class="solution-button" onclick="showSolution(73)" id="solutionButton73">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question74" class="question" onclick="toggleQuestion(74)">
-        <div class="question-container">
-            <h2>Frage 4</h2>
-            <p>Was ist das Ergebnis von 2 hoch 5?</p>
-            <button class="solution-button" onclick="showSolution(74)" id="solutionButton74">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question75" class="question" onclick="toggleQuestion(75)">
-        <div class="question-container">
-            <h2>Frage 5</h2>
-            <p>Was ist das Ergebnis von 𝑒 hoch 0?</p>
-            <button class="solution-button" onclick="showSolution(75)" id="solutionButton75">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="pointsDisplay" class="points-container">
-        <div class="category">
-            <div class="category-title">Literatur</div>
-            <div class="points" onclick="toggleQuestion(51)" id="pointsButton51">100 Punkte</div>
-            <div class="points" onclick="toggleQuestion(52)" id="pointsButton52">200 Punkte</div>
-            <div class="points" onclick="toggleQuestion(53)" id="pointsButton53">300 Punkte</div>
-            <div class="points" onclick="toggleQuestion(54)" id="pointsButton54">400 Punkte</div>
-            <div class="points" onclick="toggleQuestion(55)" id="pointsButton55">500 Punkte</div>
-        </div>
-
-        <div class="category">
-            <div class="category-title">Geographie</div>
-            <div class="points" onclick="toggleQuestion(56)" id="pointsButton56">100 Punkte</div>
-            <div class="points" onclick="toggleQuestion(57)" id="pointsButton57">200 Punkte</div>
-            <div class="points" onclick="toggleQuestion(58)" id="pointsButton58">300 Punkte</div>
-            <div class="points" onclick="toggleQuestion(59)" id="pointsButton59">400 Punkte</div>
-            <div class="points" onclick="toggleQuestion(60)" id="pointsButton60">500 Punkte</div>
-        </div>
-
-        <div class="category">
-            <div class="category-title">Musik</div>
-            <div class="points" onclick="toggleQuestion(61)" id="pointsButton61">100 Punkte</div>
-            <div class="points" onclick="toggleQuestion(62)" id="pointsButton62">200 Punkte</div>
-            <div class="points" onclick="toggleQuestion(63)" id="pointsButton63">300 Punkte</div>
-            <div class="points" onclick="toggleQuestion(64)" id="pointsButton64">400 Punkte</div>
-            <div class="points" onclick="toggleQuestion(65)" id="pointsButton65">500 Punkte</div>
-        </div>
-
-        <div class="category">
-            <div class="category-title">Mode</div>
-            <div class="points" onclick="toggleQuestion(66)" id="pointsButton66">100 Punkte</div>
-            <div class="points" onclick="toggleQuestion(67)" id="pointsButton67">200 Punkte</div>
-            <div class="points" onclick="toggleQuestion(68)" id="pointsButton68">300 Punkte</div>
-            <div class="points" onclick="toggleQuestion(69)" id="pointsButton69">400 Punkte</div>
-            <div class="points" onclick="toggleQuestion(70)" id="pointsButton70">500 Punkte</div>
-        </div>
-
-        <div class="category">
-            <div class="category-title">Mathe</div>
-            <div class="points" onclick="toggleQuestion(71)" id="pointsButton71">100 Punkte</div>
-            <div class="points" onclick="toggleQuestion(72)" id="pointsButton72">200 Punkte</div>
-            <div class="points" onclick="toggleQuestion(73)" id="pointsButton73">300 Punkte</div>
-            <div class="points" onclick="toggleQuestion(74)" id="pointsButton74">400 Punkte</div>
-            <div class="points" onclick="toggleQuestion(75)" id="pointsButton75">500 Punkte</div>
-        </div>
-    </div>
-
+  <script src="javascript.js"></script>
 </body>
-
 </html>
