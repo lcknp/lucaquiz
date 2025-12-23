@@ -1,37 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="javascript.js"></script>
-    <title>Quiz</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LucaQuiz</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
+  <header class="header">
+    <h1>LucaQuiz</h1>
+    <p>Wähle ein Quiz (je 10 Fragen).</p>
+  </header>
 
-<body onclick="resetPointsDisplay()">
-
-    <div id="menu">
-        <ul>
-            <li onclick="showHomePage()">Startseite</li>
-            <li onclick="showQuizPage(1)">Quiz 1</li>
-            <li onclick="showQuizPage(2)">Quiz 2</li>
-            <li onclick="showQuizPage(3)">Quiz 3</li>
-            <li onclick="showQuizPage(4)">Quiz 4</li>
-            <li onclick="showwahroderfalsch()">Wahr oder Falsch</li>
-            <li onclick="showSchätzfragen()">Schätzfrage</li>
-            <li onclick="showImpressum()">Impressum</li>
-        </ul>
+  <main class="container">
+    <div class="grid">
+      <a class="card" href="quiz1.html"><h2>Quiz 1</h2><p>Allgemeinwissen</p></a>
+      <a class="card" href="quiz2.html"><h2>Quiz 2</h2><p>Wissenschaft & Technik</p></a>
+      <a class="card" href="quiz3.html"><h2>Quiz 3</h2><p>Geografie</p></a>
+      <a class="card" href="quiz4.html"><h2>Quiz 4</h2><p>Geschichte</p></a>
+      <a class="card" href="quiz5.html"><h2>Quiz 5</h2><p>Kultur</p></a>
+      <a class="card" href="quiz6.html"><h2>Quiz 6</h2><p>Logik & Mathe</p></a>
     </div>
 
-    <div id="menu-toggle" onclick="toggleMenu()">☰</div>
+    <section class="hint">
+      <h3>Hinweis</h3>
+      <p>Dein Fortschritt (Score) wird pro Quiz im Browser gespeichert, bis du die Seite neu startest oder „Zurücksetzen“ drückst.</p>
+    </section>
+  </main>
 
-    <div id="header" class="index">
-    </div>
-
-    <div id="unterschrift" class="index">
-        <h1>Herzlich Willkommen zu meinem Quiz</h1>
-    </div>
-    
+  <footer class="footer">
+    <small>© LucaQuiz</small>
+  </footer>
 </body>
 </html>
