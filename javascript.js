@@ -16,7 +16,7 @@ function valuesForQuiz(quizId) {
 }
 
 function storageKey(quizId) {
-  return `lucaquiz_jeopardy_q${quizId}_state_v7_team`;
+  return `lucaquiz_jeopardy_q${quizId}_state_v8_team_harder`;
 }
 function loadState(quizId) {
   try {
@@ -35,13 +35,13 @@ function resetState(quizId) {
 
 /**
  * Fragebank: pro Quiz 5 Kategorien × 5 Fragen.
- * Schwierigkeit steigt mit der Reihe (oben leicht → unten schwerer).
+ * Reihen werden nach unten schwerer – aber auch die 1./2. Reihe ist nicht mehr "zu leicht".
  */
 function getQuestionBank(quizId) {
   switch (quizId) {
 
     // ==================================
-    // QUIZ 1 — ALLGEMEINWISSEN (MID+)
+    // QUIZ 1 — ALLGEMEINWISSEN (harder)
     // ==================================
     case 1:
       return {
@@ -49,49 +49,49 @@ function getQuestionBank(quizId) {
         clues: [
           // ALLGEMEIN
           [
-            { q: "WELCHER TAG KOMMT NACH DONNERSTAG?", a: ["MITTWOCH", "FREITAG", "SAMSTAG", "SONNTAG"], c: 1 },
-            { q: "WIE VIELE MINUTEN SIND 2,5 STUNDEN?", a: ["120", "150", "180", "210"], c: 1 },
-            { q: "WELCHE ZAHL IST AM GRÖSSTEN?", a: ["0,5", "2/3", "0,7", "3/4"], c: 3 },
-            { q: "WELCHE IST DIE KLEINSTE PRIMZAHL, DIE GRÖSSER ALS 50 IST?", a: ["51", "53", "55", "57"], c: 1 },
-            { q: "WELCHER AUSDRUCK IST GLEICH WERT WIE 12%?", a: ["0,12", "0,012", "1,2", "12,0"], c: 0 },
+            { q: "WIE VIEL IST 7²?", a: ["14", "28", "49", "56"], c: 2 },
+            { q: "WIE VIELE SEKUNDEN HAT EINE STUNDE?", a: ["360", "3600", "36 000", "6000"], c: 1 },
+            { q: "WELCHE ZAHL IST AM GRÖSSTEN?", a: ["0,62", "5/8", "0,7", "2/3"], c: 2 }, // 0.7
+            { q: "WELCHER WERT IST GLEICH WIE 0,125?", a: ["1/4", "1/8", "1/16", "1/12"], c: 1 },
+            { q: "WELCHE IST DIE KLEINSTE PRIMZAHL > 100?", a: ["101", "103", "107", "109"], c: 0 },
           ],
           // WISSENSCHAFT
           [
-            { q: "WELCHES ORGAN IST FÜR SAUERSTOFFAUFNAHME ZUSTÄNDIG?", a: ["LEBER", "LUNGE", "NIERE", "MAGEN"], c: 1 },
-            { q: "WELCHES GAS IST IN DER LUFT AM HÄUFIGSTEN?", a: ["SAUERSTOFF", "STICKSTOFF", "CO2", "HELIUM"], c: 1 },
-            { q: "WELCHE EINHEIT HAT STROMSTÄRKE?", a: ["VOLT", "AMPERE", "WATT", "OHM"], c: 1 },
-            { q: "WELCHES BLUTGEFÄSS BRINGT BLUT VOM HERZEN WEG?", a: ["VENE", "ARTERIE", "KAPILLARE", "LYMPHE"], c: 1 },
-            { q: "WIE HEISST DIE TEMPERATUR, BEI DER EIN STOFF KOCHT?", a: ["SCHMELZPUNKT", "SIEDEPUNKT", "TAUPUNKT", "BRENNPUNKT"], c: 1 },
+            { q: "WELCHES GAS IST IN DER LUFT AM HÄUFIGSTEN?", a: ["SAUERSTOFF", "STICKSTOFF", "CO2", "ARGON"], c: 1 },
+            { q: "WELCHE EINHEIT MISST ELEKTRISCHE LEISTUNG?", a: ["VOLT", "WATT", "AMPERE", "OHM"], c: 1 },
+            { q: "WELCHER BEGRIFF PASST ZU 'ERBGUT'?", a: ["DNA", "ATP", "H2O", "NaCl"], c: 0 },
+            { q: "WELCHER TEIL DES AUGES REGELT DEN LICHTEINLASS?", a: ["LINSE", "NETZHAUT", "IRIS", "SEHNERV"], c: 2 },
+            { q: "WAS BESCHREIBT 'DICHTE' AM BESTEN?", a: ["MASSE PRO VOLUMEN", "VOLUMEN PRO ZEIT", "KRAFT PRO FLÄCHE", "ENERGIE PRO STROM"], c: 0 },
           ],
           // GEOGRAFIE
           [
-            { q: "WELCHE STADT IST HAUPTSTADT VON ITALIEN?", a: ["MAILAND", "ROM", "NEAPEL", "FLORENZ"], c: 1 },
-            { q: "WELCHER FLUSS FLIESST DURCH PARIS?", a: ["SEINE", "THEMSE", "RHEIN", "DONAU"], c: 0 },
-            { q: "WELCHER KONTINENT IST DER GRÖSSTE (FLÄCHE)?", a: ["EUROPA", "AFRIKA", "ASIEN", "ANTARKTIS"], c: 2 },
-            { q: "WELCHES LAND GRENZT NICHT AN DEUTSCHLAND?", a: ["DÄNEMARK", "SCHWEIZ", "SPANIEN", "POLEN"], c: 2 },
-            { q: "WELCHES MEER LIEGT ZWISCHEN GRIECHENLAND UND DER TÜRKEI?", a: ["NORDSEE", "ÄGÄIS", "BALTISCHE SEE", "SCHWARZES MEER"], c: 1 },
+            { q: "WELCHER FLUSS FLIESST DURCH WIEN?", a: ["RHEIN", "DONAU", "ELBE", "ODER"], c: 1 },
+            { q: "WELCHES LAND HAT DIE HAUPTSTADT 'LISSABON'?", a: ["SPANIEN", "PORTUGAL", "ITALIEN", "GRIECHENLAND"], c: 1 },
+            { q: "WELCHES MEER GRENZT AN POLEN?", a: ["NORDSEE", "OSTSEE", "MITTELMEER", "SCHWARZES MEER"], c: 1 },
+            { q: "WELCHER KONTINENT HAT DIE MEISTEN LÄNDER?", a: ["EUROPA", "AFRIKA", "ASIEN", "SÜDAMERIKA"], c: 1 },
+            { q: "WELCHE STADT LIEGT AM BOSPORUS?", a: ["ISTANBUL", "ATHEN", "ROM", "SOFIA"], c: 0 },
           ],
           // GESCHICHTE
           [
-            { q: "WER WAR DER ERSTE MENSCH AUF DEM MOND?", a: ["YURI GAGARIN", "NEIL ARMSTRONG", "BUZZ ALDRIN", "JOHN GLENN"], c: 1 },
-            { q: "IN WELCHEM JAHR FIEL DIE BERLINER MAUER?", a: ["1987", "1989", "1991", "1993"], c: 1 },
-            { q: "WIE HEISST DIE EPOCHE ZWISCHEN ANTike UND NEUZEIT?", a: ["MODERNE", "MITTELALTER", "BRONZEZEIT", "BAROCK"], c: 1 },
-            { q: "WELCHES LAND WURDE 1990 WIEDERVEREINIGT?", a: ["ÖSTERREICH", "DEUTSCHLAND", "TSCHECHIEN", "UNGARN"], c: 1 },
-            { q: "WAS WAR 1914 DER DIREKTE ANLASS FÜR DEN 1. WELTKRIEG?", a: ["BÖRSENCRASH", "ATTENTAT VON SARAJEVO", "MONDLANDUNG", "BERLINER MAUER"], c: 1 },
+            { q: "WANN FIEL DIE BERLINER MAUER (JAHR)?", a: ["1987", "1989", "1991", "1993"], c: 1 },
+            { q: "WELCHER ENTDECKER WIRD OFT MIT 1492 VERBUNDEN?", a: ["MAGELLAN", "KOLUMBUS", "COOK", "POLO"], c: 1 },
+            { q: "WAS WAR DIE 'INDUSTRIELLE REVOLUTION' PRIMÄR?", a: ["LANDWIRTSCHAFTLICHE REFORM", "ÜBERGANG ZU MASCHINEN/INDUSTRIE", "RELIGIONSKRIEG", "EU-GRÜNDUNG"], c: 1 },
+            { q: "WELCHES EREIGNIS GILT ALS DIREKTER ANLASS 1914?", a: ["BÖRSENCRASH", "ATTENTAT VON SARAJEVO", "MAUERFALL", "MONDLANDUNG"], c: 1 },
+            { q: "WIE HIESS DAS SCHIFF DER PILGERVÄTER (1620) BERÜHMT?", a: ["SANTA MARIA", "MAYFLOWER", "ENDEAVOUR", "TITANIC"], c: 1 },
           ],
           // KULTUR
           [
-            { q: "WER SCHRIEB 'FAUST'?", a: ["GOETHE", "SCHILLER", "KAFKA", "BRECHT"], c: 0 },
-            { q: "WELCHES INSTRUMENT HAT TASTEN?", a: ["GEIGE", "KLAVIER", "TROMMEL", "FLÖTE"], c: 1 },
-            { q: "WELCHER FILMPREIS IST SEHR BEKANNT?", a: ["GRAMMY", "OSCAR", "NOBELPREIS", "BALLON D’OR"], c: 1 },
-            { q: "WER MALTE 'DIE STERNENNACHT'?", a: ["MONET", "VAN GOGH", "PICASSO", "DALÍ"], c: 1 },
-            { q: "WIE HEISST DAS SEHR BEKANNTE MUSEUM IN PARIS?", a: ["LOUVRE", "PRADO", "UFFIZIEN", "TATE"], c: 0 },
+            { q: "WER MALTE DIE 'MONA LISA'?", a: ["PICASSO", "DA VINCI", "VAN GOGH", "MONET"], c: 1 },
+            { q: "WELCHER BEGRIFF PASST ZU EINEM 'BÜHNENSTÜCK MIT GESANG'?", a: ["OPER", "ESSAY", "REPORTAGE", "KOMMENTAR"], c: 0 },
+            { q: "WELCHER AUTOR SCHRIEB 'FAUST'?", a: ["GOETHE", "SCHILLER", "KAFKA", "BRECHT"], c: 0 },
+            { q: "WELCHER KOMPONIST IST FÜR 'FÜR ELISE' BEKANNT?", a: ["BACH", "MOZART", "BEETHOVEN", "VIVALDI"], c: 2 },
+            { q: "WELCHES IST EIN LITERARISCHES 'EPOS' (BEKANNT)?", a: ["ODYSSEE", "FAUST", "DIE ZEIT", "DAS GRUNDGESETZ"], c: 0 },
           ],
         ],
       };
 
     // ==================================
-    // QUIZ 2 — SPORT & TECH (MID+)
+    // QUIZ 2 — SPORT & TECH (harder)
     // ==================================
     case 2:
       return {
@@ -99,49 +99,49 @@ function getQuestionBank(quizId) {
         clues: [
           // SPORT
           [
-            { q: "WIE VIELE SPIELER HAT EIN FUSSBALLTEAM AUF DEM FELD?", a: ["9", "10", "11", "12"], c: 2 },
-            { q: "WIE VIELE RINGE HAT DAS OLYMPISCHE SYMBOL?", a: ["4", "5", "6", "7"], c: 1 },
-            { q: "WELCHER SPORT NUTZT EINEN 'DREIER'?", a: ["TENNIS", "BASKETBALL", "HANDBALL", "HOCKEY"], c: 1 },
+            { q: "WIE VIELE PUNKTE ZÄHLT EIN TOUCHDOWN (OHNE EXTRA) IM AMERICAN FOOTBALL?", a: ["3", "6", "7", "10"], c: 1 },
+            { q: "WIE HEISST DAS TURNIER 'WIMBLEDON' (SPORT)?", a: ["GOLF", "TENNIS", "RUGBY", "HOCKEY"], c: 1 },
+            { q: "WIE VIELE SÄTZE BRAUCHT MAN IM TENNIS 'BEST OF 5' ZUM SIEG?", a: ["2", "3", "4", "5"], c: 1 },
             { q: "WELCHER SPORT HAT EINE 'ABSEITS'-REGEL?", a: ["BASKETBALL", "FUSSBALL", "TENNIS", "GOLF"], c: 1 },
-            { q: "IM TENNIS 'BEST OF 5': WIE VIELE SÄTZE BRAUCHT MAN FÜR DEN SIEG?", a: ["2", "3", "4", "5"], c: 1 },
+            { q: "WIE VIELE SPIELER STEHEN BEIM HANDBALL PRO TEAM AUF DEM FELD?", a: ["5", "6", "7", "11"], c: 2 },
           ],
           // TECHNIK
           [
-            { q: "WOFÜR STEHT 'USB'?", a: ["UNIFIED SPEED BUS", "UNIVERSAL SERIAL BUS", "UNITED SYSTEM BACKUP", "USER SAFE BUTTON"], c: 1 },
-            { q: "WAS IST EINE 'APP'?", a: ["KABEL", "PROGRAMM/ANWENDUNG", "DRUCKER", "SPEICHERSTICK"], c: 1 },
-            { q: "WELCHER SPEICHER IST MEISTENS 'DAUERHAFT'?", a: ["RAM", "SSD/HDD", "CACHE", "REGISTER"], c: 1 },
-            { q: "WAS IST DER BESTE UNTERSCHIED: RAM vs. SSD?", a: ["RAM IST DAUERHAFT", "RAM IST FLÜCHTIG/ARBEITSSPEICHER", "SSD IST FLÜCHTIG", "KEIN UNTERSCHIED"], c: 1 },
-            { q: "WELCHES IST EIN BETRIEBSSYSTEM?", a: ["CHROME", "WINDOWS", "GOOGLE", "WLAN"], c: 1 },
+            { q: "WOFÜR STEHT 'CPU'?", a: ["CENTRAL PROCESSING UNIT", "COMPUTER POWER UPDATE", "CONTROL PROGRAM UNIT", "CORE PRINT UTILITY"], c: 0 },
+            { q: "WELCHE EINHEIT MISST SPANNUNG?", a: ["WATT", "AMPERE", "VOLT", "OHM"], c: 2 },
+            { q: "WAS IST DER UNTERSCHIED RAM vs. SSD AM BESTEN?", a: ["RAM DAUERHAFT", "RAM FLÜCHTIG/ARBEITSSPEICHER", "SSD FLÜCHTIG", "KEIN UNTERSCHIED"], c: 1 },
+            { q: "WELCHES IST EINE DATEIENDUNG FÜR EIN BILD?", a: [".mp3", ".jpg", ".exe", ".zip"], c: 1 },
+            { q: "WAS IST 'BLUETOOTH' AM EHesten?", a: ["DRUCKERSPRACHE", "FUNKVERBINDUNG KURZSTRECKE", "STROMSTECKER", "INTERNETPROTOKOLL"], c: 1 },
           ],
           // NETZ
           [
             { q: "WELCHER PORT GEHÖRT TYPISCH ZU HTTPS?", a: ["21", "80", "443", "25"], c: 2 },
             { q: "WAS MACHT DNS?", a: ["VERSCHLÜSSELN", "NAMEN IN IP AUFLÖSEN", "DATEIEN LÖSCHEN", "WLAN STÄRKEN"], c: 1 },
-            { q: "WELCHES IST EIN WEBBROWSER?", a: ["EXCEL", "CHROME", "WORD", "POWERPOINT"], c: 1 },
-            { q: "WAS IST 'PHISHING'?", a: ["UPDATE", "BETRUG DURCH FAKE-NACHRICHTEN", "BACKUP", "KABEL"], c: 1 },
+            { q: "WELCHES IST EIN WEBBROWSER?", a: ["CHROME", "EXCEL", "POWERPOINT", "SPOTIFY"], c: 0 },
+            { q: "WAS IST 'PHISHING'?", a: ["UPDATE", "BETRUG ÜBER FAKE-NACHRICHTEN", "BACKUP", "VIRUS-SCANNER"], c: 1 },
             { q: "WAS BEDEUTET 2FA?", a: ["2 FIREWALLS", "ZWEI-FAKTOR-ANMELDUNG", "2 BACKUPS", "2 PASSWÖRTER IMMER"], c: 1 },
           ],
           // LOGIK
           [
             { q: "WENN A WAHR IST UND B FALSCH: A UND B IST…", a: ["WAHR", "FALSCH", "BEIDES", "UNBEKANNT"], c: 1 },
-            { q: "WENN ALLE HUNDE TIERE SIND, DANN IST JEDER HUND EIN…", a: ["MENSCH", "TIER", "FISCH", "VOGEL"], c: 1 },
-            { q: "WAS IST DAS GEGENTEIL VON 'IMMER'?", a: ["OFT", "MANCHMAL", "NIE", "SELTEN"], c: 2 },
-            { q: "WENN P→Q UND P, DANN FOLGT…", a: ["Q", "P", "NICHT Q", "NICHT P"], c: 0 },
-            { q: "WELCHER BEGRIFF PASST ZU 'WENN…DANN…' IN DER LOGIK?", a: ["UND", "ODER", "IMPLIKATION", "NEGATION"], c: 2 },
+            { q: "WENN A FALSCH IST UND B WAHR: A ODER B IST…", a: ["WAHR", "FALSCH", "UNBEKANNT", "BEIDES"], c: 0 },
+            { q: "WELCHE ZAHL FEHLT: 3, 6, 12, 24, …", a: ["30", "36", "42", "48"], c: 3 },
+            { q: "WENN P→Q UND Q IST FALSCH, WAS FOLGT ÜBER P?", a: ["P IST WAHR", "P IST FALSCH", "P UNBEKANNT", "Q WAHR"], c: 1 },
+            { q: "WELCHES IST EIN ANAGRAMM VON 'LISTEN'?", a: ["SILENT", "TINSEL", "BEIDE", "KEINS"], c: 2 },
           ],
           // MIX
           [
-            { q: "WELCHES LAND HAT 'TOKIO' ALS HAUPTSTADT?", a: ["CHINA", "JAPAN", "KOREA", "THAILAND"], c: 1 },
-            { q: "WELCHE ZAHL IST DURCH 3 TEILBAR?", a: ["14", "21", "22", "25"], c: 1 },
-            { q: "WIE HEISST DIE WÄHRUNG IN UK?", a: ["EURO", "PFUND", "DOLLAR", "KRONE"], c: 1 },
-            { q: "WELCHES LAND LIEGT NICHT IN EUROPA?", a: ["POLEN", "ARGENTINIEN", "ITALIEN", "NORWEGEN"], c: 1 },
-            { q: "WELCHES IST EIN ANAGRAMM VON 'LISTEN'?", a: ["SILENT", "TINSEL", "BEIDE", "KEINS"], c: 2 },
+            { q: "WELCHES LAND HAT 'CANBERRA' ALS HAUPTSTADT?", a: ["KANADA", "AUSTRALIEN", "NEUSEELAND", "IRLAND"], c: 1 },
+            { q: "WELCHER PLANET IST DER SONNE AM NÄCHSTEN?", a: ["VENUS", "ERDE", "MERKUR", "MARS"], c: 2 },
+            { q: "WELCHES MEER LIEGT ZWISCHEN ITALIEN UND KROATIEN?", a: ["ADRIA", "OSTSEE", "NORDSEE", "IRISCHE SEE"], c: 0 },
+            { q: "WELCHE ZAHL IST DURCH 9 TEILBAR?", a: ["54", "56", "58", "60"], c: 0 },
+            { q: "WELCHER BEGRIFF PASST ZU 'WENN…DANN…' IN DER LOGIK?", a: ["UND", "ODER", "IMPLIKATION", "NEGATION"], c: 2 },
           ],
         ],
       };
 
     // ==================================
-    // QUIZ 3 — NATUR & ERDE (MID+)
+    // QUIZ 3 — NATUR & ERDE (harder)
     // ==================================
     case 3:
       return {
@@ -150,26 +150,26 @@ function getQuestionBank(quizId) {
           // TIERWELT
           [
             { q: "WELCHES TIER IST EIN SÄUGETIER?", a: ["FROSCH", "PENGUIN", "DELFIN", "EIDECHSE"], c: 2 },
+            { q: "WELCHES TIER HAT EIN EXOSKELETT (TYPISCH)?", a: ["HUND", "KÄFER", "WAL", "EULE"], c: 1 },
             { q: "WELCHES TIER IST EIN REPTIL?", a: ["SCHLANGE", "WAL", "SPERLING", "BIENE"], c: 0 },
-            { q: "WELCHES TIER HAT 8 BEINE?", a: ["AMEISE", "SPINNE", "WURM", "SCHNECKE"], c: 1 },
-            { q: "WELCHE TIERGRUPPE HAT IMMER FEDERN?", a: ["SÄUGETIERE", "VÖGEL", "REPTILIEN", "FISCHE"], c: 1 },
             { q: "WELCHES TIER IST BEKANNT FÜR ECHOORTUNG?", a: ["KATZE", "FLEDERMAUS", "HASE", "SCHAF"], c: 1 },
+            { q: "WELCHES TIER IST EIN 'WIEDERKÄUER'?", a: ["PFERD", "KUH", "SCHWEIN", "HUND"], c: 1 },
           ],
           // PFLANZEN
           [
             { q: "WELCHER TEIL DER PFLANZE NIMMT WASSER AUF?", a: ["BLÜTE", "WURZEL", "BLATT", "FRUCHT"], c: 1 },
             { q: "WELCHES GAS ENTSTEHT BEI DER FOTOSYNTHESE?", a: ["CO2", "O2", "N2", "H2"], c: 1 },
             { q: "WELCHES IST EIN NADELBAUM?", a: ["BIRKE", "FICHTE", "APFELBAUM", "BUCHE"], c: 1 },
-            { q: "WELCHES PFLANZENTEIL MACHT HAUPTSÄCHLICH FOTOSYNTHESE?", a: ["WURZEL", "BLATT", "SAMEN", "FRUCHT"], c: 1 },
             { q: "WELCHE PFLANZE IST EINE HÜLSENFRUCHT?", a: ["ERBSE", "WEIZEN", "APFEL", "GURKE"], c: 0 },
+            { q: "WELCHER TEIL TRANSPORTIERT WASSER IN PFLANZEN NACH OBEN (LEITGEWEBE)?", a: ["XYLEM", "PHLOEM", "CHLOROPHYLL", "NEKTAR"], c: 0 },
           ],
           // ERDE
           [
             { q: "WELCHE SCHICHT IST ÄUSSERSTE DER ERDE?", a: ["KERN", "MANTEL", "KRUSTE", "MAGMASEE"], c: 2 },
-            { q: "WAS VERURSACHT GEZEITEN?", a: ["SONNE NUR", "MONDGRAVITATION (HAUPT)", "VULKANE", "WIND"], c: 1 },
-            { q: "WELCHES IST EIN TREIBHAUSGAS?", a: ["CO2", "HELIUM", "ARGON", "NEON"], c: 0 },
-            { q: "WELCHER PROZESS FORMt FLUSSTÄLER ÜBER LANGE ZEIT?", a: ["KONDENSATION", "EROSION", "SUBLIMATION", "IONISATION"], c: 1 },
+            { q: "WAS VERURSACHT GEZEITEN HAUPTSÄCHLICH?", a: ["WIND", "MONDGRAVITATION", "VULKANE", "MAGNETFELD"], c: 1 },
+            { q: "WAS BEDEUTET 'EROSION'?", a: ["AUFBAU", "ABTRAGUNG DURCH WIND/WASSER", "VERDAMPFUNG", "VEREISUNG"], c: 1 },
             { q: "WIE HEISST DER PROZESS, BEI DEM ERDPLATTEN SICH BEWEGEN?", a: ["PLATTENTEKTONIK", "GÄRUNG", "DIFFUSION", "FOTOSYNTHESE"], c: 0 },
+            { q: "WELCHER VULKAN LIEGT IN ITALIEN (BEKANNT)?", a: ["VESUV", "FUJI", "MAUNA LOA", "KILIMANDSCHARO"], c: 0 },
           ],
           // CHEMIE
           [
@@ -177,21 +177,21 @@ function getQuestionBank(quizId) {
             { q: "WAS IST DER PH-WERT VON 'NEUTRAL'?", a: ["0", "7", "10", "14"], c: 1 },
             { q: "WELCHE REAKTION IST 'ROSTEN'?", a: ["OXIDATION", "DESTILLATION", "FILTRATION", "SUBLIMATION"], c: 0 },
             { q: "WELCHER STOFF IST TYPISCH SAUER (ZITRONE)?", a: ["AMMONIAK", "ZITRONENSÄURE", "SALZ", "NATRIUMHYDROXID"], c: 1 },
-            { q: "WELCHES IST EIN EDELGAS?", a: ["NEON", "CHLOR", "NATRIUM", "SCHWEFEL"], c: 0 },
+            { q: "WELCHES ELEMENT HAT DAS SYMBOL 'Fe'?", a: ["FLUOR", "EISEN", "FETT", "FERMIUM"], c: 1 },
           ],
           // WELTALL
           [
-            { q: "WAS IST DIE SONNE?", a: ["PLANET", "STERN", "MOND", "KOMET"], c: 1 },
             { q: "WIE HEISST UNSERE GALAXIE?", a: ["ANDROMEDA", "MILCHSTRASSE", "ORION", "PEGASUS"], c: 1 },
             { q: "WAS IST EIN 'LICHTJAHR'?", a: ["ZEIT", "ENTFERNUNG", "MASSE", "HELLIGKEIT"], c: 1 },
             { q: "WELCHER PLANET HAT RINGE (BEKANNT)?", a: ["MARS", "SATURN", "MERKUR", "VENUS"], c: 1 },
             { q: "WELCHER PLANET IST DER SONNE AM NÄCHSTEN?", a: ["MERKUR", "VENUS", "ERDE", "MARS"], c: 0 },
+            { q: "WAS IST EIN 'ASTEROID' AM EHesten?", a: ["Stern", "Kleiner Gesteinsbrocken im All", "Galaxie", "Nebel"], c: 1 },
           ],
         ],
       };
 
     // ==================================
-    // QUIZ 4 — EUROPA & DEUTSCHLAND (MID+)
+    // QUIZ 4 — EUROPA & DEUTSCHLAND (harder)
     // ==================================
     case 4:
       return {
@@ -199,99 +199,99 @@ function getQuestionBank(quizId) {
         clues: [
           // DEUTSCHLAND
           [
-            { q: "WELCHE STADT IST HAUPTSTADT DEUTSCHLANDS?", a: ["BERLIN", "HAMBURG", "MÜNCHEN", "BONN"], c: 0 },
-            { q: "WELCHER FLUSS FLIESST DURCH KÖLN?", a: ["ELBE", "RHEIN", "DONAU", "ODER"], c: 1 },
+            { q: "WELCHER FLUSS FLIESST DURCH DRESDEN?", a: ["ELBE", "RHEIN", "DONAU", "MAIN"], c: 0 },
+            { q: "WELCHE STADT IST KLASsISCH DIE 'MAIN-METROPOLE'?", a: ["FRANKFURT AM MAIN", "KÖLN", "LEIPZIG", "BREMEN"], c: 0 },
             { q: "WELCHES IST EIN BUNDESLAND?", a: ["BAYERN", "KATALONIEN", "TEXAS", "QUEBEC"], c: 0 },
-            { q: "WELCHE STADT IST FÜR EINEN GROSSEN HAFEN BEKANNT?", a: ["MÜNCHEN", "HAMBURG", "ERFURT", "AUGSBURG"], c: 1 },
-            { q: "PASSAU IST BEKANNT ALS 'DREI-FLÜSSE-STADT'. EIN FLUSS DAVON IST…", a: ["DONAU", "SEINE", "PO", "THEMSE"], c: 0 },
+            { q: "WELCHES MEER GRENZT AN SCHLESWIG-HOLSTEIN?", a: ["MITTELMEER", "OSTSEE UND NORDSEE", "SCHWARZES MEER", "KARIBIK"], c: 1 },
+            { q: "PASSAU IST 'DREI-FLÜSSE-STADT'. EIN FLUSS DAVON IST…", a: ["DONAU", "PO", "SEINE", "THEMSE"], c: 0 },
           ],
           // EUROPA
           [
-            { q: "WELCHES LAND LIEGT NICHT IN EUROPA?", a: ["SCHWEDEN", "ARGENTINIEN", "POLEN", "IRLAND"], c: 1 },
             { q: "WELCHES GEBIRGE TRENNT SPANIEN UND FRANKREICH?", a: ["ALPEN", "PYRENÄEN", "KARPATEN", "URAL"], c: 1 },
             { q: "WELCHES LAND HAT DEN EURO?", a: ["NORWEGEN", "SPANIEN", "SCHWEIZ", "UK"], c: 1 },
+            { q: "WELCHES MEER LIEGT ZWISCHEN ITALIEN UND KROATIEN?", a: ["ADRIA", "NORDSEE", "OSTSEE", "IRISCHE SEE"], c: 0 },
             { q: "WELCHES LAND HAT AMSTERDAM ALS HAUPTSTADT, ABER DEN HAAG ALS REGIERUNGSSITZ?", a: ["NIEDERLANDE", "ITALIEN", "PORTUGAL", "DÄNEMARK"], c: 0 },
-            { q: "WELCHES MEER LIEGT ZWISCHEN ITALIEN UND KROATIEN?", a: ["ADRIA", "NORDSEE", "BALTISCHE SEE", "IRISCHE SEE"], c: 0 },
+            { q: "WELCHES LAND LIEGT NICHT IN EUROPA?", a: ["POLEN", "ARGENTINIEN", "ITALIEN", "NORWEGEN"], c: 1 },
           ],
           // HAUPTSTÄDTE
           [
-            { q: "HAUPTSTADT VON FRANKREICH?", a: ["PARIS", "LYON", "MARSEILLE", "NIZZA"], c: 0 },
-            { q: "HAUPTSTADT VON ÖSTERREICH?", a: ["SALZBURG", "WIEN", "GRAZ", "INNSBRUCK"], c: 1 },
-            { q: "HAUPTSTADT VON POLEN?", a: ["KRAKAU", "WARSCHAU", "DANZIG", "POSEN"], c: 1 },
-            { q: "HAUPTSTADT VON TSCHECHIEN?", a: ["PRAG", "BRÜNN", "OSTRAVA", "PILSEN"], c: 0 },
+            { q: "HAUPTSTADT VON KANADA?", a: ["TORONTO", "OTTAWA", "MONTREAL", "VANCOUVER"], c: 1 },
             { q: "HAUPTSTADT VON SCHWEDEN?", a: ["OSLO", "STOCKHOLM", "HELSINKI", "KOPENHAGEN"], c: 1 },
+            { q: "HAUPTSTADT VON TSCHECHIEN?", a: ["PRAG", "BRÜNN", "OSTRAVA", "PILSEN"], c: 0 },
+            { q: "HAUPTSTADT VON PORTUGAL?", a: ["PORTO", "LISSABON", "BRAGA", "FARO"], c: 1 },
+            { q: "HAUPTSTADT VON UNGARN?", a: ["BUKAREST", "BUDAPEST", "SOFIA", "BELGRAD"], c: 1 },
           ],
           // SPRACHE
           [
             { q: "WELCHES WORT IST EIN VERB?", a: ["SCHÖN", "LAUFEN", "BLAU", "STUHL"], c: 1 },
-            { q: "WAS IST DAS GEGENTEIL VON 'LEISE'?", a: ["LANGSAM", "LAUT", "KALT", "HELL"], c: 1 },
-            { q: "WAS BEDEUTET 'ETYMOLOGIE'?", a: ["WORT-HERKUNFT", "RECHTSCHREIBUNG", "KURZE WÖRTER", "LAUTSTÄRKE"], c: 0 },
-            { q: "WELCHES IST EIN PALINDROM?", a: ["LAGER", "RELIEF", "ANNA", "KATZE"], c: 2 },
             { q: "WELCHE WORTART IST 'SCHNELL' IN: 'ER LÄUFT SCHNELL'?", a: ["SUBSTANTIV", "ADVERBIAL (ADJEKTIVISCH)", "VERB", "ARTIKEL"], c: 1 },
+            { q: "WAS BEDEUTET 'ETYMOLOGIE'?", a: ["WORT-HERKUNFT", "ZEITRECHNUNG", "SATZBAU", "SPRACHFEHLER"], c: 0 },
+            { q: "WELCHES IST EIN PALINDROM?", a: ["LAGER", "RELIEF", "ANNA", "KATZE"], c: 2 },
+            { q: "WELCHER BEGRIFF PASST ZU: 'WÖRTER MIT GLEICHER BEDEUTUNG'?", a: ["ANTONYM", "SYNONYM", "HOMONYM", "AKRONYM"], c: 1 },
           ],
           // KULTUR
           [
-            { q: "WER MALTE DIE 'MONA LISA'?", a: ["PICASSO", "DA VINCI", "VAN GOGH", "MONET"], c: 1 },
-            { q: "WELCHER SPORT IST TYPISCH FÜR WIMBLEDON?", a: ["FUSSBALL", "TENNIS", "GOLF", "EISHOCKEY"], c: 1 },
-            { q: "WELCHES INSTRUMENT HAT SAITEN?", a: ["TROMMEL", "GITARRE", "FLÖTE", "BECKEN"], c: 1 },
             { q: "WER KOMPONIERTE 'EINE KLEINE NACHTMUSIK'?", a: ["BACH", "MOZART", "BEETHOVEN", "CHOPIN"], c: 1 },
-            { q: "WIE HEISST EIN BÜHNENSTÜCK MIT VIEL GESANG (KLASSISCH)?", a: ["OPER", "ROMAN", "ESSAY", "REPORTAGE"], c: 0 },
+            { q: "WELCHER AUTOR SCHRIEB 'DIE VERWANDLUNG'?", a: ["KAFKA", "GOETHE", "HEINE", "MANN"], c: 0 },
+            { q: "WELCHER FILMPREIS IST US-FILM (SEHR BEKANNT)?", a: ["OSCAR", "NOBELPREIS", "GRAMMY", "TOUR DE FRANCE"], c: 0 },
+            { q: "WELCHER MALER WIRD MIT 'GUERNICA' VERBUNDEN?", a: ["PICASSO", "MONET", "VAN GOGH", "REMBRANDT"], c: 0 },
+            { q: "WELCHES IST EINE DRAMENFORM (THEATER) MIT TRAGISCHEM ENDE?", a: ["KOMÖDIE", "TRAGÖDIE", "FABEL", "SATIRE"], c: 1 },
           ],
         ],
       };
 
     // ==================================
-    // QUIZ 5 — MATHE & LOGIK (MID+)
+    // QUIZ 5 — MATHE & LOGIK (harder)
     // ==================================
     case 5:
       return {
-        categories: ["KOPFRECHNEN", "BRÜCHE", "GEOMETRIE", "LOGIK", "SCHÄTZEN"],
+        categories: ["KOPFRECHNEN", "BRÜCHE", "GEOMETRIE", "LOGIK", "MUSTER"],
         clues: [
           // KOPFRECHNEN
           [
-            { q: "WIE VIEL IST 18 + 27?", a: ["35", "45", "55", "65"], c: 1 },
-            { q: "WIE VIEL IST 12 × 8?", a: ["84", "96", "104", "112"], c: 1 },
-            { q: "WIE VIEL IST 250 ÷ 5?", a: ["25", "40", "50", "60"], c: 2 },
-            { q: "WIE VIEL IST 15% VON 200?", a: ["20", "25", "30", "35"], c: 2 },
-            { q: "WIE VIEL IST 23 × 7?", a: ["141", "149", "161", "171"], c: 2 },
+            { q: "WIE VIEL IST 27 + 48?", a: ["65", "75", "85", "95"], c: 1 },
+            { q: "WIE VIEL IST 14 × 9?", a: ["116", "126", "136", "146"], c: 1 },
+            { q: "WIE VIEL IST 360 ÷ 12?", a: ["20", "25", "30", "35"], c: 2 },
+            { q: "WIE VIEL IST 18% VON 150?", a: ["18", "24", "27", "30"], c: 2 },
+            { q: "WIE VIEL IST 19 × 17?", a: ["289", "303", "323", "361"], c: 2 }, // 323
           ],
           // BRÜCHE
           [
-            { q: "WELCHER BRUCH IST AM GRÖSSTEN?", a: ["1/2", "2/3", "3/5", "4/9"], c: 1 },
-            { q: "WAS IST 0,25 ALS BRUCH?", a: ["1/2", "1/3", "1/4", "1/5"], c: 2 },
-            { q: "WAS IST 3/4 VON 20?", a: ["12", "14", "15", "16"], c: 3 },
-            { q: "1/3 + 1/6 = ?", a: ["1/2", "2/3", "1/6", "5/6"], c: 0 },
-            { q: "WAS IST 7/8 ALS DEZIMALZAHL?", a: ["0,875", "0,78", "0,708", "0,987"], c: 0 },
+            { q: "WELCHER BRUCH IST AM GRÖSSTEN?", a: ["5/8", "2/3", "3/5", "7/12"], c: 1 }, // 0.666...
+            { q: "WAS IST 0,2 ALS BRUCH?", a: ["1/2", "1/3", "1/5", "1/8"], c: 2 },
+            { q: "WAS IST 5/6 VON 24?", a: ["18", "20", "22", "24"], c: 1 }, // 20
+            { q: "1/4 + 3/8 = ?", a: ["5/8", "1/2", "3/4", "7/8"], c: 0 },
+            { q: "WAS IST 0,375 ALS BRUCH (GEKÜRZT)?", a: ["3/8", "5/16", "7/20", "6/25"], c: 0 }, // 0.375
           ],
           // GEOMETRIE
           [
-            { q: "WIE GROSS IST DIE INNENWINKELSUMME IM DREIECK?", a: ["90°", "180°", "270°", "360°"], c: 1 },
-            { q: "UMFANG QUADRAT (SEITE 6)?", a: ["12", "18", "24", "36"], c: 2 },
-            { q: "FLÄCHE RECHTECK (5×8)?", a: ["13", "30", "40", "80"], c: 2 },
-            { q: "KREIS: DURCHMESSER 10 → RADIUS?", a: ["2", "5", "10", "20"], c: 1 },
-            { q: "WIE VIELE DIAGONALEN HAT EIN SECHSECK?", a: ["6", "9", "12", "15"], c: 1 },
+            { q: "INNENWINKELSUMME IM VIERSEIT (QUADRILATERAL)?", a: ["180°", "270°", "360°", "450°"], c: 2 },
+            { q: "UMFANG EINES KREISES: WELCHER TERM PASST?", a: ["πr²", "2πr", "r/2π", "π/2r"], c: 1 },
+            { q: "FLÄCHE DREIECK (GRUND 10, HÖHE 6)?", a: ["20", "30", "40", "60"], c: 1 }, // 30
+            { q: "WIE VIELE DIAGONALEN HAT EIN SIEBENECK?", a: ["7", "14", "21", "28"], c: 1 }, // n(n-3)/2 = 7*4/2=14
+            { q: "PYTHAGORAS: KATHETEN 6 UND 8 → HYPOTENUSE?", a: ["10", "12", "14", "16"], c: 0 },
           ],
           // LOGIK
           [
-            { q: "WENN ALLE A B SIND UND X EIN A IST, DANN IST X…", a: ["B", "NICHT B", "C", "UNBEKANNT"], c: 0 },
-            { q: "A ODER B IST NUR DANN FALSCH, WENN…", a: ["A WAHR", "B WAHR", "BEIDE FALSCH", "BEIDE WAHR"], c: 2 },
-            { q: "WELCHES IST EIN ANAGRAMM VON 'LISTEN'?", a: ["SILENT", "TINSEL", "BEIDE", "KEINS"], c: 2 },
-            { q: "WELCHE ZAHL FEHLT: 2, 4, 8, 16, …", a: ["18", "20", "24", "32"], c: 3 },
-            { q: "WENN HEUTE MONTAG IST: WAS IST IN 15 TAGEN?", a: ["MONTAG", "DIENSTAG", "MITTWOCH", "DONNERSTAG"], c: 1 },
+            { q: "WENN A WAHR UND B WAHR: A ODER B IST…", a: ["WAHR", "FALSCH", "UNBEKANNT", "BEIDES"], c: 0 },
+            { q: "WENN A WAHR UND B FALSCH: A ↔ B (ÄQUIVALENZ) IST…", a: ["WAHR", "FALSCH", "UNBEKANNT", "BEIDES"], c: 1 },
+            { q: "WAS IST DIE NEGATION VON: 'ALLE SIND PÜNKTLICH'?", a: ["NIEMAND IST PÜNKTLICH", "MINDESTENS EINER IST NICHT PÜNKTLICH", "ALLE SIND UNPÜNKTLICH", "EINER IST PÜNKTLICH"], c: 1 },
+            { q: "WELCHER SCHLUSS IST GÜLTIG? P→Q, NICHT Q, ALSO…", a: ["P", "NICHT P", "Q", "NICHT Q"], c: 1 },
+            { q: "WELCHE ZAHL FEHLT: 2, 3, 5, 8, 13, …", a: ["18", "20", "21", "22"], c: 2 }, // 21
           ],
-          // SCHÄTZEN
+          // MUSTER
           [
-            { q: "WIE VIEL IST 1/5 VON 100?", a: ["5", "10", "20", "25"], c: 2 },
-            { q: "WELCHE ZAHL LIEGT NÄHER AN 1000?", a: ["930", "860", "790", "700"], c: 0 },
-            { q: "WAS IST MEHR? 3×17 ODER 2×26", a: ["3×17", "2×26", "GLEICH", "UNMÖGLICH"], c: 1 },
-            { q: "WIE VIEL IST √81?", a: ["7", "8", "9", "10"], c: 2 },
-            { q: "WAS IST 60% VON 50?", a: ["25", "30", "35", "40"], c: 1 },
+            { q: "WELCHE ZAHL FEHLT: 100, 90, 81, 73, …", a: ["66", "65", "64", "63"], c: 0 }, // -10,-9,-8 => 73-7=66
+            { q: "WELCHE ZAHL FEHLT: 1, 4, 9, 16, …", a: ["20", "24", "25", "36"], c: 2 }, // Quadratzahlen
+            { q: "WELCHER AUSDRUCK PASST: 3·(x+2) = ?", a: ["3x+2", "3x+6", "x+6", "x+2"], c: 1 },
+            { q: "WELCHE ZAHL FEHLT: 5, 11, 23, 47, …", a: ["71", "85", "95", "99"], c: 1 }, // *2+1 => 95
+            { q: "WELCHE ZAHL FEHLT: 2, 6, 12, 20, …", a: ["24", "28", "30", "32"], c: 1 }, // n(n+1): 2,6,12,20,30
           ],
         ],
       };
 
     // ==================================
-    // QUIZ 6 — KINO, MUSIK, WELT (MID+)
+    // QUIZ 6 — KINO, MUSIK, WELT (harder)
     // ==================================
     case 6:
       return {
@@ -299,43 +299,43 @@ function getQuestionBank(quizId) {
         clues: [
           // KINO
           [
-            { q: "WIE HEISST EINE FILM-VORSCHAU?", a: ["TEASER/TRAILER", "SCORE", "CUT", "SCRIPT"], c: 0 },
-            { q: "WAS MACHT EIN REGISSEUR?", a: ["FILM LEITEN", "MUSIK KOMPOSEN", "LICHT MESSEN", "KARTEN DRUCKEN"], c: 0 },
+            { q: "WIE HEISST DER FACHBEGRIFF FÜR FILM-VORSCHAU?", a: ["TRAILER", "SCORE", "CUT", "SCRIPT"], c: 0 },
+            { q: "WAS MACHT EIN 'KAMERAMANN' (AM BESTEN)?", a: ["SCHNITT", "BILD/AUFNAHME", "TONMISCHUNG", "KOSTÜM"], c: 1 },
             { q: "WAS IST EIN 'SEQUEL'?", a: ["FORTSETZUNG", "VORSCHAU", "NEBENROLLE", "DREHBUCH"], c: 0 },
-            { q: "WAS IST EIN 'CAMEO'?", a: ["KURZER GASTAUFTRITT", "LAUTES LIED", "FILMTRICK", "KAMERAART"], c: 0 },
-            { q: "WELCHER PREIS IST FÜR FILME SEHR BEKANNT?", a: ["OSCAR", "GRAMMY", "BALLON D’OR", "FIFA"], c: 0 },
+            { q: "WAS IST EIN 'CAMEO'?", a: ["KURZER GASTAUFTRITT", "SPECIAL EFFECT", "DREHBUCHVERSION", "SOUNDTRACK"], c: 0 },
+            { q: "WELCHER PREIS IST VOR ALLEM FÜR FILME BERÜHMT?", a: ["OSCAR", "GRAMMY", "BALLON D’OR", "NOBELPREIS"], c: 0 },
           ],
           // MUSIK
           [
-            { q: "WIE HEISST DIE WIEDERHOLUNG IM LIED?", a: ["STROPHE", "REFRAIN", "BRIDGE", "OUTRO"], c: 1 },
-            { q: "WELCHES INSTRUMENT HAT 88 TASTEN (STANDARD)?", a: ["KLAVIER", "GITARRE", "FLÖTE", "TROMMEL"], c: 0 },
-            { q: "WAS BEDEUTET 'DUETT'?", a: ["ZWEI SINGEN/SPIELEN", "DREI", "VIER", "ALLEIN"], c: 0 },
-            { q: "WIE HEISST DAS 'NOTENBILD' MIT 5 LINIEN?", a: ["TABULATUR", "NOTENSYSTEM", "REFRAIN", "TAKTART"], c: 1 },
+            { q: "WAS BEDEUTET 'TEMPO' IN DER MUSIK?", a: ["LAUTSTÄRKE", "GESCHWINDIGKEIT", "TONHÖHE", "INSTRUMENT"], c: 1 },
+            { q: "WELCHES INSTRUMENT HAT TASTEN UND SAITEN (MECHANISCH)?", a: ["KLAVIER", "TROMPETE", "FLÖTE", "DRUMS"], c: 0 },
+            { q: "WAS IST EIN 'DUETT'?", a: ["ZWEI MUSIKER", "DREI MUSIKER", "EIN SOLO", "EIN CHOR"], c: 0 },
+            { q: "WELCHER BEGRIFF PASST ZU: 'NOTENBILD MIT 5 LINIEN'?", a: ["TABULATUR", "NOTENSYSTEM", "REFRAIN", "TAKTART"], c: 1 },
             { q: "WER KOMPONIERTE 'FÜR ELISE'?", a: ["MOZART", "BEETHOVEN", "BACH", "VIVALDI"], c: 1 },
           ],
           // REKORDE
           [
-            { q: "WELCHER IST DER HÖCHSTE BERG DER ERDE?", a: ["K2", "EVEREST", "MONT BLANC", "KILIMANDSCHARO"], c: 1 },
-            { q: "WELCHES IST DAS GRÖSSTE LAND (FLÄCHE)?", a: ["KANADA", "USA", "CHINA", "RUSSLAND"], c: 3 },
             { q: "WELCHER OZEAN IST DER GRÖSSTE?", a: ["ATLANTIK", "PAZIFIK", "INDISCHER", "ARKTISCHER"], c: 1 },
-            { q: "WELCHES TIER IST DAS GRÖSSTE?", a: ["ELEFANT", "BLAUWAL", "GIRAFFE", "HAI"], c: 1 },
-            { q: "WELCHER FLUSS GILT KLASSISCH ALS DER LÄNGSTE DER ERDE?", a: ["AMAZONAS", "NIL", "MISSISSIPPI", "JANGTSE"], c: 1 },
+            { q: "WELCHES LAND IST FLÄCHENMÄSSIG AM GRÖSSTEN?", a: ["KANADA", "USA", "CHINA", "RUSSLAND"], c: 3 },
+            { q: "WELCHER IST DER HÖCHSTE BERG DER ERDE?", a: ["K2", "EVEREST", "MONT BLANC", "KILIMANDSCHARO"], c: 1 },
+            { q: "WELCHE WÜSTE IST DIE GRÖSSTE HEISSE WÜSTE?", a: ["GOBI", "SAHARA", "ATACAMA", "KALAHARI"], c: 1 },
+            { q: "WELCHER FLUSS GILT KLASSISCH ALS 'LÄNGSTER' DER ERDE?", a: ["AMAZONAS", "NIL", "MISSISSIPPI", "JANGTSE"], c: 1 },
           ],
           // WELT
           [
             { q: "WELCHE STADT IST HAUPTSTADT VON JAPAN?", a: ["OSAKA", "TOKIO", "KYOTO", "NAGOYA"], c: 1 },
             { q: "WELCHE STADT IST HAUPTSTADT DER USA?", a: ["NEW YORK", "WASHINGTON, D.C.", "LOS ANGELES", "CHICAGO"], c: 1 },
-            { q: "WELCHE WÄHRUNG HAT UK?", a: ["EURO", "PFUND", "DOLLAR", "KRONE"], c: 1 },
-            { q: "WELCHES LAND HAT DIE HAUPTSTADT 'CANBERRA'?", a: ["NEUSEELAND", "AUSTRALIEN", "KANADA", "SÜDAFRIKA"], c: 1 },
             { q: "WELCHES LAND HAT DIE HAUPTSTADT 'OTTAWA'?", a: ["USA", "KANADA", "AUSTRALIEN", "IRLAND"], c: 1 },
+            { q: "WELCHES LAND HAT DIE HAUPTSTADT 'CANBERRA'?", a: ["NEUSEELAND", "AUSTRALIEN", "KANADA", "SÜDAFRIKA"], c: 1 },
+            { q: "WELCHE WÄHRUNG HAT JAPAN?", a: ["WON", "YEN", "YUAN", "DOLLAR"], c: 1 },
           ],
           // SPRACHE
           [
-            { q: "WAS IST EIN SYNONYM FÜR 'SCHWIERIG'?", a: ["LEICHT", "KOMPLIZIERT", "KLEIN", "HELL"], c: 1 },
-            { q: "WAS IST DAS GEGENTEIL VON 'FRÜH'?", a: ["SPÄT", "NAH", "LANG", "KURZ"], c: 0 },
-            { q: "WELCHES WORT IST EIN ADJEKTIV?", a: ["SCHNELL", "STUHL", "TRINKEN", "HUND"], c: 0 },
-            { q: "WAS BEDEUTET 'ETYMOLOGIE'?", a: ["WORT-HERKUNFT", "RECHTSCHREIBUNG", "KURZE WÖRTER", "LAUTSTÄRKE"], c: 0 },
-            { q: "WELCHES IST EIN PALINDROM?", a: ["LAGER", "RELIEF", "ANNA", "KATZE"], c: 2 },
+            { q: "WAS IST EIN SYNONYM FÜR 'PRÄZISE'?", a: ["GENAU", "SCHARF", "LEISE", "SATT"], c: 0 },
+            { q: "WELCHES IST EIN ANTONYM ZU 'OPTIMISTISCH'?", a: ["REALISTISCH", "PESSIMISTISCH", "MOTIVIERT", "FRÖHLICH"], c: 1 },
+            { q: "WAS BEDEUTET 'IRONIE' AM EHesten?", a: ["WÖRTLICHES MEINEN", "DAS GEGENTEIL MEINEN (STILMITTEL)", "REIM", "AUFZÄHLUNG"], c: 1 },
+            { q: "WELCHES WORT IST EIN PARTIZIP II?", a: ["LAUFEN", "GELAUFEN", "LAUFEND", "LAUF"], c: 1 },
+            { q: "WELCHER BEGRIFF PASST ZU 'WÖRTER, DIE GLEICH KLINGEN, ABER ANDERES BEDEUTEN'?", a: ["SYNONYME", "HOMOPHONE", "ANTONYME", "METAPHERN"], c: 1 },
           ],
         ],
       };
@@ -350,7 +350,6 @@ function getQuestionBank(quizId) {
   }
 }
 
-// Optionaler Hook für spätere kleine Fixes
 function getQuestionBankFixed(quizId) {
   return getQuestionBank(quizId);
 }
@@ -387,10 +386,9 @@ function init() {
   }
 
   let current = null; // {cat,row,value,clue}
-
   function keyFor(cat, row) { return `${cat}-${row}`; }
 
-  // --- Team UI in HUD einbauen (falls nicht vorhanden) ---
+  // --- Team UI in HUD einbauen ---
   const teamWrap = document.createElement("div");
   teamWrap.style.display = "flex";
   teamWrap.style.gap = "8px";
@@ -442,7 +440,6 @@ function init() {
     boardEl.innerHTML = "";
     boardEl.style.setProperty("--cols", String(bank.categories.length));
 
-    // Kategorie Header
     bank.categories.forEach(name => {
       const h = document.createElement("div");
       h.className = "cat";
@@ -450,7 +447,6 @@ function init() {
       boardEl.appendChild(h);
     });
 
-    // 5 Reihen
     for (let row = 0; row < 5; row++) {
       for (let cat = 0; cat < bank.categories.length; cat++) {
         const btn = document.createElement("button");
@@ -567,7 +563,7 @@ function init() {
     }
   });
 
-  // X schließt Modal zuverlässig
+  // X schließt Modal
   closeModalBtn.addEventListener("click", (e) => {
     e.preventDefault();
     if (modal.open) modal.close();
