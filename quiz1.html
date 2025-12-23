@@ -1,287 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="javascript.js"></script>
-    <title>Quiz</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz 1</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
+  <header class="header">
+    <a class="back" href="index.html">← Zur Startseite</a>
+    <h1>Quiz 1</h1>
+    <p>Allgemeinwissen</p>
+  </header>
 
-<body onclick="resetPointsDisplay()">
+  <main class="container">
+    <section class="quiz" data-quiz="1">
+      <div class="topline">
+        <div id="progress" class="pill">Frage 1/10</div>
+        <div id="score" class="pill">Score: 0</div>
+      </div>
 
-    <div id="menu">
-        <ul>
-            <li onclick="showHomePage()">Startseite</li>
-            <li onclick="showQuizPage(1)">Quiz 1</li>
-            <li onclick="showQuizPage(2)">Quiz 2</li>
-            <li onclick="showQuizPage(3)">Quiz 3</li>
-            <li onclick="showQuizPage(4)">Quiz 4</li>
-            <li onclick="showwahroderfalsch()">Wahr oder Falsch</li>
-            <li onclick="showSchätzfragen()">Schätzfrage</li>
-            <li onclick="showImpressum()">Impressum</li>
-        </ul>
-    </div>
+      <h2 id="question" class="question">Lade Frage…</h2>
 
-    <div id="menu-toggle" onclick="toggleMenu()">☰</div>
+      <div id="answers" class="answers"></div>
 
-    <div id="header" class="quiz">
+      <div class="actions">
+        <button id="nextBtn" class="btn" type="button" disabled>Nächste</button>
+        <button id="resetBtn" class="btn btn-ghost" type="button">Zurücksetzen</button>
+      </div>
 
-    </div>
+      <div id="result" class="result" aria-live="polite"></div>
+    </section>
+  </main>
 
-    <div id="question1" class="question" onclick="toggleQuestion(1)">
-        <div class="question-container">
-            <h2>Frage 1</h2>
-            <p>Wie heißt die Schauspielerin die in der Rolle der "Herminone Granger" in den "Harry Potter" Filmen zu sehen war?</p>
-            <button class="solution-button" onclick="showSolution(1)" id="solutionButton1">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question2" class="question" onclick="toggleQuestion(2)">
-        <div class="question-container">
-            <h2>Frage 2</h2>
-            <p>Wie heißt die Serie, in der eine Gruppe von Überlebenden versucht, sich in einwe postapokalyptischen Welt zurecht zufinden, die von Zombies überrant wurde?</p>
-            <button class="solution-button" onclick="showSolution(2)" id="solutionButton2">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question3" class="question" onclick="toggleQuestion(3)">
-        <div class="question-container">
-            <h2>Frage 3</h2>
-            <p>Wie heißt die erfolgreiche Serie, in der ein Kleinstadtjunge plötzlich verschwindet und seine Freunde auf der suche nach ihm sind?</p>
-            <button class="solution-button" onclick="showSolution(3)" id="solutionButton3">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question4" class="question" onclick="toggleQuestion(4)">
-        <div class="question-container">
-            <h2>Frage 4</h2>
-            <p>Wer ist der Regisseur von Filmen wie Interstellar, Inception und The Dark Knight?</p>
-            <button class="solution-button" onclick="showSolution(4)" id="solutionButton4">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question5" class="question" onclick="toggleQuestion(5)">
-        <div class="question-container">
-            <h2>Frage 5</h2>
-            <p>Welcher Film gewann den Oscart für den besten Film im Jahr 2023?</p>
-            <button class="solution-button" onclick="showSolution(5)" id="solutionButton5">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question6" class="question" onclick="toggleQuestion(6)">
-        <div class="question-container">
-            <h2>Frage 1</h2>
-            <p>Was ist das Verb im folgenden Satz "Die Katze schläft auf dem Sofa"?</p>
-            <button class="solution-button" onclick="showSolution(6)" id="solutionButton6">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question7" class="question" onclick="toggleQuestion(7)">
-        <div class="question-container">
-            <h2>Frage 2</h2>
-            <p>Was sind die vier Fälle im Deutschen?</p>
-            <button class="solution-button" onclick="showSolution(7)" id="solutionButton7">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question8" class="question" onclick="toggleQuestion(8)">
-        <div class="question-container">
-            <h2>Frage 3</h2>
-            <p>Was ist ein Umlaut in der deutschen Sprache?</p>
-            <button class="solution-button" onclick="showSolution(8)" id="solutionButton8">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question9" class="question" onclick="toggleQuestion(9)">
-        <div class="question-container">
-            <h2>Frage 4</h2>
-            <p>Was ist der Plural von Visum?</p>
-            <button class="solution-button" onclick="showSolution(9)" id="solutionButton9">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question10" class="question" onclick="toggleQuestion(10)">
-        <div class="question-container">
-            <h2>Frage 5</h2>
-            <p>Was ist die meistgesprochene Sprache der Welt?</p>
-            <button class="solution-button" onclick="showSolution(10)" id="solutionButton10">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question11" class="question" onclick="toggleQuestion(11)">
-        <div class="question-container">
-            <h2>Frage 1</h2>
-            <p>Morgens halb Zehn in Deutschland</p>
-            <button class="solution-button" onclick="showSolution(11)" id="solutionButton11">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question12" class="question" onclick="toggleQuestion(12)">
-        <div class="question-container">
-            <h2>Frage 2</h2>
-            <p>...- Ich bin doch nicht Blöd.</p>
-            <button class="solution-button" onclick="showSolution(12)" id="solutionButton12">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question13" class="question" onclick="toggleQuestion(13)">
-        <div class="question-container">
-            <h2>Frage 3</h2>
-            <p>Guten Freunden gibt man ein Küsschen.</p>
-            <button class="solution-button" onclick="showSolution(13)" id="solutionButton13">Lösung anzeigen</button>
-        </div>
-    </div>
-
-    <div id="question14" class="question" onclick="toggleQuestion(14)">
-        <div class="question-container">
-            <h2>Frage 4</h2>
-            <p>Quadratisch. Praktisch. Gut.</p>
-            <button class="solution-button" onclick="showSolution(14)" id="solutionButton14">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question15" class="question" onclick="toggleQuestion(15)">
-        <div class="question-container">
-            <h2>Frage 5</h2>
-            <p>Dafür steh ich mit meinem Namen.</p>
-            <button class="solution-button" onclick="showSolution(15)" id="solutionButton15">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question16" class="question" onclick="toggleQuestion(16)">
-        <div class="question-container">
-            <h2>Frage 1</h2>
-            <p>Welches Unternehmen stellt die Smartphones mit dem Apfel-Logo her?</p>
-            <button class="solution-button" onclick="showSolution(16)" id="solutionButton16">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question17" class="question" onclick="toggleQuestion(17)">
-        <div class="question-container">
-            <h2>Frage 2</h2>
-            <p>Welches Unternehmen produzierte die Spielekonsole "X-Box"?</p>
-            <button class="solution-button" onclick="showSolution(17)" id="solutionButton17">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question18" class="question" onclick="toggleQuestion(18)">
-        <div class="question-container">
-            <h2>Frage 3</h2>
-            <p>Welche Marke ist bekannt für ihre Roten Solen bei Schuhen?</p>
-            <button class="solution-button" onclick="showSolution(18)" id="solutionButton18">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question19" class="question" onclick="toggleQuestion(19)">
-        <div class="question-container">
-            <h2>Frage 4</h2>
-            <p>Wie viele Menschen sind auf Insagram angemeldet(+-400Mio)?</p>
-            <button class="solution-button" onclick="showSolution(19)" id="solutionButton19">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question20" class="question" onclick="toggleQuestion(20)">
-        <div class="question-container">
-            <h2>Frage 5</h2>
-            <p>In Welchem Jahr wurde Youtube gegründet?</p>
-            <button class="solution-button" onclick="showSolution(20)" id="solutionButton20">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question21" class="question" onclick="toggleQuestion(21)">
-        <div class="question-container">
-            <h2>Frage 1</h2>
-            <p>Welcher Konflikt dauerte von 1914 bis 1918 und wird oft als der Erste Weltkrieg bezeichnet?</p>
-            <button class="solution-button" onclick="showSolution(21)" id="solutionButton21">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question22" class="question" onclick="toggleQuestion(22)">
-        <div class="question-container">
-            <h2>Frage 2</h2>
-            <p>Wer war der ägyptische Pharao, der die berühmten Pyramiden von Gizeh in Auftrag gab?</p>
-            <button class="solution-button" onclick="showSolution(22)" id="solutionButton22">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question23" class="question" onclick="toggleQuestion(23)">
-        <div class="question-container">
-            <h2>Frage 3</h2>
-            <p>Welcher legendäre Wikinger war der erste europäische Entdecker, der Nordamerika erreichte, lange bevor Kolumbus es tat?</p>
-            <button class="solution-button" onclick="showSolution(23)" id="solutionButton23">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question24" class="question" onclick="toggleQuestion(24)">
-        <div class="question-container">
-            <h2>Frage 4</h2>
-            <p>In welchem Jahr wurde die Berliner Mauer errichtet, um Ost- und West-Berlin zu trennen?</p>
-            <button class="solution-button" onclick="showSolution(24)" id="solutionButton24">Lösung anzeigen</button>
-        </div>
-    </div>
-    
-    <div id="question25" class="question" onclick="toggleQuestion(25)">
-        <div class="question-container">
-            <h2>Frage 5</h2>
-            <p>Wer war der Anführer der südafrikanischen Anti-Apartheid-Bewegung und wurde später der erste schwarze Präsident Südafrikas?</p>
-            <button class="solution-button" onclick="showSolution(25)" id="solutionButton25">Lösung anzeigen</button>
-        </div>
-    </div>
-
-
-    <div id="pointsDisplay" class="points-container">
-        <div class="category">
-            <div class="category-title">Filme & Serien</div>
-            <div class="points" onclick="toggleQuestion(1)" id="pointsButton1">100 Punkte</div>
-            <div class="points" onclick="toggleQuestion(2)" id="pointsButton2">200 Punkte</div>
-            <div class="points" onclick="toggleQuestion(3)" id="pointsButton3">300 Punkte</div>
-            <div class="points" onclick="toggleQuestion(4)" id="pointsButton4">400 Punkte</div>
-            <div class="points" onclick="toggleQuestion(5)" id="pointsButton5">500 Punkte</div>
-        </div>
-
-        <!-- Nächste Kategorie -->
-        <div class="category">
-            <div class="category-title">Sprache und Grammatik</div>
-            <div class="points" onclick="toggleQuestion(6)" id="pointsButton6">100 Punkte</div>
-            <div class="points" onclick="toggleQuestion(7)" id="pointsButton7">200 Punkte</div>
-            <div class="points" onclick="toggleQuestion(8)" id="pointsButton8">300 Punkte</div>
-            <div class="points" onclick="toggleQuestion(9)" id="pointsButton9">400 Punkte</div>
-            <div class="points" onclick="toggleQuestion(10)" id="pointsButton10">500 Punkte</div>
-        </div>
-
-        <!-- Nächste Kategorie -->
-        <div class="category">
-            <div class="category-title">Die Welt der Werbung</div>
-            <div class="points" onclick="toggleQuestion(11)" id="pointsButton11">100 Punkte</div>
-            <div class="points" onclick="toggleQuestion(12)" id="pointsButton12">200 Punkte</div>
-            <div class="points" onclick="toggleQuestion(13)" id="pointsButton13">300 Punkte</div>
-            <div class="points" onclick="toggleQuestion(14)" id="pointsButton14">400 Punkte</div>
-            <div class="points" onclick="toggleQuestion(15)" id="pointsButton15">500 Punkte</div>
-        </div>
-
-        <!-- Nächste Kategorie -->
-        <div class="category">
-            <div class="category-title">Brands</div>
-            <div class="points" onclick="toggleQuestion(16)" id="pointsButton16">100 Punkte</div>
-            <div class="points" onclick="toggleQuestion(17)" id="pointsButton17">200 Punkte</div>
-            <div class="points" onclick="toggleQuestion(18)" id="pointsButton18">300 Punkte</div>
-            <div class="points" onclick="toggleQuestion(19)" id="pointsButton19">400 Punkte</div>
-            <div class="points" onclick="toggleQuestion(20)" id="pointsButton20">500 Punkte</div>
-        </div>
-
-        <!-- Zusätzliche Kategorie -->
-        <div class="category">
-            <div class="category-title">früher war alles besser</div>
-            <div class="points" onclick="toggleQuestion(21)" id="pointsButton21">100 Punkte</div>
-            <div class="points" onclick="toggleQuestion(22)" id="pointsButton22">200 Punkte</div>
-            <div class="points" onclick="toggleQuestion(23)" id="pointsButton23">300 Punkte</div>
-            <div class="points" onclick="toggleQuestion(24)" id="pointsButton24">400 Punkte</div>
-            <div class="points" onclick="toggleQuestion(25)" id="pointsButton25">500 Punkte</div>
-        </div>
-    </div>
-
+  <script src="javascript.js"></script>
 </body>
-
 </html>
