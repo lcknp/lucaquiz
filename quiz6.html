@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz 6</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <a class="back" href="index.html">← Zur Startseite</a>
+    <h1>Quiz 6</h1>
+    <p>Logik & Mathe</p>
+  </header>
+
+  <main class="container">
+    <section class="quiz" data-quiz="6">
+      <div class="topline">
+        <div id="progress" class="pill">Frage 1/10</div>
+        <div id="score" class="pill">Score: 0</div>
+      </div>
+
+      <h2 id="question" class="question">Lade Frage…</h2>
+      <div id="answers" class="answers"></div>
+
+      <div class="actions">
+        <button id="nextBtn" class="btn" type="button" disabled>Nächste</button>
+        <button id="resetBtn" class="btn btn-ghost" type="button">Zurücksetzen</button>
+      </div>
+
+      <div id="result" class="result" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="javascript.js"></script>
+</body>
+</html>
