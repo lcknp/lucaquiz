@@ -3,34 +3,48 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quiz 6</title>
+  <title>Quiz 6 – Jeopardy</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="header">
-    <a class="back" href="index.html">← Zur Startseite</a>
-    <h1>Quiz 6</h1>
-    <p>Logik & Mathe</p>
+  <header class="topbar">
+    <a class="backLink" href="index.html">← START</a>
+    <div>
+      <h1 class="brand">QUIZ 6</h1>
+      <p class="sub">Jeopardy Board (200–1000)</p>
+    </div>
   </header>
 
-  <main class="container">
-    <section class="quiz" data-quiz="6">
-      <div class="topline">
-        <div id="progress" class="pill">Frage 1/10</div>
-        <div id="score" class="pill">Score: 0</div>
+  <main class="wrap">
+    <section class="game" data-quiz="6">
+      <div class="hud">
+        <div id="score" class="scoreBox">SCORE: 0</div>
+        <button id="resetBtn" class="hudBtn" type="button">RESET</button>
       </div>
 
-      <h2 id="question" class="question">Lade Frage…</h2>
-      <div id="answers" class="answers"></div>
+      <div id="board" class="board" aria-label="Jeopardy Board"></div>
 
-      <div class="actions">
-        <button id="nextBtn" class="btn" type="button" disabled>Nächste</button>
-        <button id="resetBtn" class="btn btn-ghost" type="button">Zurücksetzen</button>
-      </div>
-
-      <div id="result" class="result" aria-live="polite"></div>
+      <div id="status" class="status" aria-live="polite"></div>
     </section>
   </main>
+
+  <dialog id="qModal" class="modal">
+    <div class="modalInner">
+      <div class="modalTop">
+        <div id="modalMeta" class="modalMeta">KATEGORIE • 200</div>
+        <button id="closeModalBtn" class="xBtn" type="button" aria-label="Schließen">✕</button>
+      </div>
+
+      <div id="modalQuestion" class="modalQ">Frage…</div>
+      <div id="modalAnswers" class="modalAnswers"></div>
+
+      <div class="modalBottom">
+        <button id="submitBtn" class="bigBtn" type="button" disabled>ANTWORT BESTÄTIGEN</button>
+      </div>
+
+      <div id="modalFeedback" class="modalFeedback" aria-live="polite"></div>
+    </div>
+  </dialog>
 
   <script src="javascript.js"></script>
 </body>
