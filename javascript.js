@@ -1,309 +1,270 @@
-// Funktionen für Quiz Seiten
+// LucaQuiz – einfache Quiz-Engine (6 Quizzes á 10 Fragen)
 
-function toggleQuestion(questionNumber) {
-    var question = document.getElementById('question' + questionNumber);
-    question.classList.toggle('active');
+const QUIZZES = {
+  1: {
+    title: "Allgemeinwissen",
+    questions: [
+      { q: "Wie viele Kontinente gibt es?", a: ["5", "6", "7", "8"], c: 2 },
+      { q: "Welches Tier ist das größte an Land lebende Säugetier?", a: ["Afrikanischer Elefant", "Giraffe", "Nashorn", "Nilpferd"], c: 0 },
+      { q: "Welche Farbe entsteht aus Blau und Gelb?", a: ["Lila", "Grün", "Orange", "Türkis"], c: 1 },
+      { q: "Wie heißt die Währung in Japan?", a: ["Won", "Yen", "Yuan", "Rupie"], c: 1 },
+      { q: "Welche Sprache hat die meisten Muttersprachler weltweit?", a: ["Englisch", "Spanisch", "Mandarin (Chinesisch)", "Hindi"], c: 2 },
+      { q: "Wie viele Minuten hat eine Stunde?", a: ["50", "55", "60", "65"], c: 2 },
+      { q: "Was ist die Hauptstadt von Italien?", a: ["Mailand", "Rom", "Neapel", "Florenz"], c: 1 },
+      { q: "Welcher Planet ist der Sonne am nächsten?", a: ["Merkur", "Venus", "Erde", "Mars"], c: 0 },
+      { q: "Wofür steht die Abkürzung 'WWW'?", a: ["World Wide Web", "World Web Wide", "Web World Wide", "Wide World Web"], c: 0 },
+      { q: "Welches Element hat das chemische Symbol O?", a: ["Gold", "Osmium", "Sauerstoff", "Zinn"], c: 2 },
+    ],
+  },
+  2: {
+    title: "Wissenschaft & Technik",
+    questions: [
+      { q: "Wie heißt der Prozess, bei dem Pflanzen Lichtenergie in chemische Energie umwandeln?", a: ["Fermentation", "Fotosynthese", "Oxidation", "Destillation"], c: 1 },
+      { q: "Welche Einheit misst elektrische Spannung?", a: ["Ampere", "Volt", "Ohm", "Watt"], c: 1 },
+      { q: "Wie viele DNA-Stränge bilden die klassische Doppelhelix?", a: ["1", "2", "3", "4"], c: 1 },
+      { q: "Was ist die häufigste Gas-Komponente der Erdatmosphäre?", a: ["Sauerstoff", "Kohlendioxid", "Stickstoff", "Argon"], c: 2 },
+      { q: "Welche Teilchen tragen eine negative elektrische Ladung?", a: ["Protonen", "Neutronen", "Elektronen", "Photonen"], c: 2 },
+      { q: "Wie lautet die Formel für Wasser?", a: ["CO2", "H2O", "NaCl", "O2"], c: 1 },
+      { q: "Welche dieser Größen ist eine SI-Basiseinheit?", a: ["Newton", "Joule", "Kelvin", "Pascal"], c: 2 },
+      { q: "Was beschreibt 'Mooresches Gesetz' grob?", a: ["Internet-Geschwindigkeit verdoppelt sich jährlich", "Anzahl Transistoren auf Chips wächst regelmäßig", "Akkukapazität steigt linear", "Bildschirmgrößen werden kleiner"], c: 1 },
+      { q: "Welche Farbe hat eine Flamme bei vollständiger Verbrennung von Methan typischerweise?", a: ["Blau", "Grün", "Rot", "Violett"], c: 0 },
+      { q: "Wie heißt die kleinste Informationseinheit in der digitalen Technik?", a: ["Byte", "Bit", "Pixel", "Tick"], c: 1 },
+    ],
+  },
+  3: {
+    title: "Geografie",
+    questions: [
+      { q: "Welcher Ozean liegt zwischen Afrika und Australien?", a: ["Atlantik", "Pazifik", "Indischer Ozean", "Arktischer Ozean"], c: 2 },
+      { q: "Welche Hauptstadt liegt an der Themse?", a: ["Dublin", "London", "Edinburgh", "Cardiff"], c: 1 },
+      { q: "Welches Land hat die größte Fläche?", a: ["Kanada", "China", "USA", "Russland"], c: 3 },
+      { q: "Wie heißt der längste Fluss der Welt (je nach Quelle Nile/Amazonas umstritten, hier klassische Antwort)?", a: ["Amazonas", "Nil", "Jangtse", "Mississippi"], c: 1 },
+      { q: "Welche Stadt ist die Hauptstadt von Australien?", a: ["Sydney", "Melbourne", "Canberra", "Perth"], c: 2 },
+      { q: "Der Mont Blanc liegt in/nahe welchem Gebirge?", a: ["Pyrenäen", "Alpen", "Karpaten", "Appalachen"], c: 1 },
+      { q: "Welche Wüste ist die größte heiße Wüste der Erde?", a: ["Gobi", "Sahara", "Kalahari", "Atacama"], c: 1 },
+      { q: "Welches Meer trennt Europa und Afrika an der Straße von Gibraltar?", a: ["Schwarzes Meer", "Rotes Meer", "Mittelmeer", "Nordsee"], c: 2 },
+      { q: "Welche dieser Länder liegen in Skandinavien?", a: ["Spanien", "Schweden", "Italien", "Polen"], c: 1 },
+      { q: "Wie heißt der höchste Berg der Erde (über Meeresspiegel)?", a: ["K2", "Mount Everest", "Kangchenjunga", "Makalu"], c: 1 },
+    ],
+  },
+  4: {
+    title: "Geschichte",
+    questions: [
+      { q: "In welchem Jahr fiel die Berliner Mauer?", a: ["1987", "1989", "1991", "1993"], c: 1 },
+      { q: "Wer war der erste Mensch auf dem Mond?", a: ["Buzz Aldrin", "Yuri Gagarin", "Neil Armstrong", "Michael Collins"], c: 2 },
+      { q: "Welche Epoche folgte in Europa auf das Mittelalter?", a: ["Steinzeit", "Renaissance", "Bronzezeit", "Barock"], c: 1 },
+      { q: "Welche antike Stadt wurde durch den Ausbruch des Vesuvs 79 n. Chr. verschüttet?", a: ["Athen", "Karthago", "Pompeji", "Sparta"], c: 2 },
+      { q: "Wer war Königin von England im Zeitalter der 'spanischen Armada' (1588)?", a: ["Elisabeth I.", "Victoria", "Anne", "Mary I."], c: 0 },
+      { q: "Wie hieß das politische System der Sowjetunion?", a: ["Feudalismus", "Kommunismus", "Merkantilismus", "Anarchismus"], c: 1 },
+      { q: "Die Französische Revolution begann in welchem Jahr?", a: ["1776", "1789", "1815", "1848"], c: 1 },
+      { q: "Welche Schrift gilt als eine der frühesten bekannten Schriftsysteme?", a: ["Runen", "Hieroglyphen", "Keilschrift", "Kyrillisch"], c: 2 },
+      { q: "Welches Reich baute das berühmte Straßennetz in Europa aus (z. B. Via Appia)?", a: ["Römisches Reich", "Persisches Reich", "Ägyptisches Reich", "Maya-Reich"], c: 0 },
+      { q: "Was war die 'Seidenstraße' hauptsächlich?", a: ["Eine Religion", "Ein Handelswegenetz", "Ein Militärbündnis", "Ein Fluss"], c: 1 },
+    ],
+  },
+  5: {
+    title: "Kultur",
+    questions: [
+      { q: "Wer schrieb 'Faust'?", a: ["Goethe", "Schiller", "Kafka", "Brecht"], c: 0 },
+      { q: "Welche Kunstform besteht aus gefalteten Papierfiguren?", a: ["Graffiti", "Origami", "Mosaik", "Kalligraphie"], c: 1 },
+      { q: "Wie heißt das bekannteste Museum in Paris?", a: ["Prado", "Louvre", "Uffizien", "Tate Modern"], c: 1 },
+      { q: "Welche Instrumentengruppe gehört die Violine an?", a: ["Blasinstrumente", "Schlaginstrumente", "Streichinstrumente", "Tasteninstrumente"], c: 2 },
+      { q: "Was ist ein 'Haiku'?", a: ["Japanisches Kurzgedicht", "Tanzstil", "Musikrichtung", "Maltechnik"], c: 0 },
+      { q: "Welcher Film zeigt einen Ring, der zerstört werden muss?", a: ["Star Wars", "Der Herr der Ringe", "Harry Potter", "Matrix"], c: 1 },
+      { q: "Wie nennt man eine sehr große Orchesterbesetzung mit Chor und Solisten in klassischer Musik oft?", a: ["Sonate", "Sinfonie", "Oper", "Fuge"], c: 2 },
+      { q: "Welche dieser Figuren stammt aus der griechischen Mythologie?", a: ["Thor", "Herkules", "Anubis", "Odin"], c: 1 },
+      { q: "Was bedeutet 'Ballett' am ehesten?", a: ["Erzähltheater", "Kampfsport", "Tanztheater", "Stand-up-Comedy"], c: 2 },
+      { q: "Wie heißt das meistverbreitete Notationssystem für Musik in Europa?", a: ["Tabulatur", "Neumen", "Fünfliniensystem", "Akkordsymbole"], c: 2 },
+    ],
+  },
+  6: {
+    title: "Logik & Mathe",
+    questions: [
+      { q: "Wie viel ist 12 × 12?", a: ["124", "144", "156", "132"], c: 1 },
+      { q: "Welche Zahl ist eine Primzahl?", a: ["21", "27", "29", "33"], c: 2 },
+      { q: "Wenn A = 3 und B = 5, wie viel ist A + 2B?", a: ["11", "13", "15", "17"], c: 1 },
+      { q: "Wie viele Ecken hat ein Hexagon?", a: ["5", "6", "7", "8"], c: 1 },
+      { q: "Welche Aussage ist logisch äquivalent zu 'nicht (A und B)'?", a: ["(nicht A) oder (nicht B)", "(nicht A) und (nicht B)", "A oder B", "A und (nicht B)"], c: 0 },
+      { q: "Welche Zahl kommt als Nächstes: 2, 4, 8, 16, ...?", a: ["18", "24", "30", "32"], c: 3 },
+      { q: "Wie viel ist 3/4 als Prozent?", a: ["25%", "50%", "75%", "80%"], c: 2 },
+      { q: "Ein Rechteck hat Umfang 20. Wenn eine Seite 6 ist, wie lang ist die andere Seite?", a: ["3", "4", "5", "6"], c: 1 },
+      { q: "Welche dieser Formen hat genau eine Symmetrieachse?", a: ["Kreis", "Gleichseitiges Dreieck", "Gleichschenkliges Dreieck", "Quadrat"], c: 2 },
+      { q: "Wenn heute Dienstag ist, welcher Wochentag ist in 10 Tagen?", a: ["Donnerstag", "Freitag", "Samstag", "Sonntag"], c: 0 },
+    ],
+  },
+};
+
+// --------- Engine ----------
+function qs(sel) { return document.querySelector(sel); }
+function shuffle(arr) {
+  // Fisher-Yates
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
-function resetPointsDisplay() {
-    var pointsDisplay = document.getElementById('pointsDisplay');
-    pointsDisplay.style.display = 'flex';
+function storageKey(quizId) {
+  return `lucaquiz_q${quizId}_state`;
 }
 
-function showSolution(questionNumber) {
-    var solutionButton = document.getElementById('solutionButton' + questionNumber);
-    var pointsButton = document.getElementById('pointsButton' + questionNumber);
-
-    solutionButton.classList.add('used');
-    pointsButton.classList.add('used');
-    solutionButton.onclick = null;
-
-    var answers = [
-        "Emma Watson",
-        "The Walking Dead",
-        "Stranger Things",
-        "Christopher Nolan",
-        "Everything everywhere all at once",
-
-        "schläft",
-        "Nominativ, Genitiv, Dativ, Akkusativ",
-        "Ä, Ö, Ü",
-        "Visa",
-        "Englisch",
-
-        "Knoppers",
-        "Mediamarkt",
-        "Ferreo Küsschen",
-        "Ritter Sport",
-        "Hipp", 
-        
-        "Appel",
-        "Microsoft",
-        "Christian Louboutin",
-        "4,48 Milliarden",
-        "2005", 
-        
-        "Der Erste Weltkrieg",
-        "Pharao Cheops (auch bekannt als Khufu)",
-        "Leif Erikson",
-        "Die Berliner Mauer wurde im Jahr 1961 errichtet",
-        "Nelson Mandela",
-
-        "Deutschland",
-        "2006",
-        "Basketball",
-        "Peking",
-        "Turkey", 
-
-        "Frequently Ask Questions",
-        "Carbon copy",
-        "Informations Technologie",
-        "Universal Serial Bus",
-        "Tuvalu", 
-
-        "Geld, Rot, Grün, Blau, Schwarz/Ereignisskarte",
-        "1993",
-        "hinter den Ohren",
-        "Kupfer",
-        "23.April 2006", 
-
-        "Jupiter",
-        "1969",
-        "Saturn",
-        "Supernova",
-        "Andromedagalaxie",
-
-        "2007",
-        "eine maßeinheit für Datenmänge",
-        "1.000.000MB",
-        "Thomas Edison",
-        "Haeckse",
-
-        "J.K. Rowling.",
-        "Johann Wolfgang von Goethe.",
-        "1984.",
-        "Jane Austen.",
-        "Dante Alighieri.",
-
-        "Frankreich",
-        "Amazonas (oder Nil, je nach Definition)",
-        "Nepal.",
-        "Afrika",
-        "Sahara",
-
-        "Beatles",
-        "Billie Eilish",
-        "Oktave",
-        "Miley Cyrus",
-        "Lady Gaga",
-
-        "Gucci",
-        "Adidas",
-        "Burberry",
-        "Uniqlo",
-        "Fenty Beauty",
-
-        "360 Grad",
-        "Primzahl",
-        "20",
-        "32",
-        "1",
-
-        "Gerste",
-        "Mexiko",
-        "15 % Vol",
-        "Martini",
-        "1516",
-
-        "Paella",
-        "Zucchini",
-        "Safran",
-        "Umami",
-        "Pökeln",
-
-        "Rund 89.000",
-        "1972",
-        "Etwa 700 Meter",
-        "Zehn (Villingen, Schwenningen, Herzogenweiler , Marbach ,Obereschach, Pfaffenweiler, Rietheim, Tannheim, Weilersbach, Weigheim)",
-        "13te",
-
-        "John F. Kennedy.",
-        "William Shakespeare",
-        "Albert Einstein",
-        "Julius Caesar",
-        "Forrest Gump (aus dem Film).",
-
-        "Giraffe",
-        "Pinguin",
-        "Fledermaus",
-        "10",
-        "Kolibri",
-    ];
-
-    alert("Hier ist die Lösung für Frage: " + "\n" + "\n" + answers[questionNumber - 1]);
+function loadState(quizId) {
+  try {
+    const raw = sessionStorage.getItem(storageKey(quizId));
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
 }
 
-// Funktionen für Menüanzeige
-function toggleMenu() {
-    var menu = document.getElementById('menu');
-    var menuWidth = menu.offsetWidth;
-
-    if (menu.style.left === '0px' || menu.style.left === '0') {
-        menu.style.left = -menuWidth + 'px';
-    } else {
-        menu.style.left = '0px';
-    }
+function saveState(quizId, state) {
+  sessionStorage.setItem(storageKey(quizId), JSON.stringify(state));
 }
 
-function showHomePage() {
-    window.location.href = 'index.html';
+function resetState(quizId) {
+  sessionStorage.removeItem(storageKey(quizId));
 }
 
-function showQuizPage(quizNumber) {
-    window.location.href = "quiz" + quizNumber + ".html";
-}
+function init() {
+  const root = document.querySelector(".quiz");
+  if (!root) return;
 
-function showwahroderfalsch() {
-  window.location.href = "wahroderfalsch.html";
-}
-
-function showSchätzfragen() {
-    window.location.href = "schätzfragen.html";
-}
-
-function showImpressum() {
-    window.location.href = 'impressum.html';
-}
-
-// Funktionen für Schätzfragen
-
-const questionsAndAnswers = [
-  { question: "", correctAnswer: "", txtAnswer: "" },
-  { question: "Wie viele Sekunden hat ein Tag?", correctAnswer: 86400, txtAnswer: "86.400 Sekunden" },
-  { question: "Wie viele Kilometer beträgt der Umfang der Erde?", correctAnswer: 40075, txtAnswer: "40.075 Kilometer" },
-  { question: "Wie viele Sterne gibt es schätzungsweise in der Milchstraße? (In Milliarden)", correctAnswer: 100, txtAnswer: "Schätzungsweise 100 Milliarden Sterne" },
-  { question: "Wie viele Jahre dauert es, bis ein Plastikstrohhalm vollständig abgebaut ist?", correctAnswer: 200, txtAnswer: "Etwa 200 Jahre" },
-  { question: "Wie viele Meter ist der Mount Everest hoch?", correctAnswer: 8848, txtAnswer: "8.848 Meter" },
-  { question: "Wie viele Stunden verbringt ein durchschnittlicher Mensch in seinem Leben mit Schlafen?", correctAnswer: 200000, txtAnswer: "Etwa 200.000 Stunden" },
-  { question: "Wie viele Kilometer pro Stunde kann ein Gepard laufen?", correctAnswer: 120, txtAnswer: "Bis zu 120 km/h" },
-  { question: "Wie viele Sprachen werden weltweit gesprochen?", correctAnswer: 7000, txtAnswer: "Etwa 7.000 Sprachen" },
-  { question: "Wie viele Jahre alt ist das Universum schätzungsweise? (In Milliarden)", correctAnswer: 13.8, txtAnswer: "Schätzungsweise 13,8 Milliarden Jahre" },
-  { question: "Wie viele Liter Milch produziert eine Kuh durchschnittlich pro Jahr?", correctAnswer: 8000, txtAnswer: "Etwa 8.000 Liter" },
-  { question: "Wie viele Schritte macht ein Mensch durchschnittlich in seinem Leben? (In Milliarden)", correctAnswer: 150, txtAnswer: "Etwa 150 Milliarden Schritte" },
-  { question: "Wie viele Kilometer beträgt die Entfernung zwischen Erde und Mond?", correctAnswer: 384400, txtAnswer: "Etwa 384.400 Kilometer" },
-  { question: "Wie viele Stunden hat ein Jahr?", correctAnswer: 8760, txtAnswer: "8.760 Stunden" },
-  { question: "Wie viele Zellen hat der menschliche Körper? (In Billionen)", correctAnswer: 37, txtAnswer: "Etwa 37 Billionen Zellen" },
-  { question: "Wie viele Liter Wasser trinken Menschen weltweit pro Tag? (In Milliarden)", correctAnswer: 10, txtAnswer: "Schätzungsweise 10 Milliarden Liter" },
-  { question: "Wie viele Kilometer beträgt die Länge des Amazonas?", correctAnswer: 6400, txtAnswer: "Etwa 6.400 Kilometer" },
-  { question: "Wie viele Planeten gibt es in unserem Sonnensystem?", correctAnswer: 8, txtAnswer: "8 Planeten" },
-  { question: "Wie viele Liter Blut hat ein durchschnittlicher Mensch?", correctAnswer: 5, txtAnswer: "Etwa 5 Liter" },
-  { question: "Wie viele E-Mails werden weltweit täglich verschickt? (In Milliarden)", correctAnswer: 300, txtAnswer: "Etwa 300 Milliarden E-Mails" },
-  { question: "Wie viele Bücher gibt es weltweit? (In Millionen)", correctAnswer: 130, txtAnswer: "Schätzungsweise 130 Millionen Bücher" },
-  { question: "Wie viele Jahre alt wird eine Eintagsfliege?", correctAnswer: 1, txtAnswer: "Etwa 1 Tag" },
-  { question: "Wie viele Bäume gibt es weltweit? (In Milliarden)", correctAnswer: 3000, txtAnswer: "Schätzungsweise 3 Billionen Bäume" },
-  { question: "Wie viele Kilometer ist die Sonne von der Erde entfernt? (In Millionen)", correctAnswer: 149.6, txtAnswer: "Etwa 149,6 Millionen Kilometer" },
-  { question: "Wie viele Menschen sterben durchschnittlich pro Tag weltweit?", correctAnswer: 150000, txtAnswer: "Etwa 150.000 Menschen" },
-  { question: "Wie viele Blätter hat ein durchschnittlicher Baum?", correctAnswer: 200000, txtAnswer: "Etwa 200.000 Blätter" },
-  { question: "Wie viele Löcher hat ein Golfplatz?", correctAnswer: 18, txtAnswer: "18 Löcher" },
-  { question: "Wie viele verschiedene Arten von Käfern gibt es?", correctAnswer: 400000, txtAnswer: "Etwa 400.000 Arten" },
-  { question: "Wie viele Jahre alt ist die älteste Schildkröte geworden?", correctAnswer: 190, txtAnswer: "Etwa 190 Jahre" },
-  { question: "Wie viele Vulkane gibt es weltweit?", correctAnswer: 1500, txtAnswer: "Etwa 1.500 Vulkane" },
-  { question: "Wie viele Flüge gibt es weltweit pro Tag?", correctAnswer: 100000, txtAnswer: "Etwa 100.000 Flüge" },
-  { question: "Wie viele Arten von Bäumen gibt es weltweit?", correctAnswer: 60000, txtAnswer: "Etwa 60.000 Arten" },
-  { question: "Wie viele Quadratkilometer umfasst die Sahara? (In Millionen)", correctAnswer: 9, txtAnswer: "Etwa 9 Millionen Quadratkilometer" },
-  { question: "Wie viele Atome enthält ein Wassertropfen? (In Quadrillionen)", correctAnswer: 1.67, txtAnswer: "Etwa 1,67 Quadrillionen Atome" },
-  { question: "Wie viele Menschen sprechen Englisch weltweit? (In Milliarden)", correctAnswer: 1.5, txtAnswer: "Etwa 1,5 Milliarden Menschen" },
-  { question: "Wie viele Meter tief ist der Marianengraben?", correctAnswer: 11000, txtAnswer: "Etwa 11.000 Meter" },
-  { question: "Wie viele Kilometer pro Stunde fliegt ein Düsenflugzeug?", correctAnswer: 900, txtAnswer: "Etwa 900 km/h" },
-  { question: "Wie viele Spezies von Ameisen gibt es weltweit?", correctAnswer: 12000, txtAnswer: "Etwa 12.000 Spezies" },
-  { question: "Wie viele Kilogramm wiegt ein ausgewachsener Elefant?", correctAnswer: 6000, txtAnswer: "Bis zu 6.000 Kilogramm" },
-  { question: "Wie viele Stunden pro Woche arbeitet ein Vollzeitmitarbeiter durchschnittlich?", correctAnswer: 40, txtAnswer: "Etwa 40 Stunden" },
-  { question: "Wie viele Erdbeben gibt es jährlich weltweit?", correctAnswer: 500000, txtAnswer: "Etwa 500.000 Erdbeben" },
-  { question: "Wie viele Monde hat der Planet Saturn?", correctAnswer: 83, txtAnswer: "83 Monde" },
-/*
-  { question: "", correctAnswer: "", txtAnswer: "" },
-  { question: "Wie viele Kilogramm wiegt der Eiffelturm? (In Tonnen)", correctAnswer: 10.100, txtAnswer: "10.100 Tonnen" },
-  { question: "Wie viele Liter Wasser passen in einen olympischen Swimmingpool? (In Mio)", correctAnswer: 2.5, txtAnswer: "2,5 Mio L" },
-  { question: "Wie viele Zähne hat ein erwachsener Mensch normalerweise?", correctAnswer: 32, txtAnswer: "32 Zähne" },
-  { question: "Wie viele Zeichen umfässt der Längste Buchtitel?", correctAnswer: 264, txtAnswer: "264 Zeichen, Entwicklung von außergewöhnlich aktiven, kooperativen Aluminium−Fluorid-basierten Lewis-Säure/Oniumsalz-Katalysatoren für die asymmetrische Carboxycyanierung von Aldehyden und Untersuchungen zu ihrer Anwendbarkeit in verwandten enantioselektiven Transformationen" },
-  { question: "Wie viele Länder gibt es in Europa?", correctAnswer: 44, txtAnswer: "44 Länder" },
-  { question: "Wie viele Smartphones gibt es schätzungsweise weltweit im Jahr 2023?", correctAnswer: 3000000, txtAnswer: "Schätzungsweise 3 Mio." },
-  { question: "Wie viele Wörter gibt es schätzungsweise in der englischen Sprache?", correctAnswer: 170000, txtAnswer: "Die Antwort kann variieren, aber eine Schätzung könnte etwa 170.000 Wörter sein" },
-  { question: "Wie viele Menschen leben schätzungsweise auf der Erde im Jahr 2023? (In Milliarden)", correctAnswer: 7.9, txtAnswer: "Eine Schätzung könnte etwa 7,9 Milliarden Menschen sein" },
-  { question: "Wie viele Buchstaben hat das längste Wort in der deutschen Sprache?", correctAnswer: 79, txtAnswer: "Donaudampfschifffahrtselektrizitätenhauptbetriebswerkbauunterbeamtengesellschaft" },
-  { question: "Wie viele Knochen hat der menschliche Körper?", correctAnswer: 206, txtAnswer: "206 Knochen" },
-  */
-];
-
-let currentQuestion = 0; // Fragezähler
-
-function addTeam() {
-  const teamName = document.getElementById("teamName").value;
-  if (!teamName) {
-    alert("Bitte geben Sie einen Namen für das Team/Spieler ein.");
+  const quizId = Number(root.dataset.quiz);
+  const quiz = QUIZZES[quizId];
+  if (!quiz) {
+    qs("#question").textContent = "Quiz nicht gefunden.";
     return;
   }
 
-  const teamsContainer = document.getElementById("teamsContainer");
-  const teamCount = document.getElementsByClassName("team").length + 1;
+  const progressEl = qs("#progress");
+  const scoreEl = qs("#score");
+  const questionEl = qs("#question");
+  const answersEl = qs("#answers");
+  const nextBtn = qs("#nextBtn");
+  const resetBtn = qs("#resetBtn");
+  const resultEl = qs("#result");
 
-  const teamDiv = document.createElement("div");
-  teamDiv.className = "team";
-  teamDiv.id = `team${teamCount}`;
-  teamDiv.innerHTML = `
-    <label for="points${teamCount}">${teamName}:</label>
-    <input class="pointsinput" type="number" id="points${teamCount}" min="0" value="0">
-    <br>
-    <button class="add" type="button" onclick="changePoints(${teamCount}, 100)">+100</button>
-    <button class="add" type="button" onclick="changePoints(${teamCount}, -100)">-100</button>
-    <br>
-  `;
+  const total = quiz.questions.length;
 
-  teamsContainer.appendChild(teamDiv);
-}
-
-function changePoints(teamCount, amount) {
-  const pointsInput = document.getElementById(`points${teamCount}`);
-  let currentValue = parseInt(pointsInput.value);
-  currentValue += amount;
-  pointsInput.value = Math.max(currentValue, 0);
-}
-
-function showResult() {
-  const currentQuestionData = questionsAndAnswers[currentQuestion];
-  const correctAnswer = currentQuestionData.correctAnswer;
-  const txtAnswerdata = currentQuestionData.txtAnswer; // Korrekte Frage-Text-Antwort
-  
-  const teamElements = document.getElementsByClassName("team");
-  const teams = [];
-
-  for (let i = 0; i < teamElements.length; i++) {
-    const teamName = teamElements[i].querySelector(`label`).textContent.replace(":", "");
-    const points = parseInt(teamElements[i].querySelector(`input[id^=points]`).value);
-    teams.push({ teamName, points });
+  // State: randomized order + current index + score + answered flag
+  let state = loadState(quizId);
+  if (!state) {
+    state = {
+      order: shuffle([...Array(total).keys()]), // indices 0..total-1 in random order
+      i: 0,
+      score: 0,
+      answered: false,
+      // store last selected for UX (optional)
+      last: null
+    };
+    saveState(quizId, state);
   }
 
-  let closestTeamIndex = 0;
-  let closestDifference = Math.abs(teams[0].points - correctAnswer);
+  function render() {
+    const idx = state.order[state.i];
+    const item = quiz.questions[idx];
 
-  for (let i = 1; i < teams.length; i++) {
-    const difference = Math.abs(teams[i].points - correctAnswer);
-    if (difference < closestDifference) {
-      closestDifference = difference;
-      closestTeamIndex = i;
+    progressEl.textContent = `Frage ${Math.min(state.i + 1, total)}/${total}`;
+    scoreEl.textContent = `Score: ${state.score}`;
+    resultEl.textContent = "";
+    nextBtn.disabled = !state.answered;
+
+    questionEl.textContent = item.q;
+    answersEl.innerHTML = "";
+
+    item.a.forEach((text, ai) => {
+      const btn = document.createElement("button");
+      btn.className = "answer";
+      btn.type = "button";
+      btn.textContent = text;
+
+      btn.addEventListener("click", () => choose(ai, btn));
+      answersEl.appendChild(btn);
+    });
+
+    if (state.answered && state.last) {
+      // re-apply visual state if user refreshes
+      const btns = [...answersEl.querySelectorAll(".answer")];
+      const correctIndex = item.c;
+      btns.forEach((b, ai) => {
+        b.disabled = true;
+        if (ai === correctIndex) b.classList.add("correct");
+        if (ai === state.last.selected && ai !== correctIndex) b.classList.add("wrong");
+      });
+      resultEl.innerHTML = state.last.correct
+        ? `✅ <strong>Richtig!</strong>`
+        : `❌ <strong>Falsch.</strong> Richtige Antwort: <strong>${item.a[correctIndex]}</strong>`;
+      nextBtn.disabled = false;
     }
   }
 
-  const winner = teams[closestTeamIndex].teamName;
-  const pointsDifference = Math.abs(teams[closestTeamIndex].points - correctAnswer);
+  function choose(answerIndex, clickedBtn) {
+    if (state.answered) return;
 
-  alert(`${winner} ist der Gewinner! ${txtAnswerdata}`);
+    const idx = state.order[state.i];
+    const item = quiz.questions[idx];
+    const correctIndex = item.c;
 
-  currentQuestion++;
+    const btns = [...answersEl.querySelectorAll(".answer")];
+    btns.forEach(b => (b.disabled = true));
 
-  if (currentQuestion < questionsAndAnswers.length) {
-    document.getElementById("question").innerText = questionsAndAnswers[currentQuestion].question;
-  } else {
-    alert("Alle Fragen wurden beantwortet.");
+    const isCorrect = answerIndex === correctIndex;
+    if (isCorrect) {
+      state.score += 1;
+      clickedBtn.classList.add("correct");
+      resultEl.innerHTML = `✅ <strong>Richtig!</strong>`;
+    } else {
+      clickedBtn.classList.add("wrong");
+      btns[correctIndex].classList.add("correct");
+      resultEl.innerHTML = `❌ <strong>Falsch.</strong> Richtige Antwort: <strong>${item.a[correctIndex]}</strong>`;
+    }
+
+    state.answered = true;
+    state.last = { selected: answerIndex, correct: isCorrect };
+    saveState(quizId, state);
+
+    scoreEl.textContent = `Score: ${state.score}`;
+    nextBtn.disabled = false;
   }
+
+  nextBtn.addEventListener("click", () => {
+    if (!state.answered) return;
+
+    const isLast = state.i >= total - 1;
+    if (isLast) {
+      // Finish screen
+      questionEl.textContent = `Fertig! Du hast ${state.score} von ${total} richtig.`;
+      answersEl.innerHTML = "";
+      progressEl.textContent = `Quiz beendet`;
+      nextBtn.disabled = true;
+      resultEl.innerHTML = `🎉 <strong>Glückwunsch!</strong> Du kannst „Zurücksetzen“ drücken und nochmal spielen.`;
+      return;
+    }
+
+    state.i += 1;
+    state.answered = false;
+    state.last = null;
+    saveState(quizId, state);
+    render();
+  });
+
+  resetBtn.addEventListener("click", () => {
+    resetState(quizId);
+    state = null;
+    // neu initialisieren
+    state = {
+      order: shuffle([...Array(total).keys()]),
+      i: 0,
+      score: 0,
+      answered: false,
+      last: null
+    };
+    saveState(quizId, state);
+    render();
+  });
+
+  render();
 }
+
+document.addEventListener("DOMContentLoaded", init);
