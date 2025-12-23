@@ -3,35 +3,47 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quiz 1</title>
+  <title>Quiz 1 – Jeopardy</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="header">
     <a class="back" href="index.html">← Zur Startseite</a>
     <h1>Quiz 1</h1>
-    <p>Allgemeinwissen</p>
+    <p>Jeopardy-Board (100–500)</p>
   </header>
 
   <main class="container">
-    <section class="quiz" data-quiz="1">
+    <section class="game" data-quiz="1">
       <div class="topline">
-        <div id="progress" class="pill">Frage 1/10</div>
         <div id="score" class="pill">Score: 0</div>
+        <button id="resetBtn" class="btn btn-ghost" type="button">Spiel zurücksetzen</button>
       </div>
 
-      <h2 id="question" class="question">Lade Frage…</h2>
+      <div id="board" class="board" aria-label="Jeopardy Board"></div>
 
-      <div id="answers" class="answers"></div>
-
-      <div class="actions">
-        <button id="nextBtn" class="btn" type="button" disabled>Nächste</button>
-        <button id="resetBtn" class="btn btn-ghost" type="button">Zurücksetzen</button>
-      </div>
-
-      <div id="result" class="result" aria-live="polite"></div>
+      <div id="status" class="status" aria-live="polite"></div>
     </section>
   </main>
+
+  <dialog id="qModal" class="modal">
+    <form method="dialog" class="modalCard">
+      <div class="modalTop">
+        <div id="modalMeta" class="modalMeta"></div>
+        <button id="closeModalBtn" class="iconBtn" value="cancel" aria-label="Schließen">✕</button>
+      </div>
+
+      <h2 id="modalQuestion" class="modalQ">Frage</h2>
+
+      <div id="modalAnswers" class="modalAnswers"></div>
+
+      <div class="modalActions">
+        <button id="submitBtn" class="btn" value="default" type="button" disabled>Antwort bestätigen</button>
+      </div>
+
+      <div id="modalFeedback" class="modalFeedback" aria-live="polite"></div>
+    </form>
+  </dialog>
 
   <script src="javascript.js"></script>
 </body>
