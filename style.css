@@ -395,3 +395,176 @@ body{
   .tile{ font-size: 26px; padding: 16px 8px; }
   .cat{ font-size: 13px; }
 }
+
+/* =========================
+   SHOW QUIZ – Extra Styles
+   ========================= */
+
+.showGame .showStage { margin-top: 14px; }
+
+.showTabs{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin: 10px 0 14px;
+}
+.tabBtn{
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(0,0,0,.25);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.tabBtn.activeTab{
+  background: rgba(255,255,255,.15);
+  border-color: rgba(255,255,255,.35);
+}
+
+.roundPanel{
+  display:none;
+}
+
+.showCard{
+  background: rgba(0,0,0,.25);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.panelTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-bottom: 10px;
+}
+
+.timerBox{
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.18);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.panelBottom{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top: 12px;
+}
+
+.showQ{
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: .4px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.showChoices{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap:10px;
+  margin-bottom: 10px;
+}
+.choiceBtn{
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  padding: 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.choiceBtn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+.choiceBtn:hover:not(:disabled){
+  background: rgba(255,255,255,.14);
+  border-color: rgba(255,255,255,.35);
+}
+
+.bigCenter{
+  text-align:center;
+  font-weight: 800;
+  padding: 22px 8px;
+}
+
+.muted{ opacity:.85; }
+.hintMeta{ font-weight:800; margin-bottom:10px; }
+
+.hintList{
+  display:grid;
+  gap:10px;
+  margin-bottom: 12px;
+}
+.hintItem{
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px dashed rgba(255,255,255,.25);
+  background: rgba(0,0,0,.18);
+  letter-spacing:.3px;
+}
+.hintItem.shownHint{
+  border-style: solid;
+  background: rgba(255,255,255,.08);
+}
+
+.hintActions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top: 8px;
+}
+
+.answerArea{
+  margin-top: 12px;
+  display:grid;
+  gap:10px;
+}
+
+.textInput{
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(0,0,0,.25);
+  color: #fff;
+  padding: 12px 12px;
+  outline: none;
+}
+.textInput:focus{
+  border-color: rgba(255,255,255,.38);
+  background: rgba(0,0,0,.32);
+}
+
+.answerBtns{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.finalRow{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:10px;
+}
+.finalLabel{ font-weight:800; }
+
+.finalQ{
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing:.4px;
+  text-transform: uppercase;
+  margin: 10px 0 12px;
+}
+
+.showTeamBtns{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
