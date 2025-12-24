@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Show Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="backLink" href="index.html">← START</a>
+    <div>
+      <h1 class="brand">SHOW QUIZ</h1>
+      <p class="sub">Schnellrunde • Hinweise • Finale (Team A/B)</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="game showGame" data-game="show">
+      <div class="hud showHud">
+        <div id="showScore" class="scoreBox">TEAM A: 0 | TEAM B: 0 | AKTIV: A</div>
+
+        <div class="showTeamBtns">
+          <button id="teamA" class="hudBtn" type="button">TEAM A</button>
+          <button id="teamB" class="hudBtn" type="button">TEAM B</button>
+        </div>
+
+        <button id="showReset" class="hudBtn" type="button">RESET</button>
+      </div>
+
+      <div class="showStage">
+        <div class="showTabs">
+          <button id="tab1" class="tabBtn" type="button">RUNDE 1</button>
+          <button id="tab2" class="tabBtn" type="button">RUNDE 2</button>
+          <button id="tab3" class="tabBtn" type="button">FINALE</button>
+        </div>
+
+        <div id="showStatus" class="status" aria-live="polite"></div>
+
+        <!-- RUNDE 1 -->
+        <section id="round1" class="roundPanel">
+          <div class="panelTop">
+            <h2>Schnellrunde (10 Fragen)</h2>
+            <div class="timerBox">ZEIT: <span id="r1Time">60</span>s</div>
+          </div>
+
+          <div id="r1Card" class="showCard"></div>
+
+          <div class="panelBottom">
+            <button id="r1Start" class="bigBtn" type="button">START</button>
+            <button id="r1Next" class="bigBtn" type="button" disabled>NÄCHSTE FRAGE</button>
+          </div>
+        </section>
+
+        <!-- RUNDE 2 -->
+        <section id="round2" class="roundPanel">
+          <div class="panelTop">
+            <h2>Hinweis-Runde</h2>
+            <p class="muted">Je früher richtig, desto mehr Punkte (500 → 100).</p>
+          </div>
+
+          <div class="showCard">
+            <div class="hintMeta">PUNKTE: <span id="hintPts">500</span></div>
+            <div id="hintList" class="hintList"></div>
+
+            <div class="hintActions">
+              <button id="revealHint" class="hudBtn" type="button">HINWEIS AUFDECKEN</button>
+              <button id="solveHint" class="bigBtn" type="button">ANTWORTEN</button>
+            </div>
+
+            <div id="hintAnswerArea" class="answerArea" hidden>
+              <input id="hintInput" class="textInput" type="text" placeholder="Antwort eingeben…" />
+              <div class="answerBtns">
+                <button id="hintSubmit" class="bigBtn" type="button">BESTÄTIGEN</button>
+                <button id="hintCancel" class="hudBtn" type="button">ABBRECHEN</button>
+              </div>
+            </div>
+
+            <div id="hintFeedback" class="modalFeedback" aria-live="polite"></div>
+          </div>
+
+          <div class="panelBottom">
+            <button id="r2Next" class="bigBtn" type="button">NÄCHSTES RÄTSEL</button>
+          </div>
+        </section>
+
+        <!-- FINALE -->
+        <section id="round3" class="roundPanel">
+          <div class="panelTop">
+            <h2>Finale</h2>
+            <p class="muted">Aktives Team setzt Punkte und beantwortet eine schwere Frage.</p>
+          </div>
+
+          <div class="showCard">
+            <div class="finalRow">
+              <label class="finalLabel">EINSATZ (0–Score des Teams):</label>
+              <input id="finalWager" class="textInput" type="number" min="0" step="50" placeholder="z.B. 300" />
+              <button id="finalStart" class="bigBtn" type="button">FINALE STARTEN</button>
+            </div>
+
+            <div id="finalQuestionBox" hidden>
+              <div class="hintMeta">FINALE-FRAGE</div>
+              <div id="finalQ" class="finalQ"></div>
+              <div class="answerArea">
+                <input id="finalInput" class="textInput" type="text" placeholder="Antwort eingeben…" />
+                <div class="answerBtns">
+                  <button id="finalSubmit" class="bigBtn" type="button">BESTÄTIGEN</button>
+                </div>
+              </div>
+              <div id="finalFeedback" class="modalFeedback" aria-live="polite"></div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="show-quiz.js"></script>
+</body>
+</html>
