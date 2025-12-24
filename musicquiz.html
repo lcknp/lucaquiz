@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Musik Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="backLink" href="index.html">← START</a>
+    <div>
+      <h1 class="brand">MUSIK QUIZ</h1>
+      <p class="sub">Spotify Preview · Team A/B · 10 Runden</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="game showGame">
+      <div class="hud showHud">
+        <div id="score" class="scoreBox">TEAM A: 0 | TEAM B: 0 | AKTIV: A</div>
+        <div class="showTeamBtns">
+          <button id="teamA" class="hudBtn" type="button">TEAM A</button>
+          <button id="teamB" class="hudBtn" type="button">TEAM B</button>
+        </div>
+        <button id="reset" class="hudBtn" type="button">RESET</button>
+      </div>
+
+      <div class="showStage">
+        <div id="status" class="status" aria-live="polite"></div>
+
+        <div class="showCard">
+          <div class="panelTop">
+            <h2>Errate den Song</h2>
+            <div class="timerBox">RUNDE: <span id="round">1</span>/10</div>
+          </div>
+
+          <div class="muted" style="margin-bottom:10px;">
+            Tipp: Wenn kein Preview verfügbar ist, wird ein anderer Song gewählt.
+          </div>
+
+          <div class="hintActions">
+            <button id="login" class="hudBtn" type="button">MIT SPOTIFY VERBINDEN</button>
+            <button id="play" class="bigBtn" type="button" disabled>▶ PREVIEW</button>
+            <button id="next" class="hudBtn" type="button" disabled>NÄCHSTER SONG</button>
+          </div>
+
+          <div id="question" class="showQ" style="margin-top:12px;">Verbinde Spotify, um zu starten.</div>
+          <div id="choices" class="showChoices"></div>
+
+          <div id="feedback" class="modalFeedback" aria-live="polite" style="margin-top:10px;"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="spotify-auth.js"></script>
+  <script src="musicquiz.js"></script>
+</body>
+</html>

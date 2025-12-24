@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spotify Callback</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <div class="showCard" style="max-width:720px;margin:40px auto;">
+      <h1 class="brand">Spotify Login…</h1>
+      <p id="msg" class="sub">Bitte warten.</p>
+      <p class="muted">Du wirst gleich zurückgeleitet.</p>
+    </div>
+  </main>
+
+  <script src="spotify-auth.js"></script>
+  <script>
+    (async () => {
+      const msg = document.getElementById("msg");
+      try {
+        msg.textContent = "Token wird gespeichert…";
+        await SpotifyAuth.handleRedirectCallback();
+        msg.textContent = "Fertig! Zurück zum Quiz…";
+        const back = sessionStorage.getItem("spotify_return_to") || "index.html";
+        sessionStorage.removeItem("spotify_return_to");
+        location.href = back;
+      } catch (e) {
+        msg.textContent = "Fehler beim Spotify Login: " + (e?.message || e);
+      }
+    })();
+  </script>
+</body>
+</html>
