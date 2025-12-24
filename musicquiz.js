@@ -1,6 +1,6 @@
 function qs(sel){ return document.querySelector(sel); }
 
-const PLAYLIST_ID = "37i9dQZEVXbJiZcmkrIHGU?si=f3362dcec6864211"; // ← HIER DEINE PLAYLIST ID
+const PLAYLIST_ID = "3t9VMF91O7fV2B38AaOu2x"; // ← HIER DEINE PLAYLIST ID
 
 const stateKey = "lucaquiz_musicquiz_playlist_v1";
 let state = JSON.parse(localStorage.getItem(stateKey) || "null") || {
