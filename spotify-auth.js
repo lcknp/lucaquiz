@@ -61,9 +61,9 @@ const SpotifyAuth = (() => {
       redirect_uri: REDIRECT_URI,
       code_challenge_method: "S256",
       code_challenge: challenge,
-      // Keine Scopes nötig für Search/Tracks Preview (öffentliche Daten)
-      // scope: ""
+      scope: "playlist-read-private playlist-read-collaborative"
     });
+
 
     location.href = `https://accounts.spotify.com/authorize?${params.toString()}`;
   }

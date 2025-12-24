@@ -60,18 +60,48 @@ async function loadPlaylist(){
 
   statusEl.textContent = "Lade Playlist…";
 
-  const data = await SpotifyAuth.api(
-    `/playlists/${PLAYLIST_ID}/tracks?limit=100`
-  );
+  try {
+    const data = await SpotifyAuth.api(
+      `/playlists/${PLAYLIST_ID}/tracks?limit=100`
+    );
 
-  state.tracks = data.items
-    .map(i => i.track)
-    .filter(t => t && t.id && t.name && t.artists?.length);
+    state.tracks = (data.items || [])
+      .map(i => i.track)
+      .filter(t => t && t.id && t.name && t.artists?.length);
 
-  shuffle(state.tracks);
-  save();
-  nextRound();
+    if (state.tracks.length === 0) {
+      statusEl.textContent = "Playlist leer oder keine Tracks lesbar.";
+      return;
+    }
+
+    // mischen
+    for (let i = state.tracks.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [state.tracks[i], state.tracks[j]] = [state.tracks[j], state.tracks[i]];
+    }
+
+    save();
+    statusEl.textContent = "Playlist geladen ✅";
+    nextRound();
+
+  } catch (e) {
+    const msg = (e && e.message) ? e.message : String(e);
+
+    // Häufige Fälle sauber erklären
+    if (msg.includes("TOKEN_EXPIRED") || msg.includes("NOT_LOGGED_IN") || msg.includes("401")) {
+      statusEl.textContent = "Spotify Login abgelaufen. Bitte neu verbinden.";
+      return;
+    }
+
+    if (msg.includes("403")) {
+      statusEl.textContent = "Kein Zugriff (403). Playlist vermutlich privat → bitte neu verbinden (Scopes) oder Playlist öffentlich machen.";
+      return;
+    }
+
+    statusEl.textContent = "Fehler beim Laden der Playlist: " + msg;
+  }
 }
+
 
 function nextRound(){
   if(state.round > 10){
