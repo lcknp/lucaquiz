@@ -118,6 +118,7 @@ function nextRound(){
   state.used.push(track.id);
   save();
 
+  playerEl.hidden = true;
   playerEl.innerHTML = `
     <iframe style="width:100%;height:152px;border-radius:14px"
       src="https://open.spotify.com/embed/track/${track.id}"
@@ -148,6 +149,8 @@ function nextRound(){
 
 function answer(correct, track){
   const team = state.active;
+
+  playerEl.hidden = false;
 
   if(correct){
     state.scores[team] += 300;
