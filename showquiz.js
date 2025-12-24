@@ -1,21 +1,13 @@
 function qs(sel) { return document.querySelector(sel); }
 
-const STORE_KEY = "lucaquiz_showquiz_state_v1";
+const STORE_KEY = "lucaquiz_showquiz_state_v2_hints_plus_chain";
 
 function loadState() {
-  try {
-    const raw = localStorage.getItem(STORE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
+  try { const raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : null; }
+  catch { return null; }
 }
-function saveState(s) {
-  localStorage.setItem(STORE_KEY, JSON.stringify(s));
-}
-function resetState() {
-  localStorage.removeItem(STORE_KEY);
-}
+function saveState(s) { localStorage.setItem(STORE_KEY, JSON.stringify(s)); }
+function resetState() { localStorage.removeItem(STORE_KEY); }
 
 function norm(str) {
   return (str || "")
@@ -26,33 +18,37 @@ function norm(str) {
     .replace(/[.,;:!?()"']/g, "");
 }
 
-// ---------------------- FRAGEN ----------------------
+// ---------------------- RUNDE 1 (Schnellrunde) ----------------------
 const ROUND1 = [
   { q:"WELCHES LAND HAT DIE HAUPTSTADT 'BRATISLAVA'?", a:["SLOWAKEI","SLOWENIEN","KROATIEN","LETTLAND"], c:0 },
-  { q:"WELCHER WERT IST AM GRÖSSTEN?", a:["3/5","0,58","5/9","0,6"], c:3 }, // 0.6
-  { q:"WOFÜR STEHT 'RAM'?", a:["RANDOM ACCESS MEMORY","READ AND MODIFY","REMOTE APP MODULE","REAL AUDIO MODE"], c:0 },
   { q:"WELCHER FLUSS FLIESST DURCH ROM?", a:["PO","TIBER","ARNO","EBRO"], c:1 },
   { q:"WELCHES ELEMENT HAT DAS SYMBOL 'Sn'?", a:["SILBER","ZINN","SCHWEFEL","NICKEL"], c:1 },
+  { q:"WELCHER PORT IST TYPISCH HTTPS?", a:["25","80","443","53"], c:2 },
+  { q:"WIE VIELE DIAGONALEN HAT EIN FÜNFECK?", a:["3","5","7","10"], c:1 },
+  { q:"WELCHER BEGRIFF PASST ZU 'WENN…DANN…'?", a:["UND","ODER","IMPLIKATION","NEGATION"], c:2 },
+  { q:"WAS IST 12,5% VON 320?", a:["30","35","40","45"], c:2 },
+  { q:"WELCHES LAND HAT DIE HAUPTSTADT 'WELLINGTON'?", a:["AUSTRALIEN","NEUSEELAND","KANADA","IRLAND"], c:1 },
   { q:"WELCHES IST EIN PALINDROM?", a:["LAGER","ANNA","KATZE","BAUM"], c:1 },
-  { q:"WIE VIELE DIAGONALEN HAT EIN FÜNFECK?", a:["3","5","7","10"], c:1 }, // 5*2/2=5
-  { q:"WELCHER BEGRIFF PASST ZU 'WENN…DANN…' IN DER LOGIK?", a:["UND","ODER","IMPLIKATION","NEGATION"], c:2 },
-  { q:"WELCHE STADT IST SITZ DER EU-KOMMISSION (BEKANNT)?", a:["STRASSBURG","BRÜSSEL","LUXEMBURG","FRANKFURT"], c:1 },
-  { q:"WAS IST 15% VON 260?", a:["35","39","42","45"], c:1 }, // 39
+  { q:"WELCHES GAS IST AM HÄUFIGSTEN IN DER LUFT?", a:["O2","N2","CO2","H2"], c:1 },
 ];
 
+// ---------------------- RUNDE 2 (Hinweis-Runde – MEHR & SCHWERER) ----------------------
+// Tipp: solution kann mehrere Schreibweisen erlauben -> akzeptiere auch Varianten über aliases
 const HINTS = [
   {
     solution: "MONT BLANC",
+    aliases: ["MONTBLANC"],
     hints: [
       "ICH LIEGE IN EUROPA.",
       "ICH BIN EIN BERG.",
       "ICH LIEGE IN DEN ALPEN.",
-      "ICH WERDE OFT MIT FRANKREICH/ITALIEN VERBUNDEN.",
+      "ICH WERDE OFT MIT FRANKREICH UND ITALIEN IN VERBINDUNG GEBRACHT.",
       "ICH BIN DER HÖCHSTE BERG DER ALPEN."
     ]
   },
   {
     solution: "PHOTOSYNTHESE",
+    aliases: ["PHOTOSYNTHese"],
     hints: [
       "ICH BIN EIN BIOLOGISCHER PROZESS.",
       "ICH PASSIERE IN PFLANZEN.",
@@ -63,32 +59,151 @@ const HINTS = [
   },
   {
     solution: "PYTHAGORAS",
+    aliases: ["PYTHAGORAS-SATZ", "PYTHAGORASSATZ"],
     hints: [
-      "ICH BIN EINE PERSON AUS DER ANTIKE.",
       "ICH BIN MIT MATHE VERBUNDEN.",
-      "ICH BIN BERÜHMT FÜR EINEN SATZ IM DREIECK.",
-      "MEIN SATZ NUTZT QUADRATE VON SEITENLÄNGEN.",
-      "ICH HATTE EINE SCHULE/LEHRE."
+      "ICH HATTE MIT DREIECKEN ZU TUN.",
+      "MEIN NAME IST AUCH EIN SATZ.",
+      "ICH VERBINDE QUADRATE VON SEITENLÄNGEN.",
+      "ICH STAMME AUS DER ANTIKE."
     ]
   },
   {
-    solution: "STRAUSS",
+    solution: "SUEZKANAL",
+    aliases: ["SUEZ KANAL"],
     hints: [
-      "ICH BIN EIN VOGEL.",
-      "ICH KANN NICHT FLIEGEN.",
-      "ICH BIN SEHR SCHNELL ZU FUSS.",
-      "ICH LEBE OFT IN AFRIKA.",
-      "ICH LEGE SEHR GROSSE EIER."
+      "ICH BIN EIN BAUWERK DER GEOGRAFIE.",
+      "ICH BIN EIN KANAL.",
+      "ICH VERBINDE ZWEI MEERE.",
+      "ICH LIEGE IN ÄGYPTEN.",
+      "ICH VERBINDE MITTELMEER UND ROTES MEER."
+    ]
+  },
+  {
+    solution: "TIBER",
+    aliases: ["TEVERE"],
+    hints: [
+      "ICH BIN EIN FLUSS.",
+      "ICH LIEGE IN EUROPA.",
+      "ICH FLIESSE DURCH EINE HAUPTSTADT.",
+      "DIE HAUPTSTADT HEISST ROM.",
+      "ICH HEISSE AUF ITALIENISCH 'TEVERE'."
+    ]
+  },
+  {
+    solution: "STRASSBURG",
+    aliases: ["STRASBOURG"],
+    hints: [
+      "ICH BIN EINE STADT.",
+      "ICH LIEGE IN FRANKREICH.",
+      "ICH BIN WICHTIG FÜR EUROPA.",
+      "ICH BIN SITZ DES EUROPÄISCHEN PARLAMENTS (PLENAR).",
+      "ICH LIEGE NAH AN DER DEUTSCHEN GRENZE."
+    ]
+  },
+  {
+    solution: "MITOCHONDRIEN",
+    aliases: ["MITOCHONDRIUM", "MITOCHONDRIEN"],
+    hints: [
+      "ICH GEHÖRE ZU ZELLEN.",
+      "ICH BIN EIN ORGANELL.",
+      "ICH HATTE MIT ENERGIE ZU TUN.",
+      "MAN NENNT MICH OFT 'KRAFTWERK DER ZELLE'.",
+      "ICH PRODUZIERE ATP (VEREINFACHT)."
+    ]
+  },
+  {
+    solution: "OKTETTREGEL",
+    aliases: ["OKTET REGEL", "OKTETT REGEL"],
+    hints: [
+      "ICH GEHÖRE ZUR CHEMIE.",
+      "ICH HATTE MIT ELEKTRONEN ZU TUN.",
+      "ICH ERKLÄRE, WARUM ATOME BINDUNGEN EINGEHEN.",
+      "ICH HATTE MIT EDELGASKONFIGURATION ZU TUN.",
+      "ICH HEISSE MIT EINEM WORT WIE '8'."
+    ]
+  },
+  {
+    solution: "ANTARKTIS",
+    aliases: ["ANTARKTIKA"],
+    hints: [
+      "ICH BIN EIN KONTINENT.",
+      "ICH BIN SEHR KALT.",
+      "ICH LIEGE AM SÜDLICHEN ENDE DER ERDE.",
+      "ICH BIN GRÖSSTENTEILS VON EIS BEDECKT.",
+      "PENGUINE SIND HIER SEHR BEKANNT."
+    ]
+  },
+  {
+    solution: "HABEAS CORPUS",
+    aliases: ["HABEASCORPUS"],
+    hints: [
+      "ICH BIN EIN LATEINISCHER BEGRIFF.",
+      "ICH HATTE MIT RECHT ZU TUN.",
+      "ICH SCHÜTZE VOR WILLKÜRLICHER HAFT (PRINZIP).",
+      "ICH BIN MIT ENGLAND/ANGLO-AMERIKANISCHEM RECHT VERBUNDEN.",
+      "ICH BEGINNE MIT 'HABEAS'."
+    ]
+  },
+  {
+    solution: "EINSTEIN",
+    aliases: ["ALBERT EINSTEIN"],
+    hints: [
+      "ICH BIN EINE PERSON.",
+      "ICH BIN BERÜHMT IN DER PHYSIK.",
+      "ICH HATTE MIT RELATIVITÄT ZU TUN.",
+      "ICH VERBINDE MASSEN UND ENERGIE.",
+      "E = mc² IST MIT MIR VERBUNDEN."
+    ]
+  },
+  {
+    solution: "ODYSSEE",
+    aliases: ["DIE ODYSSEE"],
+    hints: [
+      "ICH BIN EIN WERK DER LITERATUR.",
+      "ICH BIN SEHR ALT.",
+      "ICH BIN EIN EPOS.",
+      "ICH BIN MIT HOMER VERBUNDEN.",
+      "ICH HANDELE VON ODYSSEUS."
     ]
   },
 ];
 
-const FINAL = [
-  { q:"WELCHE ZAHL IST DIE KLEINSTE PRIMZAHL, DIE GRÖSSER ALS 200 IST?", a:"211" },
-  { q:"WIE HEISST DAS MEER ZWISCHEN SAUDI-ARABIEN UND AFRIKA (ÄGYPTEN/SUDAN/ERITREA)?", a:"ROTES MEER" },
-  { q:"WELCHER FLUSS MÜNDET IN DIE NORDSEE UND FLIESST DURCH BASEL, STRASSBURG UND KÖLN?", a:"RHEIN" },
-  { q:"WIE HEISST DER CHEMISCHE BEGRIFF FÜR 'WASSERSTOFFIONEN-KONZENTRATION' (SKALA)?", a:"PH WERT" },
+// Punkte der Hinweisrunde: je mehr Hinweise du brauchst, desto weniger Punkte
+function hintPoints(revealed) {
+  // 0->800, 1->700, 2->600, 3->400, 4->250, 5->100 (wenn alles offen)
+  const table = [800, 700, 600, 400, 250, 100];
+  return table[Math.min(revealed, table.length - 1)];
+}
+
+// ---------------------- RUNDE 3 (NEU): KETTENRUNDE ----------------------
+// 5 Schritte – jeder Schritt hat eine Frage, die zum nächsten Begriff führt
+// Punkte steigen: 100/200/300/400/500
+const CHAIN_ROUNDS = [
+  {
+    title: "Kette: EUROPA",
+    steps: [
+      { q:"HAUPTSTADT VON PORTUGAL?", a:["LISSABON","PORTO","BRAGA","FARO"], c:0 },
+      { q:"WELCHER FLUSS FLIESST DURCH PARIS?", a:["SEINE","RHEIN","THEMSE","DONAU"], c:0 },
+      { q:"WELCHES GEBIRGE TRENNT SPANIEN UND FRANKREICH?", a:["ALPEN","PYRENÄEN","KARPATEN","URAL"], c:1 },
+      { q:"WELCHE STADT IST REGIERUNGSSITZ DER NIEDERLANDE?", a:["ROTTERDAM","AMSTERDAM","DEN HAAG","UTRECHT"], c:2 },
+      { q:"WELCHES LAND HAT DIE HAUPTSTADT 'HELSINKI'?", a:["SCHWEDEN","NORWEGEN","FINNLAND","DÄNEMARK"], c:2 },
+    ]
+  },
+  {
+    title: "Kette: WISSEN & TECH",
+    steps: [
+      { q:"WOFÜR STEHT 'CPU'?", a:["CENTRAL PROCESSING UNIT","CONTROL POWER UNIT","CORE PROGRAM USER","CENTRAL PRINT UNIT"], c:0 },
+      { q:"WELCHER PORT IST TYPISCH FÜR DNS?", a:["53","25","443","110"], c:0 },
+      { q:"WAS IST 'PHISHING'?", a:["BACKUP","BETRUG ÜBER FAKE-SEITEN/NACHRICHTEN","DATEI FORMAT","WLAN STANDARD"], c:1 },
+      { q:"WAS MACHT DNS?", a:["VERSCHLÜSSELN","NAMEN IN IP AUFLÖSEN","VIREN LÖSCHEN","DOWNLOADS BESCHLEUNIGEN"], c:1 },
+      { q:"WOFÜR STEHT 'RAM'?", a:["RANDOM ACCESS MEMORY","READ AUTO MODE","REMOTE APP MANAGER","RUNTIME ACCESS MAP"], c:0 },
+    ]
+  }
 ];
+
+// Kettenpunkte pro Schritt
+const CHAIN_POINTS = [100, 200, 300, 400, 500];
 
 // ---------------------- STATE ----------------------
 let state = loadState();
@@ -96,9 +211,12 @@ if (!state) {
   state = {
     scores: { A: 0, B: 0 },
     active: "A",
+
     r1: { idx: 0, done: false, timeLeft: 60, started: false },
+
     r2: { idx: 0, revealed: 0, done: false },
-    r3: { done: false, qIndex: 0, wager: 0, started: false }
+
+    r3: { set: 0, step: 0, done: false }
   };
   saveState(state);
 }
@@ -137,7 +255,7 @@ const hintCancel = qs("#hintCancel");
 const hintFeedback = qs("#hintFeedback");
 const r2Next = qs("#r2Next");
 
-// Finale
+// Runde 3 (wir nutzen vorhandene Finale-Box in deinem HTML als Container)
 const finalWager = qs("#finalWager");
 const finalStart = qs("#finalStart");
 const finalQuestionBox = qs("#finalQuestionBox");
@@ -179,7 +297,7 @@ resetBtn.addEventListener("click", () => {
     active: "A",
     r1: { idx: 0, done: false, timeLeft: 60, started: false },
     r2: { idx: 0, revealed: 0, done: false },
-    r3: { done: false, qIndex: 0, wager: 0, started: false }
+    r3: { set: 0, step: 0, done: false }
   };
   saveState(state);
   statusEl.textContent = "Reset: Neues Spiel gestartet.";
@@ -188,8 +306,7 @@ resetBtn.addEventListener("click", () => {
 
 function award(points, text) {
   const t = state.active;
- const before = state.scores[t];
-  state.scores[t] = before + points;
+  state.scores[t] += points;
   saveState(state);
   renderScore();
   statusEl.innerHTML = text;
@@ -223,17 +340,16 @@ function r1Render() {
         <button class="choiceBtn" type="button" ${disabled ? "disabled" : ""} data-i="${i}">${x}</button>
       `).join("")}
     </div>
-    <div class="muted">Regel: Richtig +100, Falsch -50 (Zeitdruck!)</div>
+    <div class="muted">Regel: Richtig +150, Falsch -75</div>
   `;
 
   r1Card.querySelectorAll(".choiceBtn").forEach(btn => {
     btn.addEventListener("click", () => {
       const i = Number(btn.dataset.i);
       const ok = i === qObj.c;
-      if (ok) award(+100, `✅ Runde 1: Richtig (+100) – Team ${state.active}`);
-      else award(-50, `❌ Runde 1: Falsch (-50) – richtig: <b>${qObj.a[qObj.c]}</b>`);
+      if (ok) award(+150, `✅ Runde 1: Richtig (+150) – Team ${state.active}`);
+      else award(-75, `❌ Runde 1: Falsch (-75) – richtig: <b>${qObj.a[qObj.c]}</b>`);
 
-      // Nächste Frage
       state.r1.idx += 1;
       saveState(state);
       r1Next.disabled = false;
@@ -270,7 +386,6 @@ r1Start.addEventListener("click", () => {
   statusEl.textContent = "Runde 1 läuft. Viel Erfolg!";
   r1StartTimer();
 });
-
 r1Next.addEventListener("click", () => {
   state.r1.idx += 1;
   saveState(state);
@@ -278,12 +393,6 @@ r1Next.addEventListener("click", () => {
 });
 
 // ---------------------- RUNDE 2 ----------------------
-function r2PointsForRevealed(revealed) {
-  // 0 Hinweise -> 500, 1 -> 400, 2 -> 300, 3 -> 200, 4 -> 100
-  const table = [500, 400, 300, 200, 100];
-  return table[Math.min(revealed, 4)];
-}
-
 function r2Render() {
   hintFeedback.textContent = "";
   hintAnswerArea.hidden = true;
@@ -305,7 +414,7 @@ function r2Render() {
     return;
   }
 
-  const pts = r2PointsForRevealed(state.r2.revealed);
+  const pts = hintPoints(state.r2.revealed);
   hintPtsEl.textContent = String(pts);
 
   hintList.innerHTML = obj.hints.map((h, idx) => {
@@ -342,18 +451,20 @@ hintSubmit.addEventListener("click", () => {
 
   const guess = norm(hintInput.value);
   const sol = norm(obj.solution);
+  const aliases = (obj.aliases || []).map(norm);
 
-  const pts = r2PointsForRevealed(state.r2.revealed);
+  const pts = hintPoints(state.r2.revealed);
 
-  if (guess && guess === sol) {
+  const ok = guess && (guess === sol || aliases.includes(guess));
+
+  if (ok) {
     award(+pts, `✅ Hinweis-Runde: Richtig (+${pts}) – Lösung: <b>${obj.solution}</b>`);
     hintFeedback.innerHTML = `✅ Richtig! Lösung: <b>${obj.solution}</b>`;
   } else {
-    award(-100, `❌ Hinweis-Runde: Falsch (-100) – Lösung: <b>${obj.solution}</b>`);
+    award(-200, `❌ Hinweis-Runde: Falsch (-200) – Lösung: <b>${obj.solution}</b>`);
     hintFeedback.innerHTML = `❌ Falsch. Lösung wäre: <b>${obj.solution}</b>`;
   }
 
-  // nächstes Rätsel
   state.r2.idx += 1;
   state.r2.revealed = 0;
   saveState(state);
@@ -367,64 +478,99 @@ r2Next.addEventListener("click", () => {
   r2Render();
 });
 
-// ---------------------- FINALE ----------------------
+// ---------------------- RUNDE 3 (NEU): KETTENRUNDE ----------------------
+// Wir missbrauchen die vorhandene Finale-UI als Container (damit du kein HTML ändern musst).
 function r3Render() {
-  finalFeedback.textContent = "";
-  finalQuestionBox.hidden = !state.r3.started;
+  // Wir verstecken Einsatz-Zeug und nutzen den Bereich anders
+  finalWager.style.display = "none";
+  finalStart.style.display = "none";
 
-  if (state.r3.done) {
-    finalFeedback.innerHTML = "✅ Finale beendet.";
+  const setObj = CHAIN_ROUNDS[state.r3.set];
+  if (!setObj) {
+    finalQuestionBox.hidden = true;
+    finalFeedback.innerHTML = "Keine Kettenrunde vorhanden.";
     return;
   }
 
-  const q = FINAL[state.r3.qIndex % FINAL.length];
-  finalQ.textContent = q.q;
-}
+  const steps = setObj.steps;
+  const step = state.r3.step;
 
-finalStart.addEventListener("click", () => {
-  const team = state.active;
-  const max = Math.max(0, state.scores[team]);
-  let wager = Number(finalWager.value);
-
-  if (!Number.isFinite(wager)) wager = 0;
-  wager = Math.max(0, Math.min(max, wager));
-
-  state.r3.wager = wager;
-  state.r3.started = true;
-  state.r3.qIndex = Math.floor(Math.random() * FINAL.length);
-  saveState(state);
-
-  statusEl.innerHTML = `🎬 Finale gestartet. Team ${team} setzt <b>${wager}</b> Punkte.`;
-  r3Render();
-});
-
-finalSubmit.addEventListener("click", () => {
-  if (!state.r3.started || state.r3.done) return;
-
-  const team = state.active;
-  const q = FINAL[state.r3.qIndex % FINAL.length];
-
-  const guess = norm(finalInput.value);
-  const sol = norm(q.a);
-
-  if (guess && guess === sol) {
-    award(+state.r3.wager, `🏆 Finale: Richtig! Team ${team} +${state.r3.wager} (Antwort: <b>${q.a}</b>)`);
-    finalFeedback.innerHTML = `✅ Richtig! Antwort: <b>${q.a}</b>`;
-  } else {
-    award(-state.r3.wager, `💥 Finale: Falsch. Team ${team} -${state.r3.wager} (Richtig: <b>${q.a}</b>)`);
-    finalFeedback.innerHTML = `❌ Falsch. Richtig: <b>${q.a}</b>`;
+  if (state.r3.done || step >= steps.length) {
+    finalQuestionBox.hidden = false;
+    finalQ.textContent = `${setObj.title}`;
+    finalFeedback.innerHTML = `✅ Kettenrunde beendet!`;
+    finalInput.style.display = "none";
+    finalSubmit.style.display = "none";
+    return;
   }
 
-  state.r3.done = true;
-  saveState(state);
-  renderScore();
-});
+  finalQuestionBox.hidden = false;
+  finalInput.style.display = "none";
+  finalSubmit.style.display = "none";
+
+  const qObj = steps[step];
+  const pts = CHAIN_POINTS[step];
+
+  // Card bauen
+  finalQ.innerHTML = `<div style="font-weight:900; text-transform:uppercase;">${setObj.title}</div>
+  <div style="margin-top:10px;">SCHRITT ${step + 1}/5 • PUNKTE: <b>${pts}</b></div>
+  <div style="margin-top:12px; font-weight:900; text-transform:uppercase;">${qObj.q}</div>`;
+
+  // Antworten als Buttons
+  finalFeedback.innerHTML = `
+    <div class="showChoices" style="margin-top:12px;">
+      ${qObj.a.map((x,i)=>`<button class="choiceBtn" type="button" data-i="${i}">${x}</button>`).join("")}
+    </div>
+    <div class="muted">Richtig: +${pts} • Falsch: -${Math.floor(pts/2)} (und weiter geht’s trotzdem)</div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+      <button id="chainNext" class="bigBtn" type="button" disabled>NÄCHSTER SCHRITT</button>
+      <button id="chainSwitch" class="hudBtn" type="button">ANDERE KETTE</button>
+    </div>
+  `;
+
+  let answered = false;
+
+  finalFeedback.querySelectorAll(".choiceBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (answered) return;
+      answered = true;
+
+      const i = Number(btn.dataset.i);
+      const ok = i === qObj.c;
+
+      if (ok) {
+        award(+pts, `✅ Kettenrunde: Richtig (+${pts}) – Team ${state.active}`);
+      } else {
+        award(-Math.floor(pts/2), `❌ Kettenrunde: Falsch (-${Math.floor(pts/2)}) – richtig: <b>${qObj.a[qObj.c]}</b>`);
+      }
+
+      finalFeedback.querySelectorAll(".choiceBtn").forEach(b => b.disabled = true);
+      const nextBtn = qs("#chainNext");
+      nextBtn.disabled = false;
+    });
+  });
+
+  qs("#chainNext").addEventListener("click", () => {
+    state.r3.step += 1;
+    if (state.r3.step >= 5) state.r3.done = true;
+    saveState(state);
+    r3Render();
+  });
+
+  qs("#chainSwitch").addEventListener("click", () => {
+    state.r3.set = (state.r3.set + 1) % CHAIN_ROUNDS.length;
+    state.r3.step = 0;
+    state.r3.done = false;
+    saveState(state);
+    statusEl.textContent = "Kettenrunde gewechselt.";
+    r3Render();
+  });
+}
 
 // ---------------------- RENDER ALL ----------------------
 function renderAll() {
   renderScore();
 
-  // Runde Tabs: automatisch zur ersten nicht fertigen Runde springen
   if (!state.r1.done) switchPanel(1);
   else if (!state.r2.done) switchPanel(2);
   else switchPanel(3);
