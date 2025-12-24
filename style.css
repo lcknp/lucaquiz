@@ -568,3 +568,7 @@ body{
   gap:10px;
   flex-wrap:wrap;
 }
+
+.isHidden{
+  display:none !important;
+}
