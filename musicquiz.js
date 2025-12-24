@@ -1,6 +1,6 @@
 function qs(sel){ return document.querySelector(sel); }
 
-const stateKey = "lucaquiz_musicquiz_state_v1";
+const stateKey = "lucaquiz_musicquiz_state_v2_embed";
 let state = JSON.parse(localStorage.getItem(stateKey) || "null") || {
   scores: { A: 0, B: 0 },
   active: "A",
@@ -20,12 +20,13 @@ const choicesEl = qs("#choices");
 const feedbackEl = qs("#feedback");
 const teamA = qs("#teamA");
 const teamB = qs("#teamB");
+const playerEl = qs("#player");
 
 let audio = new Audio();
 audio.preload = "auto";
-audio.addEventListener("ended", () => {});
 
 function save(){ localStorage.setItem(stateKey, JSON.stringify(state)); }
+
 function renderScore(){
   scoreEl.textContent = `TEAM A: ${state.scores.A} | TEAM B: ${state.scores.B} | AKTIV: ${state.active}`;
   teamA.style.outline = state.active==="A" ? "2px solid rgba(255,255,255,.35)" : "none";
@@ -43,13 +44,13 @@ resetBtn.onclick = () => {
   feedbackEl.textContent = "";
   qEl.textContent = "Reset: Verbinde Spotify und starte.";
   choicesEl.innerHTML = "";
+  playerEl.innerHTML = "";
   playBtn.disabled = true;
   nextBtn.disabled = true;
   renderScore();
 };
 
 loginBtn.onclick = async () => {
-  // zurück zu dieser Seite nach Login
   await SpotifyAuth.login("musicquiz.html");
 };
 
@@ -61,72 +62,75 @@ function shuffle(arr){
   return arr;
 }
 
-// Du kannst hier Genres ändern (macht es abwechslungsreicher)
-const GENRES = [
-  "pop",
-  "dance",
-  "electronic",
-  "house",
-  "edm",
-  "rock",
-  "classic rock",
-  "80s",
-  "90s",
-  "2000s"
+// Preview-Quote ist oft schlecht → wir nehmen POPULÄRE Suchbegriffe statt Genre-only
+const QUERIES = [
+  "year:2010-2019",
+  "year:2000-2009",
+  "year:1990-1999",
+  "tag:new",
+  "genre:pop",
+  "genre:dance",
+  "genre:rock",
+  "genre:hip-hop"
 ];
 
+async function searchTracksAny() {
+  // Versuche mehrfach, irgendeinen Track zu finden (Preview optional)
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const qBase = QUERIES[Math.floor(Math.random() * QUERIES.length)];
+    const offset = Math.floor(Math.random() * 800);
+    const q = encodeURIComponent(qBase);
 
-async function searchTracks() {
-  for (let attempt = 0; attempt < 10; attempt++) {
-    const genre = GENRES[Math.floor(Math.random() * GENRES.length)];
-    const offset = Math.floor(Math.random() * 500);
+    const data = await SpotifyAuth.api(`/search?type=track&limit=50&offset=${offset}&q=${q}`);
+    const items = (data.tracks?.items || [])
+      .filter(t => t && t.id && t.name && t.artists?.length)
+      .filter(t => (t.popularity ?? 0) >= 35);
 
-    const q = encodeURIComponent(`genre:${genre}`);
-    const data = await SpotifyAuth.api(
-      `/search?type=track&limit=50&offset=${offset}&q=${q}`
-    );
-
-    const withPreview = (data.tracks?.items || []).filter(
-      t => t.preview_url && t.popularity > 40
-    );
-
-    if (withPreview.length > 0) {
-      return withPreview;
-    }
+    const unused = items.filter(t => !state.usedTrackIds.includes(t.id));
+    if (unused.length) return unused;
   }
-
   return [];
 }
 
-
 async function getDistractors(correctTrack) {
-  // hol weitere Tracks (für 4 Optionen)
-  const items = await searchTracks();
-  const names = new Set();
-  names.add(`${correctTrack.name} — ${correctTrack.artists[0].name}`);
+  const pool = await searchTracksAny();
+  const opts = [];
+  const seen = new Set();
 
-  const opts = [
-    { label: `${correctTrack.name} — ${correctTrack.artists[0].name}`, correct: true }
-  ];
+  function labelOf(t){ return `${t.name} — ${t.artists[0].name}`; }
 
-  for (const t of items) {
-    const label = `${t.name} — ${t.artists[0].name}`;
-    if (names.has(label)) continue;
-    names.add(label);
-    opts.push({ label, correct: false });
+  opts.push({ label: labelOf(correctTrack), correct: true });
+  seen.add(labelOf(correctTrack));
+
+  for (const t of pool) {
+    const lab = labelOf(t);
+    if (seen.has(lab)) continue;
+    seen.add(lab);
+    opts.push({ label: lab, correct: false });
     if (opts.length >= 4) break;
   }
 
-  // Fallback: falls zu wenig, mit dem was da ist
-  while (opts.length < 4) opts.push({ label: "KEINE OPTION", correct: false });
-
+  while (opts.length < 4) opts.push({ label: "—", correct: false });
   return shuffle(opts);
 }
 
-let current = null; // { track, options }
+let current = null; // { track, options, previewUrl, embedUrl }
+
+function setSpotifyEmbed(trackId){
+  // Spotify Embed Player (funktioniert auch ohne preview_url)
+  playerEl.innerHTML = `
+    <iframe
+      style="border-radius:14px; width:100%; height:152px; border:0;"
+      src="https://open.spotify.com/embed/track/${trackId}"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy"></iframe>
+  `;
+}
 
 async function loadRound() {
   feedbackEl.textContent = "";
+  choicesEl.innerHTML = "";
+  playerEl.innerHTML = "";
 
   const token = SpotifyAuth.getToken();
   if (!token) {
@@ -134,33 +138,21 @@ async function loadRound() {
     playBtn.disabled = true;
     nextBtn.disabled = true;
     qEl.textContent = "Spotify nicht verbunden.";
-    choicesEl.innerHTML = "";
     return;
   }
 
   statusEl.textContent = "Lade Song…";
   playBtn.disabled = true;
   nextBtn.disabled = true;
-  choicesEl.innerHTML = "";
   qEl.textContent = "Song wird geladen…";
 
-  // versuche ein paar Mal einen Track mit Preview zu bekommen
-  let track = null;
-  const items = await searchTracks();
-
-  track = items.find(t => !state.usedTrackIds.includes(t.id));
+  const items = await searchTracksAny();
+  const track = items[0];
 
   if (!track) {
-    qEl.textContent = "Kein geeigneter Song gefunden. Bitte NÄCHSTER SONG klicken.";
-    statusEl.textContent = "Spotify liefert aktuell keine Previews.";
+    qEl.textContent = "Spotify liefert gerade keine passenden Treffer. Bitte später nochmal probieren.";
+    statusEl.textContent = "Keine Tracks gefunden.";
     nextBtn.disabled = false;
-    return;
-  }
-
-
-  if (!track) {
-    qEl.textContent = "Leider keinen neuen Song mit Preview gefunden. Reset oder später erneut probieren.";
-    statusEl.textContent = "Kein Preview verfügbar.";
     return;
   }
 
@@ -168,63 +160,74 @@ async function loadRound() {
   save();
 
   const options = await getDistractors(track);
-  current = { track, options };
 
-  audio.pause(); audio.currentTime = 0;
-  audio.src = track.preview_url;
+  current = {
+    track,
+    options,
+    previewUrl: track.preview_url || null,
+    embedUrl: `https://open.spotify.com/track/${track.id}`
+  };
 
-  qEl.textContent = "🎧 Hör dir das Preview an und wähle die richtige Antwort:";
+  // Player: immer Embed zeigen (am sichersten)
+  setSpotifyEmbed(track.id);
+
+  // Wenn preview_url existiert, erlauben wir den PREVIEW Button zusätzlich (optional)
+  if (current.previewUrl) {
+    audio.pause(); audio.currentTime = 0;
+    audio.src = current.previewUrl;
+    playBtn.disabled = false;
+  } else {
+    playBtn.disabled = true; // sonst verwirrend
+  }
+
+  qEl.textContent = "🎧 Spiele im Player ab und wähle die richtige Antwort:";
   choicesEl.innerHTML = "";
-
   options.forEach((opt) => {
     const btn = document.createElement("button");
     btn.className = "choiceBtn";
     btn.type = "button";
     btn.textContent = opt.label;
-    btn.onclick = () => answer(opt.correct, opt.label);
+    btn.onclick = () => answer(opt.correct);
     choicesEl.appendChild(btn);
   });
 
-  playBtn.disabled = false;
   nextBtn.disabled = false;
-  statusEl.textContent = `Genre-Runde · Team ${state.active}`;
+  statusEl.textContent = `Team ${state.active}: Song läuft im Spotify Player.`;
 }
 
-function answer(isCorrect, pickedLabel){
+function answer(isCorrect){
   if (!current) return;
 
-  // disable buttons
   [...choicesEl.querySelectorAll("button")].forEach(b => b.disabled = true);
 
   const team = state.active;
-  const pts = 200;      // Standardpunkte
-  const lose = 100;     // Minus bei falsch
+  const pts = 250;
+  const lose = 150;
 
   if (isCorrect) {
     state.scores[team] += pts;
-    feedbackEl.innerHTML = `✅ Richtig! +${pts} <br><span class="muted">${current.track.name} — ${current.track.artists[0].name}</span>`;
+    feedbackEl.innerHTML = `✅ Richtig! +${pts}<br><span class="muted">${current.track.name} — ${current.track.artists[0].name}</span>`;
   } else {
     state.scores[team] -= lose;
-    feedbackEl.innerHTML = `❌ Falsch (-${lose}). <br>Richtig: <b>${current.track.name} — ${current.track.artists[0].name}</b>`;
+    feedbackEl.innerHTML = `❌ Falsch (-${lose})<br>Richtig: <b>${current.track.name} — ${current.track.artists[0].name}</b>`;
   }
 
-  // nächste Runde
   state.round += 1;
+  save();
+  renderScore();
+
   if (state.round > 10) {
     statusEl.innerHTML = `🎉 Fertig! TEAM A: <b>${state.scores.A}</b> · TEAM B: <b>${state.scores.B}</b>`;
     playBtn.disabled = true;
     nextBtn.disabled = true;
     qEl.textContent = "Spiel beendet. RESET für neues Spiel.";
   } else {
-    statusEl.textContent = `Weiter mit „NÄCHSTER SONG“ — Team ${state.active}`;
+    statusEl.textContent = `Weiter mit „NÄCHSTER SONG“.`;
   }
-
-  save();
-  renderScore();
 }
 
 playBtn.onclick = () => {
-  if (!audio.src) return;
+  if (!current?.previewUrl) return;
   audio.currentTime = 0;
   audio.play().catch(() => {
     statusEl.textContent = "Autoplay blockiert – tippe nochmal auf PREVIEW.";
@@ -238,10 +241,10 @@ nextBtn.onclick = async () => {
 
 (async () => {
   renderScore();
-  // autoload wenn token vorhanden
   if (SpotifyAuth.getToken()) {
+    nextBtn.disabled = false;
     await loadRound();
   } else {
-    statusEl.textContent = "Verbinde Spotify, um Previews zu hören.";
+    statusEl.textContent = "Verbinde Spotify, um zu starten.";
   }
 })();
