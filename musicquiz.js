@@ -62,16 +62,42 @@ function shuffle(arr){
 }
 
 // Du kannst hier Genres ändern (macht es abwechslungsreicher)
-const GENRES = ["pop","rock","hip-hop","indie","electronic","dance","german","rap","house","metal"];
+const GENRES = [
+  "pop",
+  "dance",
+  "electronic",
+  "house",
+  "edm",
+  "rock",
+  "classic rock",
+  "80s",
+  "90s",
+  "2000s"
+];
+
 
 async function searchTracks() {
-  const genre = GENRES[Math.floor(Math.random()*GENRES.length)];
-  // Suche nach Tracks (Spotify Search)
-  const q = encodeURIComponent(`genre:${genre}`);
-  const offset = Math.floor(Math.random()*200);
-  const data = await SpotifyAuth.api(`/search?type=track&limit=20&offset=${offset}&q=${q}`);
-  return (data.tracks?.items || []).filter(t => t.preview_url);
+  for (let attempt = 0; attempt < 10; attempt++) {
+    const genre = GENRES[Math.floor(Math.random() * GENRES.length)];
+    const offset = Math.floor(Math.random() * 500);
+
+    const q = encodeURIComponent(`genre:${genre}`);
+    const data = await SpotifyAuth.api(
+      `/search?type=track&limit=50&offset=${offset}&q=${q}`
+    );
+
+    const withPreview = (data.tracks?.items || []).filter(
+      t => t.preview_url && t.popularity > 40
+    );
+
+    if (withPreview.length > 0) {
+      return withPreview;
+    }
+  }
+
+  return [];
 }
+
 
 async function getDistractors(correctTrack) {
   // hol weitere Tracks (für 4 Optionen)
@@ -120,11 +146,17 @@ async function loadRound() {
 
   // versuche ein paar Mal einen Track mit Preview zu bekommen
   let track = null;
-  for (let tries=0; tries<6; tries++){
-    const items = await searchTracks();
-    track = items.find(t => t.preview_url && !state.usedTrackIds.includes(t.id));
-    if (track) break;
+  const items = await searchTracks();
+
+  track = items.find(t => !state.usedTrackIds.includes(t.id));
+
+  if (!track) {
+    qEl.textContent = "Kein geeigneter Song gefunden. Bitte NÄCHSTER SONG klicken.";
+    statusEl.textContent = "Spotify liefert aktuell keine Previews.";
+    nextBtn.disabled = false;
+    return;
   }
+
 
   if (!track) {
     qEl.textContent = "Leider keinen neuen Song mit Preview gefunden. Reset oder später erneut probieren.";
