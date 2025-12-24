@@ -2,7 +2,7 @@
 // Token wird in localStorage gespeichert.
 
 const SpotifyAuth = (() => {
-  const CLIENT_ID = "HIER_DEINE_SPOTIFY_CLIENT_ID_EINFUEGEN";
+  const CLIENT_ID = "276a2950bb53411ca242a214744ebcf5";
   const REDIRECT_URI = new URL("spotify-callback.html", location.href).toString();
 
   const TOKEN_KEY = "spotify_access_token_v1";
