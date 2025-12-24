@@ -1,250 +1,138 @@
 function qs(sel){ return document.querySelector(sel); }
 
-const stateKey = "lucaquiz_musicquiz_state_v2_embed";
+const PLAYLIST_ID = "37i9dQZEVXbJiZcmkrIHGU?si=f3362dcec6864211"; // ← HIER DEINE PLAYLIST ID
+
+const stateKey = "lucaquiz_musicquiz_playlist_v1";
 let state = JSON.parse(localStorage.getItem(stateKey) || "null") || {
   scores: { A: 0, B: 0 },
   active: "A",
   round: 1,
-  usedTrackIds: []
+  tracks: [],
+  used: []
 };
 
 const scoreEl = qs("#score");
 const statusEl = qs("#status");
 const roundEl = qs("#round");
-const loginBtn = qs("#login");
-const playBtn = qs("#play");
-const nextBtn = qs("#next");
-const resetBtn = qs("#reset");
 const qEl = qs("#question");
 const choicesEl = qs("#choices");
 const feedbackEl = qs("#feedback");
+const playerEl = qs("#player");
+const nextBtn = qs("#next");
+const resetBtn = qs("#reset");
 const teamA = qs("#teamA");
 const teamB = qs("#teamB");
-const playerEl = qs("#player");
-
-let audio = new Audio();
-audio.preload = "auto";
+const loginBtn = qs("#login");
 
 function save(){ localStorage.setItem(stateKey, JSON.stringify(state)); }
 
 function renderScore(){
   scoreEl.textContent = `TEAM A: ${state.scores.A} | TEAM B: ${state.scores.B} | AKTIV: ${state.active}`;
-  teamA.style.outline = state.active==="A" ? "2px solid rgba(255,255,255,.35)" : "none";
-  teamB.style.outline = state.active==="B" ? "2px solid rgba(255,255,255,.35)" : "none";
-  roundEl.textContent = String(state.round);
+  roundEl.textContent = `${state.round}/10`;
 }
 
 teamA.onclick = () => { state.active="A"; save(); renderScore(); };
 teamB.onclick = () => { state.active="B"; save(); renderScore(); };
 
 resetBtn.onclick = () => {
-  audio.pause(); audio.currentTime = 0;
-  state = { scores:{A:0,B:0}, active:"A", round:1, usedTrackIds:[] };
+  state = { scores:{A:0,B:0}, active:"A", round:1, tracks:[], used:[] };
   save();
-  feedbackEl.textContent = "";
-  qEl.textContent = "Reset: Verbinde Spotify und starte.";
-  choicesEl.innerHTML = "";
   playerEl.innerHTML = "";
-  playBtn.disabled = true;
-  nextBtn.disabled = true;
-  renderScore();
+  feedbackEl.textContent = "";
+  loadPlaylist();
 };
 
-loginBtn.onclick = async () => {
-  await SpotifyAuth.login("musicquiz.html");
-};
+loginBtn.onclick = () => SpotifyAuth.login("musicquiz.html");
 
-function shuffle(arr){
-  for(let i=arr.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [arr[i],arr[j]]=[arr[j],arr[i]];
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
   }
-  return arr;
+  return a;
 }
 
-// Preview-Quote ist oft schlecht → wir nehmen POPULÄRE Suchbegriffe statt Genre-only
-const QUERIES = [
-  "year:2010-2019",
-  "year:2000-2009",
-  "year:1990-1999",
-  "tag:new",
-  "genre:pop",
-  "genre:dance",
-  "genre:rock",
-  "genre:hip-hop"
-];
-
-async function searchTracksAny() {
-  // Versuche mehrfach, irgendeinen Track zu finden (Preview optional)
-  for (let attempt = 0; attempt < 12; attempt++) {
-    const qBase = QUERIES[Math.floor(Math.random() * QUERIES.length)];
-    const offset = Math.floor(Math.random() * 800);
-    const q = encodeURIComponent(qBase);
-
-    const data = await SpotifyAuth.api(`/search?type=track&limit=50&offset=${offset}&q=${q}`);
-    const items = (data.tracks?.items || [])
-      .filter(t => t && t.id && t.name && t.artists?.length)
-      .filter(t => (t.popularity ?? 0) >= 35);
-
-    const unused = items.filter(t => !state.usedTrackIds.includes(t.id));
-    if (unused.length) return unused;
-  }
-  return [];
-}
-
-async function getDistractors(correctTrack) {
-  const pool = await searchTracksAny();
-  const opts = [];
-  const seen = new Set();
-
-  function labelOf(t){ return `${t.name} — ${t.artists[0].name}`; }
-
-  opts.push({ label: labelOf(correctTrack), correct: true });
-  seen.add(labelOf(correctTrack));
-
-  for (const t of pool) {
-    const lab = labelOf(t);
-    if (seen.has(lab)) continue;
-    seen.add(lab);
-    opts.push({ label: lab, correct: false });
-    if (opts.length >= 4) break;
-  }
-
-  while (opts.length < 4) opts.push({ label: "—", correct: false });
-  return shuffle(opts);
-}
-
-let current = null; // { track, options, previewUrl, embedUrl }
-
-function setSpotifyEmbed(trackId){
-  // Spotify Embed Player (funktioniert auch ohne preview_url)
-  playerEl.innerHTML = `
-    <iframe
-      style="border-radius:14px; width:100%; height:152px; border:0;"
-      src="https://open.spotify.com/embed/track/${trackId}"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy"></iframe>
-  `;
-}
-
-async function loadRound() {
-  feedbackEl.textContent = "";
-  choicesEl.innerHTML = "";
-  playerEl.innerHTML = "";
-
-  const token = SpotifyAuth.getToken();
-  if (!token) {
-    statusEl.textContent = "Bitte auf „MIT SPOTIFY VERBINDEN“ klicken.";
-    playBtn.disabled = true;
-    nextBtn.disabled = true;
-    qEl.textContent = "Spotify nicht verbunden.";
+async function loadPlaylist(){
+  if(!SpotifyAuth.getToken()){
+    statusEl.textContent = "Bitte mit Spotify verbinden.";
     return;
   }
 
-  statusEl.textContent = "Lade Song…";
-  playBtn.disabled = true;
-  nextBtn.disabled = true;
-  qEl.textContent = "Song wird geladen…";
+  statusEl.textContent = "Lade Playlist…";
 
-  const items = await searchTracksAny();
-  const track = items[0];
+  const data = await SpotifyAuth.api(
+    `/playlists/${PLAYLIST_ID}/tracks?limit=100`
+  );
 
-  if (!track) {
-    qEl.textContent = "Spotify liefert gerade keine passenden Treffer. Bitte später nochmal probieren.";
-    statusEl.textContent = "Keine Tracks gefunden.";
-    nextBtn.disabled = false;
-    return;
-  }
+  state.tracks = data.items
+    .map(i => i.track)
+    .filter(t => t && t.id && t.name && t.artists?.length);
 
-  state.usedTrackIds.push(track.id);
+  shuffle(state.tracks);
   save();
-
-  const options = await getDistractors(track);
-
-  current = {
-    track,
-    options,
-    previewUrl: track.preview_url || null,
-    embedUrl: `https://open.spotify.com/track/${track.id}`
-  };
-
-  // Player: immer Embed zeigen (am sichersten)
-  setSpotifyEmbed(track.id);
-
-  // Wenn preview_url existiert, erlauben wir den PREVIEW Button zusätzlich (optional)
-  if (current.previewUrl) {
-    audio.pause(); audio.currentTime = 0;
-    audio.src = current.previewUrl;
-    playBtn.disabled = false;
-  } else {
-    playBtn.disabled = true; // sonst verwirrend
-  }
-
-  qEl.textContent = "🎧 Spiele im Player ab und wähle die richtige Antwort:";
-  choicesEl.innerHTML = "";
-  options.forEach((opt) => {
-    const btn = document.createElement("button");
-    btn.className = "choiceBtn";
-    btn.type = "button";
-    btn.textContent = opt.label;
-    btn.onclick = () => answer(opt.correct);
-    choicesEl.appendChild(btn);
-  });
-
-  nextBtn.disabled = false;
-  statusEl.textContent = `Team ${state.active}: Song läuft im Spotify Player.`;
+  nextRound();
 }
 
-function answer(isCorrect){
-  if (!current) return;
-
-  [...choicesEl.querySelectorAll("button")].forEach(b => b.disabled = true);
-
-  const team = state.active;
-  const pts = 250;
-  const lose = 150;
-
-  if (isCorrect) {
-    state.scores[team] += pts;
-    feedbackEl.innerHTML = `✅ Richtig! +${pts}<br><span class="muted">${current.track.name} — ${current.track.artists[0].name}</span>`;
-  } else {
-    state.scores[team] -= lose;
-    feedbackEl.innerHTML = `❌ Falsch (-${lose})<br>Richtig: <b>${current.track.name} — ${current.track.artists[0].name}</b>`;
-  }
-
-  state.round += 1;
-  save();
-  renderScore();
-
-  if (state.round > 10) {
+function nextRound(){
+  if(state.round > 10){
     statusEl.innerHTML = `🎉 Fertig! TEAM A: <b>${state.scores.A}</b> · TEAM B: <b>${state.scores.B}</b>`;
-    playBtn.disabled = true;
-    nextBtn.disabled = true;
-    qEl.textContent = "Spiel beendet. RESET für neues Spiel.";
-  } else {
-    statusEl.textContent = `Weiter mit „NÄCHSTER SONG“.`;
+    return;
   }
+
+  const track = state.tracks.find(t => !state.used.includes(t.id));
+  if(!track){
+    statusEl.textContent = "Keine Songs mehr.";
+    return;
+  }
+
+  state.used.push(track.id);
+  save();
+
+  playerEl.innerHTML = `
+    <iframe style="width:100%;height:152px;border-radius:14px"
+      src="https://open.spotify.com/embed/track/${track.id}"
+      allow="autoplay; encrypted-media"></iframe>
+  `;
+
+  qEl.textContent = "🎧 Wie heißt dieser Song?";
+  choicesEl.innerHTML = "";
+
+  const options = shuffle([
+    track.name,
+    ...shuffle(state.tracks)
+      .filter(t => t.id !== track.id)
+      .slice(0,3)
+      .map(t => t.name)
+  ]);
+
+  options.forEach(name => {
+    const b = document.createElement("button");
+    b.className = "choiceBtn";
+    b.textContent = name;
+    b.onclick = () => answer(name === track.name, track);
+    choicesEl.appendChild(b);
+  });
+
+  statusEl.textContent = `Team ${state.active} ist dran`;
 }
 
-playBtn.onclick = () => {
-  if (!current?.previewUrl) return;
-  audio.currentTime = 0;
-  audio.play().catch(() => {
-    statusEl.textContent = "Autoplay blockiert – tippe nochmal auf PREVIEW.";
-  });
-};
+function answer(correct, track){
+  const team = state.active;
 
-nextBtn.onclick = async () => {
-  if (state.round > 10) return;
-  await loadRound();
-};
-
-(async () => {
-  renderScore();
-  if (SpotifyAuth.getToken()) {
-    nextBtn.disabled = false;
-    await loadRound();
+  if(correct){
+    state.scores[team] += 300;
+    feedbackEl.innerHTML = `✅ Richtig!<br>${track.name} — ${track.artists[0].name}`;
   } else {
-    statusEl.textContent = "Verbinde Spotify, um zu starten.";
+    state.scores[team] -= 150;
+    feedbackEl.innerHTML = `❌ Falsch!<br>Richtig: ${track.name}`;
   }
-})();
+
+  state.round++;
+  save();
+  renderScore();
+}
+
+nextBtn.onclick = nextRound;
+
+renderScore();
+if(SpotifyAuth.getToken()) loadPlaylist();
