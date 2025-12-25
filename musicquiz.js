@@ -174,3 +174,15 @@ if(SpotifyAuth.getToken()){
 } else {
   statusEl.textContent = "Verbinde Spotify, um zu starten.";
 }
+
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("playHidden");
+
+// track.preview_url MUSS existieren
+function playHiddenPreview(previewUrl){
+  audio.src = previewUrl;
+  audio.currentTime = 0;
+  audio.play().catch(() => {
+    alert("Tippe erneut auf Play (Browser-Autoplay-Schutz)");
+  });
+}
