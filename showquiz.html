@@ -3,119 +3,319 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Show Quiz</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Silvester-Show</title>
+  <style>
+    :root { --pad: 18px; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background:#0b0f19; color:#fff; }
+    header { padding: var(--pad); display:flex; gap:12px; align-items:center; justify-content:space-between; border-bottom: 1px solid rgba(255,255,255,.12); }
+    .wrap { display:grid; grid-template-columns: 1.3fr .7fr; gap: 14px; padding: var(--pad); }
+    .card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: var(--pad); }
+    h1,h2 { margin: 0 0 10px; }
+    button { background:#ffffff; border:0; border-radius: 10px; padding: 10px 12px; font-weight:700; cursor:pointer; }
+    button.secondary { background: rgba(255,255,255,.14); color:#fff; border:1px solid rgba(255,255,255,.18); }
+    button.danger { background:#ff4d4d; color:#fff; }
+    button.good { background:#33d17a; color:#0b0f19; }
+    button:disabled { opacity:.5; cursor:not-allowed; }
+    .row { display:flex; gap:10px; flex-wrap: wrap; align-items:center; }
+    .bigQ { font-size: 34px; line-height:1.18; letter-spacing:.2px; }
+    .meta { opacity:.85; font-size: 14px; }
+    .answer { margin-top: 14px; padding: 12px; border-radius: 12px; background: rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.12); }
+    .answer.hidden { display:none; }
+    .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    .name { font-weight:800; }
+    .score { font-size: 26px; font-weight:900; }
+    .pill { padding:6px 10px; border-radius: 999px; background: rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.16); }
+    select,input { padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.08); color:#fff; }
+    .timer { font-size: 44px; font-weight: 900; letter-spacing: 1px; }
+    .small { font-size: 12px; opacity:.85; }
+    a { color:#fff; opacity:.9; }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <a class="backLink" href="index.html">← START</a>
-    <div>
-      <h1 class="brand">SHOW QUIZ</h1>
-      <p class="sub">Schnellrunde • Hinweise • Finale (Team A/B)</p>
+<header>
+  <div>
+    <div style="font-weight:900; font-size:18px;">Silvester-Show</div>
+    <div class="small">Offline • Host-Ansicht + Scoreboard</div>
+  </div>
+  <div class="row">
+    <span class="pill" id="catPill">Kategorie: —</span>
+    <span class="pill" id="roundPill">Runde: —</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="card">
+    <h1>Frage</h1>
+    <div class="meta" id="qMeta">Klicke „Nächste Frage“.</div>
+    <div class="bigQ" id="qText">—</div>
+
+    <div class="answer hidden" id="aBox">
+      <div style="font-weight:800; margin-bottom:6px;">Antwort</div>
+      <div id="aText">—</div>
     </div>
-  </header>
 
-  <main class="wrap">
-    <section class="game showGame" data-game="show">
-      <div class="hud showHud">
-        <div id="showScore" class="scoreBox">TEAM A: 0 | TEAM B: 0 | AKTIV: A</div>
+    <div class="row" style="margin-top:14px;">
+      <button id="nextBtn">Nächste Frage</button>
+      <button class="secondary" id="revealBtn" disabled>Antwort zeigen</button>
+      <button class="secondary" id="skipBtn" disabled>Skip</button>
+      <button class="danger" id="resetQBtn">Fragen-Deck reset</button>
+    </div>
 
-        <div class="showTeamBtns">
-          <button id="teamA" class="hudBtn" type="button">TEAM A</button>
-          <button id="teamB" class="hudBtn" type="button">TEAM B</button>
+    <hr style="border:0; border-top:1px solid rgba(255,255,255,.12); margin:16px 0;"/>
+
+    <div class="row">
+      <label>Kategorie
+        <select id="catSel"></select>
+      </label>
+      <label>Runde
+        <select id="roundSel">
+          <option value="Warm-up">Warm-up</option>
+          <option value="Speed">Speed</option>
+          <option value="Risiko">Risiko</option>
+          <option value="Finale">Finale</option>
+        </select>
+      </label>
+      <button class="secondary" id="shuffleBtn">Zufall</button>
+    </div>
+    <div class="small" style="margin-top:10px;">
+      Tipp: F11 = Vollbild. HDMI auf TV spiegeln.
+    </div>
+  </section>
+
+  <aside class="card">
+    <h2>Scoreboard</h2>
+
+    <div class="grid2" id="players"></div>
+
+    <hr style="border:0; border-top:1px solid rgba(255,255,255,.12); margin:16px 0;"/>
+
+    <h2>Timer</h2>
+    <div class="timer" id="timer">00:30</div>
+    <div class="row" style="margin-top:10px;">
+      <button class="secondary" data-t="30">30s</button>
+      <button class="secondary" data-t="60">60s</button>
+      <button class="secondary" data-t="90">90s</button>
+      <button class="good" id="startStopBtn">Start</button>
+      <button class="danger" id="resetTimerBtn">Reset</button>
+    </div>
+    <div class="small" style="margin-top:10px;">
+      Punkte: +/– bei jeder Person. Risiko: Chips einfach als Punkte zählen oder extra Runde.
+    </div>
+
+    <hr style="border:0; border-top:1px solid rgba(255,255,255,.12); margin:16px 0;"/>
+
+    <h2>Setup</h2>
+    <div class="row">
+      <input id="namesInput" style="width:100%" placeholder="Namen (kommagetrennt), z.B. Anna,Ben,Caro,David" />
+      <button class="secondary" id="setNamesBtn">Setzen</button>
+    </div>
+  </aside>
+</div>
+
+<script>
+  // === 1) Fragenpool: HIER kannst du alles ändern/erweitern ===
+  const QUESTIONS = [
+    // Allgemein
+    {cat:"Allgemein", round:"Warm-up", q:"Wie viele Kontinente gibt es?", a:"7"},
+    {cat:"Allgemein", round:"Warm-up", q:"Welche Farbe hat die Null im Roulette?", a:"Grün"},
+    {cat:"Allgemein", round:"Speed", q:"Was ist die Hauptstadt von Kanada?", a:"Ottawa"},
+    {cat:"Allgemein", round:"Speed", q:"Wie heißt das chemische Symbol für Gold?", a:"Au"},
+    {cat:"Allgemein", round:"Risiko", q:"In welchem Jahr begann die Berliner Mauer zu fallen (Mauerfall)?", a:"1989"},
+
+    // Silvester
+    {cat:"Silvester", round:"Warm-up", q:"Wie heißt der kurze Countdown vor Mitternacht auf Deutsch?", a:"Countdown / Runterzählen"},
+    {cat:"Silvester", round:"Silvester", q:"Welche Farbe hat traditionell der 'Glücksklee' (Klee)?", a:"Grün"},
+    {cat:"Silvester", round:"Speed", q:"Wie viele Sekunden hat eine Minute?", a:"60"},
+    {cat:"Silvester", round:"Risiko", q:"Wie viele Monate hat ein Jahr?", a:"12"},
+
+    // Freunde / Insider (Beispiele – ersetze durch eure!)
+    {cat:"Insider", round:"Warm-up", q:"Wer kommt bei euch am häufigsten zu spät?", a:"(Name einsetzen)"},
+    {cat:"Insider", round:"Risiko", q:"Wer hat den besten Musikgeschmack in der Runde?", a:"(Name einsetzen)"},
+  ];
+
+  // === 2) State ===
+  let deck = [];
+  let current = null;
+
+  const $ = (id)=>document.getElementById(id);
+  const qText = $("qText"), aText = $("aText"), aBox = $("aBox"), qMeta = $("qMeta");
+  const nextBtn = $("nextBtn"), revealBtn = $("revealBtn"), skipBtn = $("skipBtn"), resetQBtn = $("resetQBtn");
+  const catSel = $("catSel"), roundSel = $("roundSel"), shuffleBtn = $("shuffleBtn");
+  const catPill = $("catPill"), roundPill = $("roundPill");
+
+  const playersEl = $("players");
+  let players = ["Spieler 1","Spieler 2","Spieler 3","Spieler 4"];
+  let scores = {};
+
+  function initScores() {
+    scores = {};
+    players.forEach(p => scores[p]=0);
+    renderPlayers();
+  }
+
+  function renderPlayers() {
+    playersEl.innerHTML = "";
+    players.forEach(name => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.style.padding = "12px";
+      card.innerHTML = `
+        <div class="name">${name}</div>
+        <div class="row" style="justify-content:space-between; align-items:center;">
+          <div class="score" id="sc_${cssSafe(name)}">${scores[name]}</div>
+          <div class="row">
+            <button class="secondary" data-n="${encodeURIComponent(name)}" data-d="-1">–</button>
+            <button class="secondary" data-n="${encodeURIComponent(name)}" data-d="1">+</button>
+            <button class="secondary" data-n="${encodeURIComponent(name)}" data-d="3">+3</button>
+          </div>
         </div>
+      `;
+      playersEl.appendChild(card);
+    });
 
-        <button id="showReset" class="hudBtn" type="button">RESET</button>
-      </div>
+    playersEl.querySelectorAll("button[data-n]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const name = decodeURIComponent(btn.dataset.n);
+        const delta = parseInt(btn.dataset.d,10);
+        scores[name]+=delta;
+        $("sc_"+cssSafe(name)).textContent = scores[name];
+      });
+    });
+  }
 
-      <div class="showStage">
-        <div class="showTabs">
-          <button id="tab1" class="tabBtn" type="button">RUNDE 1</button>
-          <button id="tab2" class="tabBtn" type="button">RUNDE 2</button>
-          <button id="tab3" class="tabBtn" type="button">FINALE</button>
-        </div>
+  function cssSafe(s){ return s.replace(/[^a-zA-Z0-9_-]/g,"_"); }
 
-        <div id="showStatus" class="status" aria-live="polite"></div>
+  // === 3) Deck helpers ===
+  function rebuildDeck() {
+    deck = QUESTIONS.map((x,i)=>({...x, id:i}));
+  }
 
-        <!-- RUNDE 1 -->
-        <section id="round1" class="roundPanel">
-          <div class="panelTop">
-            <h2>Schnellrunde (10 Fragen)</h2>
-            <div class="timerBox">ZEIT: <span id="r1Time">60</span>s</div>
-          </div>
+  function categories() {
+    return Array.from(new Set(QUESTIONS.map(q=>q.cat))).sort();
+  }
 
-          <div id="r1Card" class="showCard"></div>
+  function fillCategorySelect() {
+    catSel.innerHTML = `<option value="Alle">Alle</option>` + categories().map(c=>`<option value="${c}">${c}</option>`).join("");
+  }
 
-          <div class="panelBottom">
-            <button id="r1Start" class="bigBtn" type="button">START</button>
-            <button id="r1Next" class="bigBtn" type="button" disabled>NÄCHSTE FRAGE</button>
-          </div>
-        </section>
+  function pickQuestion() {
+    // filter by selected cat + selected round (optional)
+    const cat = catSel.value;
+    const round = roundSel.value;
 
-        <!-- RUNDE 2 -->
-        <section id="round2" class="roundPanel">
-          <div class="panelTop">
-            <h2>Hinweis-Runde</h2>
-            <p class="muted">Je früher richtig, desto mehr Punkte (500 → 100).</p>
-          </div>
+    const candidates = deck.filter(q => (cat==="Alle" || q.cat===cat) && (q.round===round || (round==="Warm-up" && q.round==="Warm-up") || (round==="Speed" && q.round==="Speed") || (round==="Risiko" && q.round==="Risiko") || (round==="Finale" && q.round==="Finale")));
+    const pool = candidates.length ? candidates : deck;
 
-          <div class="showCard">
-            <div class="hintMeta">PUNKTE: <span id="hintPts">500</span></div>
-            <div id="hintList" class="hintList"></div>
+    const idx = Math.floor(Math.random()*pool.length);
+    const q = pool[idx];
+    // remove from deck to avoid repeats
+    deck = deck.filter(x => x.id !== q.id);
+    return q;
+  }
 
-            <div class="hintActions">
-              <button id="revealHint" class="hudBtn" type="button">HINWEIS AUFDECKEN</button>
-              <button id="solveHint" class="bigBtn" type="button">ANTWORTEN</button>
-            </div>
+  function showQuestion(q) {
+    current = q;
+    qText.textContent = q.q;
+    aText.textContent = q.a;
+    aBox.classList.add("hidden");
+    revealBtn.disabled = false;
+    skipBtn.disabled = false;
+    $("catPill").textContent = "Kategorie: " + q.cat;
+    $("roundPill").textContent = "Runde: " + q.round;
+    qMeta.textContent = `Noch im Deck: ${deck.length} Fragen`;
+  }
 
-            <div id="hintAnswerArea" class="answerArea" hidden>
-              <input id="hintInput" class="textInput" type="text" placeholder="Antwort eingeben…" />
-              <div class="answerBtns">
-                <button id="hintSubmit" class="bigBtn" type="button">BESTÄTIGEN</button>
-                <button id="hintCancel" class="hudBtn" type="button">ABBRECHEN</button>
-              </div>
-            </div>
+  // === 4) Buttons ===
+  nextBtn.addEventListener("click", ()=>{
+    if(deck.length===0) rebuildDeck();
+    showQuestion(pickQuestion());
+  });
 
-            <div id="hintFeedback" class="modalFeedback" aria-live="polite"></div>
-          </div>
+  revealBtn.addEventListener("click", ()=>{
+    aBox.classList.remove("hidden");
+  });
 
-          <div class="panelBottom">
-            <button id="r2Next" class="bigBtn" type="button">NÄCHSTES RÄTSEL</button>
-          </div>
-        </section>
+  skipBtn.addEventListener("click", ()=>{
+    if(deck.length===0) rebuildDeck();
+    showQuestion(pickQuestion());
+  });
 
-        <!-- FINALE -->
-        <section id="round3" class="roundPanel">
-          <div class="panelTop">
-            <h2>Finale</h2>
-            <p class="muted">Aktives Team setzt Punkte und beantwortet eine schwere Frage.</p>
-          </div>
+  resetQBtn.addEventListener("click", ()=>{
+    rebuildDeck();
+    qText.textContent = "—";
+    aText.textContent = "—";
+    aBox.classList.add("hidden");
+    revealBtn.disabled = true;
+    skipBtn.disabled = true;
+    qMeta.textContent = "Deck zurückgesetzt.";
+    catPill.textContent = "Kategorie: —";
+    roundPill.textContent = "Runde: —";
+  });
 
-          <div class="showCard">
-            <div class="finalRow">
-              <label class="finalLabel">EINSATZ (0–Score des Teams):</label>
-              <input id="finalWager" class="textInput" type="number" min="0" step="50" placeholder="z.B. 300" />
-              <button id="finalStart" class="bigBtn" type="button">FINALE STARTEN</button>
-            </div>
+  shuffleBtn.addEventListener("click", ()=>{
+    catSel.value = "Alle";
+    const rounds = ["Warm-up","Speed","Risiko","Finale"];
+    roundSel.value = rounds[Math.floor(Math.random()*rounds.length)];
+  });
 
-            <div id="finalQuestionBox" hidden>
-              <div class="hintMeta">FINALE-FRAGE</div>
-              <div id="finalQ" class="finalQ"></div>
-              <div class="answerArea">
-                <input id="finalInput" class="textInput" type="text" placeholder="Antwort eingeben…" />
-                <div class="answerBtns">
-                  <button id="finalSubmit" class="bigBtn" type="button">BESTÄTIGEN</button>
-                </div>
-              </div>
-              <div id="finalFeedback" class="modalFeedback" aria-live="polite"></div>
-            </div>
-          </div>
-        </section>
+  // === 5) Timer ===
+  let timerTotal = 30;
+  let timerLeft = 30;
+  let running = false;
+  let tHandle = null;
 
-      </div>
-    </section>
-  </main>
+  function renderTimer(){
+    const m = String(Math.floor(timerLeft/60)).padStart(2,"0");
+    const s = String(timerLeft%60).padStart(2,"0");
+    $("timer").textContent = `${m}:${s}`;
+  }
 
-  <script src="showquiz.js"></script>
+  function setTimer(sec){
+    timerTotal = sec;
+    timerLeft = sec;
+    renderTimer();
+    stopTimer();
+    $("startStopBtn").textContent = "Start";
+  }
+
+  function startTimer(){
+    if(running) return;
+    running = true;
+    $("startStopBtn").textContent = "Stop";
+    tHandle = setInterval(()=>{
+      timerLeft = Math.max(0, timerLeft-1);
+      renderTimer();
+      if(timerLeft===0) stopTimer();
+    }, 1000);
+  }
+
+  function stopTimer(){
+    running = false;
+    if(tHandle) clearInterval(tHandle);
+    tHandle = null;
+    $("startStopBtn").textContent = "Start";
+  }
+
+  document.querySelectorAll("button[data-t]").forEach(b=>{
+    b.addEventListener("click", ()=> setTimer(parseInt(b.dataset.t,10)));
+  });
+  $("startStopBtn").addEventListener("click", ()=> running ? stopTimer() : startTimer());
+  $("resetTimerBtn").addEventListener("click", ()=> setTimer(timerTotal));
+
+  // === 6) Names ===
+  $("setNamesBtn").addEventListener("click", ()=>{
+    const raw = $("namesInput").value.trim();
+    if(!raw) return;
+    players = raw.split(",").map(x=>x.trim()).filter(Boolean).slice(0,8);
+    if(players.length<2) return;
+    initScores();
+  });
+
+  // init
+  rebuildDeck();
+  fillCategorySelect();
+  initScores();
+  setTimer(30);
+</script>
 </body>
 </html>
